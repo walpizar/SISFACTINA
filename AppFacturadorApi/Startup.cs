@@ -53,7 +53,7 @@ namespace AppFacturadorApi
 
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
-
+         
             services.AddCors();
         }
 
@@ -65,7 +65,9 @@ namespace AppFacturadorApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            app.UseStatusCodePages();
             app.UseMvc();
+
         }
     }
 }
