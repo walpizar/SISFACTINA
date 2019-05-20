@@ -36,11 +36,13 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbDetalleDocumento>, TbDetalleDocumentoService>();
             services.AddTransient<IService<TbAbonos>, TbAbonosService>();
             services.AddTransient<IService<TbPersona>, TbPersonaService>();
+            services.AddTransient<IService<TbProducto>, TbProductoService>();
             // Inyecciones Data
             services.AddTransient<IData<TbDocumento>, TbDocumentoData>();
             services.AddTransient<IData<TbDetalleDocumento>, TbDetalleDocumentoData>();
             services.AddTransient<IData<TbAbonos>, TbAbonosData>();
             services.AddTransient<IData<TbPersona>, TbPersonaData>();
+            services.AddTransient<IData<TbProducto>, TbProductoData>();
 
 
 
