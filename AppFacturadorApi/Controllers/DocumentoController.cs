@@ -20,31 +20,7 @@ namespace AppFacturadorApi.Controllers
         }
 
         // GET api/values
-        [HttpGet("consultar/{idCliente}")]
-        public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
-        {
 
-            try
-            {
-                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
-                lista = lista.Where(x => x.IdCliente != null && x.TipoIdCliente != null && x.IdCliente.Trim().Equals(idCliente) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
-
-
-                if (lista.ToList().Count == 0)
-                {
-                    return NotFound();
-
-                }
-
-
-                return Ok(lista);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500);
-            }
-        }
         [HttpGet]
         public ActionResult<IEnumerable<TbDocumento>> Get()
         {
