@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AppFacturadorApi.Controllers
 {
+
     [Route("api/abonos")]
     [ApiController]
     public class AbonosController : ControllerBase
@@ -18,6 +19,28 @@ namespace AppFacturadorApi.Controllers
         {
             _AbonosIns = AbonosIns;
         }
+        [HttpGet]
+        public ActionResult<IEnumerable<TbAbonos>> Get()
+        {
+
+
+            try
+            {
+                IEnumerable<TbAbonos> listaAbonos = _AbonosIns.ConsultarTodos();
+
+                if (listaAbonos.ToList().Count == 0)
+                {
+                    return NotFound();
+                }
+                return Ok(listaAbonos);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
 
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<TbAbonos>> Get(int id)
@@ -26,14 +49,14 @@ namespace AppFacturadorApi.Controllers
             string IdDoc = id.ToString();
             try
             {
-                IEnumerable<TbAbonos> listaAbonos = _AbonosIns.ConsultarTodos(IdDoc);
-
+                IEnumerable<TbAbonos> listaAbonos = _AbonosIns.ConsultarTodos();
+                listaAbonos = listaAbonos.Where(x => x.IdDoc == id).ToList();
                 if (listaAbonos.ToList().Count == 0)
                 {
                     return NotFound();
                 }
                 return Ok(listaAbonos);
-              
+
             }
             catch (Exception)
             {
@@ -44,35 +67,88 @@ namespace AppFacturadorApi.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] TbAbonos Abono)
         {
+            Abono.FechaCrea = DateTime.Now;
+            Abono.FechaUltMod = DateTime.Now;
             try
             {
-                bool agrego = _AbonosIns.Agregar(Abono);
-                if (agrego!=true)
+                bool valido = validarcampos(Abono);
+                if (valido)
                 {
-                     return NotFound();
-                    
+                    bool agrego = _AbonosIns.Agregar(Abono);
+                    if (agrego != true)
+                    {
+                        return NotFound();
+
+                    }
+                    return Ok("Se agrego Correctamente");
                 }
-                return Ok("Se agrego Correctamente");
+                else
+                {
+                    return NotFound();
+                }
+
             }
             catch (Exception)
             {
 
                 return StatusCode(500);
             }
-           
+
         }
+
+        private bool validarcampos(TbAbonos abono)
+        {
+            if (abono.IdDoc == 0)
+            {
+                return false;
+            }
+            else if (abono.TipoDoc == 0)
+            {
+                return false;
+            }
+            else if (abono.UsuarioCrea == null)
+            {
+                return false;
+            }
+            else if (abono.UsuarioUltMod == null)
+            {
+                return false;
+            }
+            else if (abono.FechaCrea == null)
+            {
+                return false;
+            }
+            else if (abono.FechaUltMod == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         [HttpPut]
         public ActionResult Put([FromBody] TbAbonos Abono)
         {
             try
             {
-                bool modifico = _AbonosIns.Modificar(Abono);
-                if (modifico != true)
+                bool valido = validarcampos(Abono);
+                if (valido)
+                {
+                    bool modifico = _AbonosIns.Modificar(Abono);
+                    if (modifico != true)
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok("Se modifico correctamente");
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                return Ok("Se modifico correctamente");
             }
             catch (Exception)
             {

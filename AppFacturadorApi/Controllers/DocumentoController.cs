@@ -10,7 +10,7 @@ namespace AppFacturadorApi.Controllers
 {
     [Route("api/documento")]
     [ApiController]
-    public class DocumentoController:ControllerBase
+    public class DocumentoController : ControllerBase
     {
         IService<TbDocumento> _DocumentoIns;
 
@@ -23,30 +23,53 @@ namespace AppFacturadorApi.Controllers
         [HttpGet("consultar/{idCliente}")]
         public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
         {
-            //string idCliente = "603480811";
+
             try
             {
-                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos(idCliente);
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = lista.Where(x => x.IdCliente != null && x.TipoIdCliente != null && x.IdCliente.Trim().Equals(idCliente) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
+
+
                 if (lista.ToList().Count == 0)
                 {
                     return NotFound();
 
                 }
-                //foreach (var item in lista)
-                //{
-                //    //item.TipoMonedaNavigation.TbDocumento.Remove(item);
 
 
-                //    //item.TipoPagoNavigation.TbDocumento.Remove(item);
-                //    //item.TipoVentaNavigation.TbDocumento.Remove(item);
-                //    //item.TbClientes.TbDocumento.Remove(item);
-                //    item.TbClientes.TbPersona.TbClientes = null;
-                //    foreach (var ite in item.TbDetalleDocumento)
-                //    {
-                //        ite.Id = null;
-                //    }
-                //}
-               
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("consultar/ordenfecha/{idCliente}")]
+        public ActionResult<IEnumerable<TbDocumento>> ConsultaPorFecha(string idCliente)
+        {
+            //string idCliente = "603480811";
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = (from doc in lista
+                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente)
+                         &&
+                         doc.TipoVenta == 2 
+                         &&
+                         doc.EstadoFactura == 2
+                         orderby doc.Fecha ascending
+                         select doc).ToList();
+
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound();
+
+                }
+
+
 
                 return Ok(lista);
             }
@@ -107,15 +130,15 @@ namespace AppFacturadorApi.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] TbDocumento value)
+        public ActionResult Put([FromBody] TbDocumento Doc)
         {
             try
             {
-                bool modifico = _DocumentoIns.Modificar(value);
+                bool modifico = _DocumentoIns.Modificar(Doc);
 
                 if (modifico)
                 {
-                    return Ok();
+                    return Ok("Se Modifico Correctamente");
                 }
                 else
                 {

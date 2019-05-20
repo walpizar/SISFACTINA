@@ -33,8 +33,9 @@ namespace AppFacturadorApi.Data
                 throw;
             }
         }
+       
 
-        public IEnumerable<TbPersona> ConsultarTodos(string idCliente)
+        public IEnumerable<TbPersona> ConsultarTodos()
         {
             throw new NotImplementedException();
         }

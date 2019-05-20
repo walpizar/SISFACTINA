@@ -9,7 +9,7 @@ namespace AppFacturadorApi.Service
         bool Agregar(T entity);
         bool Modificar(T entity);
         bool Eliminar(T entity);
-        IEnumerable<T> ConsultarTodos(string idCliente);
+        IEnumerable<T> ConsultarTodos();
         T ConsultarById(T entity);
     }
 }

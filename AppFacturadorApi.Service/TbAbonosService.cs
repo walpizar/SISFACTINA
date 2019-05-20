@@ -33,18 +33,18 @@ namespace AppFacturadorApi.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbAbonos> ConsultarTodos(string idCliente)
+        
+        public IEnumerable<TbAbonos> ConsultarTodos()
         {
             try
             {
-                return _context.ConsultarTodos(idCliente);
+                return _context.ConsultarTodos();
             }
             catch (Exception)
             {
 
                 throw;
-            }
-            
+            };
         }
 
         public bool Eliminar(TbAbonos entity)

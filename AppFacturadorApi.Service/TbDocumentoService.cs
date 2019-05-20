@@ -41,11 +41,13 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public IEnumerable<TbDocumento> ConsultarTodos(string idCliente)
+       
+
+        public IEnumerable<TbDocumento> ConsultarTodos()
         {
             try
             {
-                return _DocumentoIns.ConsultarTodos(idCliente);
+                return _DocumentoIns.ConsultarTodos();
             }
             catch (Exception)
             {

@@ -45,13 +45,15 @@ namespace AppFacturadorApi.Data
             }
         }
 
-        public IEnumerable<TbDocumento> ConsultarTodos(string idCliente)
+       
+
+        public IEnumerable<TbDocumento> ConsultarTodos()
         {
             try
             {
-                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoMonedaNavigation").Include("TipoPagoNavigation")/*.Include("TipoVentaNavigation").Include("TbClientes.TbPersona")*/ where doc.IdCliente == idCliente where doc.TipoVenta == 2 where doc.EstadoFactura==2 select doc).ToList();
+                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation") select doc).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

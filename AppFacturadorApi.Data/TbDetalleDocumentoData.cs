@@ -46,21 +46,19 @@ namespace AppFacturadorApi.Data
             }
 
         }
+      
 
-        public IEnumerable<TbDetalleDocumento> ConsultarTodos(string idCliente)
+        public IEnumerable<TbDetalleDocumento> ConsultarTodos()
         {
-            int id = int.Parse(idCliente);
             try
             {
-                return (from detalle in _context.TbDetalleDocumento where detalle.IdDoc == id select detalle).ToList();
+                return _context.TbDetalleDocumento.ToList();
             }
             catch (Exception)
             {
 
                 throw;
             }
-
-
         }
 
         public bool Eliminar(TbDetalleDocumento entity)

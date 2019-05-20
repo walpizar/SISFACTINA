@@ -42,18 +42,19 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public IEnumerable<TbDetalleDocumento> ConsultarTodos(string idCliente)
+       
+
+        public IEnumerable<TbDetalleDocumento> ConsultarTodos()
         {
             try
             {
-                return _context.ConsultarTodos(idCliente);
+                return _context.ConsultarTodos();
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
 
         public bool Eliminar(TbDetalleDocumento entity)

@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace AppFacturadorApi.Controllers
 {
-    public class e
+    public class ProductoController
     {
-        //Clase nueva
     }
 }

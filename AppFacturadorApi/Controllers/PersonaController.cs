@@ -10,7 +10,7 @@ namespace AppFacturadorApi.Controllers
 {
     [Route("api/persona")]
     [ApiController]
-    public class PersonaController:ControllerBase
+    public class PersonaController : ControllerBase
     {
         IService<TbPersona> _PersonaIns;
 
@@ -18,7 +18,7 @@ namespace AppFacturadorApi.Controllers
         {
             _PersonaIns = PersonaIns;
         }
-       
+
 
         //GET api/values/5
         [HttpGet("{id}")]
