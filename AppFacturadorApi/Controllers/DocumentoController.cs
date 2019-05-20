@@ -45,38 +45,23 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpGet("consultar/ordenfecha/{idCliente}")]
-        public ActionResult<IEnumerable<TbDocumento>> ConsultaPorFecha(string idCliente)
+        [HttpGet]
+        public ActionResult<IEnumerable<TbDocumento>> Get()
         {
-            //string idCliente = "603480811";
+            
             try
             {
-                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
-                lista = (from doc in lista
-                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente)
-                         &&
-                         doc.TipoVenta == 2 
-                         &&
-                         doc.EstadoFactura == 2
-                         orderby doc.Fecha ascending
-                         select doc).ToList();
-
-
-
-                if (lista.ToList().Count == 0)
+                IEnumerable<TbDocumento> listaDocumentos = _DocumentoIns.ConsultarTodos();
+                if (listaDocumentos != null)
                 {
-                    return NotFound();
+                    return Ok(listaDocumentos);
 
                 }
-
-
-
-                return Ok(lista);
+                return BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500);
+                return NotFound();
             }
         }
 
@@ -107,24 +92,32 @@ namespace AppFacturadorApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] TbDocumento Documento)
+        public ActionResult Post([FromBody] TbDocumento document)
         {
             try
             {
-                bool guardo = _DocumentoIns.Agregar(Documento);
-                if (guardo)
+                document.FechaCrea = DateTime.Now;
+                document.FechaUltMod = DateTime.Now;
+                document.UsuarioCrea = Environment.UserName;
+                document.UsuarioUltMod = Environment.UserName;
+                document.ReporteAceptaHacienda = true;
+                document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
+
+                // agregar la Nota de credito 
+                bool agregado = _DocumentoIns.Agregar(document);
+
+                if (agregado)
                 {
-                    return Ok("Se agrego Correctamente");
+                    return Ok();
                 }
-                else
-                {
-                    return NotFound("ERROR SERVICIO");
-                }
+
+
+                return BadRequest();
             }
             catch (Exception)
             {
 
-                return StatusCode(500);
+                return NotFound();
             }
         }
 
