@@ -70,10 +70,9 @@ namespace AppFacturadorApi.Controllers
             [HttpPost]
             public ActionResult<bool> Post([FromBody] TbInventario Inventario)
             {
-
                 try
                 {
-
+                    
                     if (_inv.Agregar(Inventario) == true)
                     {
                         return Ok(true);
@@ -95,7 +94,8 @@ namespace AppFacturadorApi.Controllers
             {
                 try
                 {
-
+                    Inventario.FechaUltMod = DateTime.Now;
+                    
                     if (_inv.Modificar(Inventario) == true)
                     {
                         return Ok(true);

@@ -57,10 +57,15 @@ namespace AppFacturadorApi.Data
 
         public bool Modificar(TbInventario entity)
         {
-
             _Contexto.Entry<TbInventario>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-            //_Contexto.SaveChanges();
+            TbInventario inventario = new TbInventario();
+            inventario=_Contexto.TbInventario.Where(x => x.IdProducto.Trim() == entity.IdProducto.Trim()).SingleOrDefault();
+            if (inventario.FechaUltMod != entity.FechaUltMod)
+	        {
+                _Contexto.SaveChanges();
+	        }
+            
             return true;
 
         }

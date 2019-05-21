@@ -24,14 +24,12 @@ namespace AppFacturadorApi.Service
         {
             try
             {
-                IEnumerable<TbInventario> ListaInventario = _InventarioIns.ConsultarTodos();
-
-                
+                IEnumerable<TbInventario> ListaInventario = _InventarioIns.ConsultarTodos();         
                 TbEmpresa empresa = new TbEmpresa();
+
                 empresa.Id= entity.IdEmpresa;
                 empresa =_EmpresaIns.ConsultarById(empresa);
 
-                
                 if (validadCampos(entity) == false || empresa == null)
                 {
                    return false;

@@ -28,22 +28,10 @@ namespace AppFacturadorApi.Data
                 if (entity.TipoDocumento == 1)
                 {
 
-                    
-
-
                     _Context.TbDocumento.Add(entity);
                     _Context.SaveChanges();
                     return true;
                 }
-
-
-
-
-
-
-
-
-
 
                 TbDocumento documentoAnt = new TbDocumento();
                 documentoAnt.Id = entity.Id;
@@ -54,12 +42,17 @@ namespace AppFacturadorApi.Data
                     documentoAnt.FechaUltMod = DateTime.Now;
                     documentoAnt.UsuarioUltMod = Environment.UserName;
                     documentoAnt.Estado = false;
+
+
                     _Context.Entry<TbDocumento>(documentoAnt).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     var idMax = (from c in _Context.TbDocumento select c.Id).Max();
                     entity.Id = idMax + 1;
+
                     entity.TipoDocumento = 3;
+
                     _Context.TbDocumento.Add(entity);
                     _Context.SaveChanges();
+
                     return true;
                 }
 
