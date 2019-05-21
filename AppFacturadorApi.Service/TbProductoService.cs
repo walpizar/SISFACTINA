@@ -22,7 +22,7 @@ namespace AppFacturadorApi.Service
 
         public TbProducto ConsultarById(TbProducto entity)
         {
-            throw new NotImplementedException();
+            return _ProduIns.ConsultarById(entity);
         }
 
         public IEnumerable<TbProducto> ConsultarTodos()

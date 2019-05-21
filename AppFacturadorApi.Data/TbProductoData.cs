@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppFacturadorApi.Data
 {
@@ -24,7 +25,7 @@ namespace AppFacturadorApi.Data
 
         public TbProducto ConsultarById(TbProducto entity)
         {
-            throw new NotImplementedException();
+            return _Context.TbProducto.Include("IdProductoNavigation").Where(x => x.IdProducto == entity.IdProducto).SingleOrDefault();
         }
 
         public IEnumerable<TbProducto> ConsultarTodos()

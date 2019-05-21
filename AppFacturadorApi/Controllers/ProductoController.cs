@@ -40,5 +40,26 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
+        [HttpGet("{id}")]
+        public ActionResult<TbProducto> Get(string id)
+        {
+            try
+            {
+                TbProducto producto = new TbProducto();
+                producto.IdProducto = id;
+                producto = _ProductIns.ConsultarById(producto);
+                if (producto != null)
+                {
+                    return Ok(producto);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+
+        }
     }
 }

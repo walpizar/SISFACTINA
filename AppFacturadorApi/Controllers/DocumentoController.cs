@@ -13,11 +13,14 @@ namespace AppFacturadorApi.Controllers
     public class DocumentoController : ControllerBase
     {
         IService<TbDocumento> _DocumentoIns;
+        IService<TbInventario> _inv;
 
-        public DocumentoController(IService<TbDocumento> DocumentoIns)
+        public DocumentoController(IService<TbDocumento> DocumentoIns, IService<TbInventario> inv)
         {
             _DocumentoIns = DocumentoIns;
+            _inv = inv;
         }
+
 
         // GET api/values
 
@@ -68,10 +71,53 @@ namespace AppFacturadorApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] TbDocumento document)
+        public ActionResult<bool> Post([FromBody] TbDocumento document)
         {
             try
             {
+                //si el tipo de documento es 1, lo guarda 
+                if (document.TipoDocumento == 1)
+                {
+                    decimal cantidad = 0;
+                    IEnumerable<TbDocumento> listaFacturas;
+                    listaFacturas = _DocumentoIns.ConsultarTodos();
+                    document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id + 1;
+                    if (document.TbDetalleDocumento.ToList().Count > 0)
+                    {
+
+                        TbInventario inventario = new TbInventario();
+
+                        IEnumerable<TbInventario> Listinventario;
+                        foreach (var item in document.TbDetalleDocumento)
+                        {
+
+                            Listinventario = _inv.ConsultarTodos();
+                            cantidad = Listinventario.Where(X => X.IdProducto == item.IdProducto).SingleOrDefault().Cantidad;
+                            if (item.Cantidad >= cantidad)
+                            {
+
+                                return false;
+                            }
+
+
+                        }
+
+                        if (_DocumentoIns.Agregar(document) == true)
+                        {
+                            foreach (var item in document.TbDetalleDocumento)
+                            {
+                                inventario.IdProducto = item.IdProducto;
+                                inventario = _inv.ConsultarById(inventario);
+                                inventario.Cantidad -= item.Cantidad;
+                                _inv.Modificar(inventario);
+                            }
+
+                            return Ok(true);
+                        }
+
+                    }
+                    return NotFound();
+                }
                 document.FechaCrea = DateTime.Now;
                 document.FechaUltMod = DateTime.Now;
                 document.UsuarioCrea = Environment.UserName;

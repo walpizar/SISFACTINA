@@ -21,6 +21,13 @@ namespace AppFacturadorApi.Data
         {
             try
             {
+                //guarda un nuevo documento
+                if (entity.TipoDocumento == 1)
+                {
+                    _Context.TbDocumento.Add(entity);
+                    _Context.SaveChanges();
+                    return true;
+                }
                 TbDocumento documentoAnt = new TbDocumento();
                 documentoAnt.Id = entity.Id;
 
