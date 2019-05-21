@@ -2,6 +2,7 @@
 using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AppFacturadorApi.Service
@@ -9,22 +10,64 @@ namespace AppFacturadorApi.Service
     public class TbDocumentoService : IService<TbDocumento>
     {
         IData<TbDocumento> _DocumentoIns;
+        IService<TbEmpresa> _EmpresaIns;
+        IService<TbInventario> _InventarioIns;
 
-        public TbDocumentoService(IData<TbDocumento> DocumentoIns)
+        public TbDocumentoService(IData<TbDocumento> DocumentoIns, IService<TbEmpresa> EmpresaIns, IService<TbInventario> InventarioIns)
         {
             _DocumentoIns = DocumentoIns;
+            _EmpresaIns = EmpresaIns;
+            _InventarioIns = InventarioIns;
         }
 
         public bool Agregar(TbDocumento entity)
         {
             try
             {
-                if (validadCampos(entity) == false)
+                IEnumerable<TbInventario> ListaInventario = _InventarioIns.ConsultarTodos();
+
+                
+                TbEmpresa empresa = new TbEmpresa();
+                empresa.Id= entity.IdEmpresa;
+                empresa =_EmpresaIns.ConsultarById(empresa);
+
+                
+                if (validadCampos(entity) == false || empresa == null)
                 {
-                    return false;
+                   return false;
+                }
+
+                for (int i = 0; i < entity.TbDetalleDocumento.ToList().Count; i++)
+                {
+                    TbInventario inventario = new TbInventario();
+                    inventario = ListaInventario.Where(x => x.IdProducto.Trim() == entity.TbDetalleDocumento.ToList()[i].IdProducto).SingleOrDefault();
+                    if (inventario.Cantidad >= entity.TbDetalleDocumento.ToList()[i].Cantidad)
+                    {
+                        if (empresa.TbParametrosEmpresa.Where(x => x.IdEmpresa == empresa.Id).SingleOrDefault().ManejaInventario == true)
+                        {
+
+                            if (entity.TipoDocumento == 1)
+                            {
+                                inventario.Cantidad -= entity.TbDetalleDocumento.ToList()[i].Cantidad;
+                                _InventarioIns.Modificar(inventario);
+                            }
+                            else if (entity.TipoDocumento==3)
+                            {
+
+                            }   
+
+                        }
+                        
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
 
                 return _DocumentoIns.Agregar(entity);
+            
             }
             catch (Exception)
             {
@@ -111,10 +154,7 @@ namespace AppFacturadorApi.Service
             {
                 return false;
             }
-            if (fac.ReporteElectronic == false)
-            {
-                return false;
-            }
+            
             if (fac.Fecha == null)
             {
                 return false;
@@ -151,10 +191,6 @@ namespace AppFacturadorApi.Service
             {
                 return false;
             }
-
-
-
-
 
             return true;
         }

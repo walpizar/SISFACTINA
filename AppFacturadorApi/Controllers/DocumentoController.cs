@@ -80,8 +80,10 @@ namespace AppFacturadorApi.Controllers
                 {
                     decimal cantidad = 0;
                     IEnumerable<TbDocumento> listaFacturas;
+                    document.FechaRef = DateTime.Now;
                     listaFacturas = _DocumentoIns.ConsultarTodos();
                     document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id + 1;
+
                     if (document.TbDetalleDocumento.ToList().Count > 0)
                     {
 
@@ -90,7 +92,6 @@ namespace AppFacturadorApi.Controllers
                         IEnumerable<TbInventario> Listinventario;
                         foreach (var item in document.TbDetalleDocumento)
                         {
-
                             Listinventario = _inv.ConsultarTodos();
                             cantidad = Listinventario.Where(X => X.IdProducto == item.IdProducto).SingleOrDefault().Cantidad;
                             if (item.Cantidad >= cantidad)
@@ -98,19 +99,17 @@ namespace AppFacturadorApi.Controllers
 
                                 return false;
                             }
-
-
                         }
 
                         if (_DocumentoIns.Agregar(document) == true)
                         {
-                            foreach (var item in document.TbDetalleDocumento)
-                            {
-                                inventario.IdProducto = item.IdProducto;
-                                inventario = _inv.ConsultarById(inventario);
-                                inventario.Cantidad -= item.Cantidad;
-                                _inv.Modificar(inventario);
-                            }
+                            //foreach (var item in document.TbDetalleDocumento)
+                            //{
+                            //    inventario.IdProducto = item.IdProducto;
+                            //    inventario = _inv.ConsultarById(inventario);
+                            //    inventario.Cantidad -= item.Cantidad;
+                            //    _inv.Modificar(inventario);
+                            //}
 
                             return Ok(true);
                         }

@@ -42,6 +42,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbTipoPago>, TipoPagoService>();
             services.AddTransient<IService<TbTipoId>, TipoIdService>();
             services.AddTransient<IService<TbInventario>, InventarioService>();
+            services.AddTransient<IService<TbEmpresa>, EmpresaService>();
 
             // Inyecciones Data
             services.AddTransient<IData<TbDocumento>, TbDocumentoData>();
@@ -54,7 +55,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbTipoPago>, TipoPagoData>();
             services.AddTransient<IData<TbTipoId>, TipoIdData>();
             services.AddTransient<IData<TbInventario>, InventarioData>();
-
+            services.AddTransient<IData<TbEmpresa>, EmpresaData>();
 
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));

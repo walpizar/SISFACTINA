@@ -11,23 +11,40 @@ namespace AppFacturadorApi.Data
     public class TbDocumentoData : IData<TbDocumento>
     {
         private dbSISSODINAContext _Context;
+        IData<TbInventario> _inven;
 
-        public TbDocumentoData(dbSISSODINAContext Context)
+        public TbDocumentoData(dbSISSODINAContext Context, IData<TbInventario> inven)
         {
             _Context = Context;
+            _inven = inven;
         }
 
         public bool Agregar(TbDocumento entity)
         {
             try
             {
+
                 //guarda un nuevo documento
                 if (entity.TipoDocumento == 1)
                 {
+
+                    
+
+
                     _Context.TbDocumento.Add(entity);
                     _Context.SaveChanges();
                     return true;
                 }
+
+
+
+
+
+
+
+
+
+
                 TbDocumento documentoAnt = new TbDocumento();
                 documentoAnt.Id = entity.Id;
 
@@ -49,7 +66,7 @@ namespace AppFacturadorApi.Data
                 return false;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
@@ -60,7 +77,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return (from doc in _Context.TbDocumento where doc.Id == entity.Id select doc).SingleOrDefault();
+                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento") where doc.Id == entity.Id select doc).SingleOrDefault();
             }
             catch (Exception)
             {
