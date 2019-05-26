@@ -28,7 +28,7 @@ namespace AppFacturadorApi.Service
                 TbEmpresa empresa = new TbEmpresa();
 
                 empresa.Id= entity.IdEmpresa;
-                empresa =_EmpresaIns.ConsultarById(empresa);
+                empresa =_EmpresaIns.ConsultarById(empresa);                
 
                 if (validadCampos(entity) == false || empresa == null)
                 {
@@ -49,9 +49,10 @@ namespace AppFacturadorApi.Service
                                 inventario.Cantidad -= entity.TbDetalleDocumento.ToList()[i].Cantidad;
                                 _InventarioIns.Modificar(inventario);
                             }
-                            else if (entity.TipoDocumento==3)
+                            else if (entity.TipoDocumento==3 || entity.TipoDocumento==4)
                             {
-
+                                inventario.Cantidad += entity.TbDetalleDocumento.ToList()[i].Cantidad;
+                                _InventarioIns.Modificar(inventario);
                             }   
 
                         }

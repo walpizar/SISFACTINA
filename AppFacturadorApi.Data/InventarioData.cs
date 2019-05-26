@@ -61,6 +61,7 @@ namespace AppFacturadorApi.Data
 
             TbInventario inventario = new TbInventario();
             inventario=_Contexto.TbInventario.Where(x => x.IdProducto.Trim() == entity.IdProducto.Trim()).SingleOrDefault();
+
             if (inventario.FechaUltMod != entity.FechaUltMod)
 	        {
                 _Contexto.SaveChanges();

@@ -50,7 +50,7 @@ namespace AppFacturadorApi.Service
 	        {
                 return _inv.Modificar(entity);
 	        }
-            
+            return false;
         }
         private bool validarDatos(TbInventario inventario){
             if (inventario.IdProducto==null)
