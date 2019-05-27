@@ -33,27 +33,30 @@ namespace AppFacturadorApi.Data
                     return true;
                 }
 
-                TbDocumento documentoAnt = new TbDocumento();
-                documentoAnt.Id = entity.Id;
-
-                documentoAnt = _Context.TbDocumento.Where(x => x.Id == documentoAnt.Id).SingleOrDefault();
-                if (documentoAnt != null)
+                //crea la nota de credito
+                else if (entity.TipoDocumento == 3)
                 {
-                    documentoAnt.FechaUltMod = DateTime.Now;
-                    documentoAnt.UsuarioUltMod = Environment.UserName;
-                    documentoAnt.Estado = false;
 
+                    TbDocumento documentoAnt = new TbDocumento();
+                    documentoAnt.Id = entity.Id;
 
-                    _Context.Entry<TbDocumento>(documentoAnt).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    var idMax = (from c in _Context.TbDocumento select c.Id).Max();
-                    entity.Id = idMax + 1;
+                    documentoAnt = _Context.TbDocumento.Where(x => x.Id == documentoAnt.Id).SingleOrDefault();
+                    if (documentoAnt != null)
+                    {
+                        documentoAnt.FechaUltMod = DateTime.Now;
+                        documentoAnt.UsuarioUltMod = Environment.UserName;
 
-                    entity.TipoDocumento = 3;
+                        documentoAnt.Estado = false;
+                        _Context.Entry<TbDocumento>(documentoAnt).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                    _Context.TbDocumento.Add(entity);
-                    _Context.SaveChanges();
+                        var idMax = (from c in _Context.TbDocumento select c.Id).Max();
+                        entity.Id = idMax + 1;
 
-                    return true;
+                        _Context.TbDocumento.Add(entity);
+                        _Context.SaveChanges();
+
+                        return true;
+                    }
                 }
 
                 return false;
@@ -84,7 +87,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation") select doc).ToList();
+                return _Context.TbDocumento.Include("TbDetalleDocumento").Where(x => x.Estado == true).ToList();
             }
             catch (Exception)
             {

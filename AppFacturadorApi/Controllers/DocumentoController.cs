@@ -27,7 +27,7 @@ namespace AppFacturadorApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<TbDocumento>> Get()
         {
-            
+
             try
             {
                 IEnumerable<TbDocumento> listaDocumentos = _DocumentoIns.ConsultarTodos();
@@ -159,13 +159,6 @@ namespace AppFacturadorApi.Controllers
 
                         if (_DocumentoIns.Agregar(document) == true)
                         {
-                            //foreach (var item in document.TbDetalleDocumento)
-                            //{
-                            //    inventario.IdProducto = item.IdProducto;
-                            //    inventario = _inv.ConsultarById(inventario);
-                            //    inventario.Cantidad -= item.Cantidad;
-                            //    _inv.Modificar(inventario);
-                            //}
 
                             return Ok(true);
                         }
@@ -173,21 +166,25 @@ namespace AppFacturadorApi.Controllers
                     }
                     return NotFound();
                 }
-                document.FechaCrea = DateTime.Now;
-                document.FechaUltMod = DateTime.Now;
-                document.UsuarioCrea = Environment.UserName;
-                document.UsuarioUltMod = Environment.UserName;
-                document.ReporteAceptaHacienda = true;
-                document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
 
-                // agregar la Nota de credito 
-                bool agregado = _DocumentoIns.Agregar(document);
-
-                if (agregado)
+                else if (document.TipoDocumento == 3)
                 {
-                    return Ok();
-                }
 
+                    document.FechaCrea = DateTime.Now;
+                    document.FechaUltMod = DateTime.Now;
+                    document.UsuarioCrea = Environment.UserName;
+                    document.UsuarioUltMod = Environment.UserName;
+                    document.ReporteAceptaHacienda = true;
+                    document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
+
+                    bool agregado = _DocumentoIns.Agregar(document);
+
+                    // agregar la Nota de credito 
+                    if (agregado)
+                    {
+                        return Ok();
+                    }
+                }
 
                 return BadRequest();
             }
