@@ -6,21 +6,20 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbDetalleDocumentoService : IService<TbDetalleDocumento>
+    public class TbProveedorService : IService<TbProveedores>
     {
-        IData<TbDetalleDocumento> _context;
+        IData<TbProveedores> _ProveedoresIns;
 
-        public TbDetalleDocumentoService(IData<TbDetalleDocumento> context)
+        public TbProveedorService(IData<TbProveedores> ProveedoresIns)
         {
-            _context = context;
+            _ProveedoresIns = ProveedoresIns;
         }
 
-        public bool Agregar(TbDetalleDocumento entity)
+        public bool Agregar(TbProveedores entity)
         {
             try
             {
-                return _context.Agregar(entity);
-
+                return _ProveedoresIns.Agregar(entity);
             }
             catch (Exception)
             {
@@ -29,11 +28,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public TbDetalleDocumento ConsultarById(TbDetalleDocumento entity)
+        public TbProveedores ConsultarById(TbProveedores entity)
         {
             try
             {
-                return _context.ConsultarById(entity);
+                return _ProveedoresIns.ConsultarById(entity);
             }
             catch (Exception)
             {
@@ -42,13 +41,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-       
-
-        public IEnumerable<TbDetalleDocumento> ConsultarTodos()
+        public IEnumerable<TbProveedores> ConsultarTodos()
         {
             try
             {
-                return _context.ConsultarTodos();
+               return  _ProveedoresIns.ConsultarTodos();
             }
             catch (Exception)
             {
@@ -57,11 +54,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Eliminar(TbDetalleDocumento entity)
+        public bool Eliminar(TbProveedores entity)
         {
             try
             {
-                return _context.Eliminar(entity);
+                return _ProveedoresIns.Eliminar(entity);
             }
             catch (Exception)
             {
@@ -70,18 +67,17 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Modificar(TbDetalleDocumento entity)
+        public bool Modificar(TbProveedores entity)
         {
             try
             {
-                return _context.Modificar(entity);
+                return _ProveedoresIns.Modificar(entity);
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
         }
     }
 }

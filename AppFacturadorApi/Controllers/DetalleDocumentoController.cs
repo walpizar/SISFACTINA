@@ -10,7 +10,7 @@ namespace AppFacturadorApi.Controllers
 {
     [Route("api/detalle")]
     [ApiController]
-    public class DetalleDocumentoController: ControllerBase
+    public class DetalleDocumentoController : ControllerBase
     {
         IService<TbDetalleDocumento> _detalleIns;
 
@@ -26,13 +26,13 @@ namespace AppFacturadorApi.Controllers
             try
             {
 
-                IEnumerable<TbDetalleDocumento> listaDetalle = _detalleIns.ConsultarTodos(idDoc);
+                IEnumerable<TbDetalleDocumento> listaDetalle = _detalleIns.ConsultarTodos();
                 if (listaDetalle.ToList().Count == 0)
                 {
                     return NotFound();
                 }
                 return Ok(listaDetalle);
-                
+
             }
             catch (Exception)
             {
@@ -40,7 +40,7 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
-     
-       
+
+
     }
 }

@@ -37,19 +37,19 @@ namespace AppFacturadorApi.Data
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbAbonos> ConsultarTodos(string iddoc)
+      
+
+        public IEnumerable<TbAbonos> ConsultarTodos()
         {
             try
             {
-                int id = int.Parse(iddoc);
-                return (from abono in _context.TbAbonos where abono.IdDoc == id select abono).ToList();
+                return _context.TbAbonos.ToList();
             }
             catch (Exception)
             {
 
                 throw;
             }
-           
         }
 
         public bool Eliminar(TbAbonos entity)

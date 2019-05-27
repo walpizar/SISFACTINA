@@ -10,43 +10,86 @@ namespace AppFacturadorApi.Controllers
 {
     [Route("api/documento")]
     [ApiController]
-    public class DocumentoController:ControllerBase
+    public class DocumentoController : ControllerBase
     {
         IService<TbDocumento> _DocumentoIns;
+        IService<TbInventario> _inv;
 
-        public DocumentoController(IService<TbDocumento> DocumentoIns)
+        public DocumentoController(IService<TbDocumento> DocumentoIns, IService<TbInventario> inv)
         {
             _DocumentoIns = DocumentoIns;
+            _inv = inv;
         }
 
+
         // GET api/values
+
+        [HttpGet]
+        public ActionResult<IEnumerable<TbDocumento>> Get()
+        {
+
+            try
+            {
+                IEnumerable<TbDocumento> listaDocumentos = _DocumentoIns.ConsultarTodos();
+                if (listaDocumentos != null)
+                {
+                    return Ok(listaDocumentos);
+
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
         [HttpGet("consultar/{idCliente}")]
         public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
         {
-            //string idCliente = "603480811";
+
             try
             {
-                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos(idCliente);
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = lista.Where(x => x.IdCliente != null && x.TipoIdCliente != null && x.IdCliente.Trim().Equals(idCliente) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
+
+
                 if (lista.ToList().Count == 0)
                 {
                     return NotFound();
 
                 }
-                //foreach (var item in lista)
-                //{
-                //    //item.TipoMonedaNavigation.TbDocumento.Remove(item);
 
 
-                //    //item.TipoPagoNavigation.TbDocumento.Remove(item);
-                //    //item.TipoVentaNavigation.TbDocumento.Remove(item);
-                //    //item.TbClientes.TbDocumento.Remove(item);
-                //    item.TbClientes.TbPersona.TbClientes = null;
-                //    foreach (var ite in item.TbDetalleDocumento)
-                //    {
-                //        ite.Id = null;
-                //    }
-                //}
-               
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("consultar/ordenfecha/{idCliente}")]
+        public ActionResult<IEnumerable<TbDocumento>> Gett(string idCliente)
+        {
+           
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = (from doc in lista
+                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente) && doc.TipoVenta == 2 &&
+                         doc.EstadoFactura == 2
+                         orderby doc.Fecha ascending
+                         select doc).ToList();
+
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound();
+
+                }
+
+
 
                 return Ok(lista);
             }
@@ -84,38 +127,85 @@ namespace AppFacturadorApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] TbDocumento Documento)
+        public ActionResult<bool> Post([FromBody] TbDocumento document)
         {
             try
             {
-                bool guardo = _DocumentoIns.Agregar(Documento);
-                if (guardo)
+                //si el tipo de documento es 1, lo guarda 
+                if (document.TipoDocumento == 1)
                 {
-                    return Ok("Se agrego Correctamente");
+                    decimal cantidad = 0;
+                    IEnumerable<TbDocumento> listaFacturas;
+                    document.FechaRef = DateTime.Now;
+                    listaFacturas = _DocumentoIns.ConsultarTodos();
+                    document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id + 1;
+
+                    if (document.TbDetalleDocumento.ToList().Count > 0)
+                    {
+
+                        TbInventario inventario = new TbInventario();
+
+                        IEnumerable<TbInventario> Listinventario;
+                        foreach (var item in document.TbDetalleDocumento)
+                        {
+                            Listinventario = _inv.ConsultarTodos();
+                            cantidad = Listinventario.Where(X => X.IdProducto == item.IdProducto).SingleOrDefault().Cantidad;
+                            if (item.Cantidad >= cantidad)
+                            {
+
+                                return false;
+                            }
+                        }
+
+                        if (_DocumentoIns.Agregar(document) == true)
+                        {
+
+                            return Ok(true);
+                        }
+
+                    }
+                    return NotFound();
                 }
-                else
+
+                else if (document.TipoDocumento == 3)
                 {
-                    return NotFound("ERROR SERVICIO");
+
+                    document.FechaCrea = DateTime.Now;
+                    document.FechaUltMod = DateTime.Now;
+                    document.UsuarioCrea = Environment.UserName;
+                    document.UsuarioUltMod = Environment.UserName;
+                    document.ReporteAceptaHacienda = true;
+                    document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
+
+                    bool agregado = _DocumentoIns.Agregar(document);
+
+                    // agregar la Nota de credito 
+                    if (agregado)
+                    {
+                        return Ok();
+                    }
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
 
-                return StatusCode(500);
+                return NotFound();
             }
         }
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] TbDocumento value)
+        public ActionResult Put([FromBody] TbDocumento Doc)
         {
             try
             {
-                bool modifico = _DocumentoIns.Modificar(value);
+                bool modifico = _DocumentoIns.Modificar(Doc);
 
                 if (modifico)
                 {
-                    return Ok();
+                    return Ok("Se Modifico Correctamente");
                 }
                 else
                 {
