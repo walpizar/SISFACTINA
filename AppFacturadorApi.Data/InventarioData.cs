@@ -57,17 +57,29 @@ namespace AppFacturadorApi.Data
 
         public bool Modificar(TbInventario entity)
         {
-            _Contexto.Entry<TbInventario>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            try
+            {
+                bool bandera = false;
+                if (entity.FechaUltMod == DateTime.MinValue)
+                {
+                    bandera = true;
+                }
 
-            TbInventario inventario = new TbInventario();
-            inventario=_Contexto.TbInventario.Where(x => x.IdProducto.Trim() == entity.IdProducto.Trim()).SingleOrDefault();
+                _Contexto.Entry<TbInventario>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-            if (inventario.FechaUltMod != entity.FechaUltMod)
-	        {
-                _Contexto.SaveChanges();
-	        }
-            
-            return true;
+                if (bandera)
+                {
+                    entity.FechaUltMod = DateTime.Now;
+                    _Contexto.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
     }

@@ -52,39 +52,40 @@ namespace AppFacturadorApi.Service
 	        }
             return false;
         }
-        private bool validarDatos(TbInventario inventario){
-            if (inventario.IdProducto==null)
-	        {
+        private bool validarDatos(TbInventario inventario)
+        {
+            if (inventario.IdProducto == null)
+            {
                 return false;
-	        }
-            if (inventario.Cantidad==null)
-	        {
+            }
+            if (inventario.Cantidad == null)
+            {
                 return false;
-	        }
-            if (inventario.Estado==null)
-	        {
+            }
+            if (inventario.Estado == null)
+            {
                 return false;
-	        }
-            if (inventario.FechaCrea==null)
-	        {
+            }
+            if (inventario.FechaCrea == null)
+            {
                 return false;
-	        }
-            if (inventario.FechaUltMod==null)
-	        {
+            }
+            if (inventario.FechaUltMod == null)
+            {
                 return false;
-	        }
-            if (inventario.IdProducto==null)
-	        {
+            }
+            if (inventario.IdProducto == null)
+            {
                 return false;
-	        }
-            if (inventario.UsuarioCrea==null)
-	        {
+            }
+            if (inventario.UsuarioCrea == null)
+            {
                 return false;
-	        }
-            if (inventario.UsuarioUltMod==null)
-	        {
+            }
+            if (inventario.UsuarioUltMod == null)
+            {
                 return false;
-	        }
+            }
             return true;
         }
     }

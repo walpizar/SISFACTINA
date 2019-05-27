@@ -94,15 +94,15 @@ namespace AppFacturadorApi.Controllers
             {
                 try
                 {
-                    Inventario.FechaUltMod = DateTime.Now;
-                    
+                    Inventario.FechaUltMod = DateTime.MinValue;
+
                     if (_inv.Modificar(Inventario) == true)
                     {
                         return Ok(true);
                     }
                     return NotFound();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                     return StatusCode(500);
