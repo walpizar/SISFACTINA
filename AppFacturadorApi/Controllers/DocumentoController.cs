@@ -43,6 +43,62 @@ namespace AppFacturadorApi.Controllers
                 return NotFound();
             }
         }
+        [HttpGet("consultar/{idCliente}")]
+        public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
+        {
+
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = lista.Where(x => x.IdCliente != null && x.TipoIdCliente != null && x.IdCliente.Trim().Equals(idCliente) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound();
+
+                }
+
+
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("consultar/ordenfecha/{idCliente}")]
+        public ActionResult<IEnumerable<TbDocumento>> Gett(string idCliente)
+        {
+           
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                lista = (from doc in lista
+                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente) && doc.TipoVenta == 2 &&
+                         doc.EstadoFactura == 2
+                         orderby doc.Fecha ascending
+                         select doc).ToList();
+
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound();
+
+                }
+
+
+
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
 
         //GET api/values/5
         [HttpGet("{id}")]

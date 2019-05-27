@@ -84,7 +84,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento") select doc).ToList();
+                return (from doc in _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation") select doc).ToList();
             }
             catch (Exception)
             {

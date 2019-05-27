@@ -47,6 +47,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbCanton>, TbCantonService>();
             services.AddTransient<IService<TbDistrito>, TbDistritoService>();
             services.AddTransient<IService<TbBarrios>, TbBarrioService>();
+            services.AddTransient<IService<TbProveedores>, TbProveedorService>();
 
             // Inyecciones Data
             services.AddTransient<IData<TbDocumento>, TbDocumentoData>();
@@ -64,6 +65,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbCanton>, TbCantonData>();
             services.AddTransient<IData<TbDistrito>, TbDistritoData>();
             services.AddTransient<IData<TbBarrios>, TbBarrioData>();
+            services.AddTransient<IData<TbProveedores>, TbProveedorData>();
 
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));

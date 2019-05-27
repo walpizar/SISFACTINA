@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace AppFacturadorApi.Controllers
 {
+    [Route("api/barrio")]
+    [ApiController]
     public class BarrioController:ControllerBase
     {
         IService<TbBarrios> _BarrioIns;
