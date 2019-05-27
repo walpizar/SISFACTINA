@@ -49,8 +49,8 @@ namespace AppFacturadorApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<TbProveedores> Get(string id)
+        [HttpGet("{id}/{TipoId}")]
+        public ActionResult<TbProveedores> Get(string id,int tipoid)
         {
 
            
@@ -58,6 +58,7 @@ namespace AppFacturadorApi.Controllers
             {
                 TbProveedores proveedor = null;
                 proveedor.Id = id;
+                proveedor.TipoId=tipoid;
                 proveedor = _ProveedorIns.ConsultarById(proveedor);
 
 
@@ -181,15 +182,16 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        [HttpDelete("{id}/{TipoId}")]
+        public ActionResult Delete(string id,int tipoid)
         {
             try
             {
                 TbProveedores proveedor = new TbProveedores();
                 proveedor.Id = id;
-              
+                proveedor.TipoId = tipoid;               
                 proveedor = _ProveedorIns.ConsultarById(proveedor);
+                proveedor.Estado = false;
                 bool elimino = _ProveedorIns.Eliminar(proveedor);
                 if (elimino)
                 {

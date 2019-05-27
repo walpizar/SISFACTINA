@@ -51,7 +51,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return (from proveedor in _context.TbProveedores.Include("TbPersona.Tipo") where proveedor.Id == entity.Id  select proveedor).SingleOrDefault();
+                return (from proveedor in _context.TbProveedores.Include("TbPersona.Tipo") where proveedor.Id == entity.Id && proveedor.TipoId==entity.TipoId select proveedor).SingleOrDefault();
             }
             catch (Exception)
             {
@@ -77,7 +77,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                _context.Entry<TbProveedores>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                _context.Entry<TbProveedores>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
                 return true;
             }
