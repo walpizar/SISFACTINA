@@ -86,8 +86,10 @@ namespace AppFacturadorApi.Data
         public IEnumerable<TbDocumento> ConsultarTodos()
         {
             try
-            {
+            {              
+
                 return _Context.TbDocumento.Include("TbDetalleDocumento").Where(x => x.Estado == true).ToList();
+
             }
             catch (Exception)
             {
