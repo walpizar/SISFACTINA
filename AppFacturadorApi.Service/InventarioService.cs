@@ -36,12 +36,29 @@ namespace AppFacturadorApi.Service
 
         public IEnumerable<TbInventario> ConsultarTodos()
         {
-            return _inv.ConsultarTodos();
+            try
+            {
+                return _inv.ConsultarTodos();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public bool Eliminar(TbInventario entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _inv.Eliminar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbInventario entity)

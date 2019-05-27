@@ -29,6 +29,7 @@ namespace AppFacturadorApi.Controllers
                 {
                     IEnumerable<TbInventario> ListaTbInventarios;
                     ListaTbInventarios = _inv.ConsultarTodos();
+                    ListaTbInventarios = ListaTbInventarios.Where(x => x.Estado == true).ToList();
                     if (ListaTbInventarios.ToList().Count != 0)
                     {
                         return Ok(ListaTbInventarios);

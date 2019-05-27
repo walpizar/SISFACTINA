@@ -41,7 +41,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return _Contexto.TbInventario.ToList();
+                return _Contexto.TbInventario.Include("TbProducto.IdCategoriaNavigation").ToList();
             }
             catch (Exception)
             {
@@ -52,7 +52,17 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbInventario entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Contexto.Entry<TbInventario>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbInventario entity)
