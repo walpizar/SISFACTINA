@@ -64,7 +64,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return _context.TbProveedores.Include("TbPersona.Tipo").ToList();
+                return _context.TbProveedores.Include("TbPersona.Tipo").Where(x=>x.Estado==true).ToList();
             }
             catch (Exception)
             {

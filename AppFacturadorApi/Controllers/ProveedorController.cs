@@ -82,29 +82,38 @@ namespace AppFacturadorApi.Controllers
 
             try
             {
-                proveedor.Estado = true;
-                proveedor.Id = "1";
-                proveedor.TipoId = 1;
-                proveedor.FechaCrea = DateTime.Now;
-                proveedor.FechaUltMod = DateTime.Now;
-                proveedor.UsuarioCrea = Environment.UserName;
-                proveedor.UsuarioUltMod = Environment.UserName;
-
-                bool valido = validarcampos(proveedor);
-                if (valido)
+                TbProveedores prove;
+                prove = _ProveedorIns.ConsultarById(proveedor);
+                if (prove==null)
                 {
-                    bool agrego =  _ProveedorIns.Agregar(proveedor);
-                    if (agrego != true)
+                    proveedor.Estado = true;
+
+                    proveedor.FechaCrea = DateTime.Now;
+                    proveedor.FechaUltMod = DateTime.Now;
+                    proveedor.UsuarioCrea = Environment.UserName;
+                    proveedor.UsuarioUltMod = Environment.UserName;
+
+                    bool valido = validarcampos(proveedor);
+                    if (valido)
+                    {
+                        bool agrego = _ProveedorIns.Agregar(proveedor);
+                        if (agrego != true)
+                        {
+                            return NotFound();
+
+                        }
+                        return Ok("Se agrego Correctamente");
+                    }
+                    else
                     {
                         return NotFound();
-
                     }
-                    return Ok("Se agrego Correctamente");
                 }
                 else
                 {
                     return NotFound();
                 }
+               
 
             }
             catch (Exception)
