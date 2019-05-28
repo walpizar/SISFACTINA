@@ -87,7 +87,8 @@ namespace AppFacturadorApi.Controllers
                 if (prove==null)
                 {
                     proveedor.Estado = true;
-
+                    proveedor.Id = proveedor.TbPersona.Identificacion;
+                    proveedor.TipoId = proveedor.TbPersona.TipoId;
                     proveedor.FechaCrea = DateTime.Now;
                     proveedor.FechaUltMod = DateTime.Now;
                     proveedor.UsuarioCrea = Environment.UserName;
@@ -99,7 +100,7 @@ namespace AppFacturadorApi.Controllers
                         bool agrego = _ProveedorIns.Agregar(proveedor);
                         if (agrego != true)
                         {
-                            return NotFound();
+                            return NotFound("Error al agregar ");
 
                         }
                         return Ok("Se agrego Correctamente");
@@ -111,7 +112,7 @@ namespace AppFacturadorApi.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound("Ya existe proveedor con ese nombre");
                 }
                
 
@@ -174,7 +175,7 @@ namespace AppFacturadorApi.Controllers
                     bool modifico =  _ProveedorIns.Modificar(proveedor);
                     if (modifico != true)
                     {
-                        return NotFound();
+                        return NotFound("Error al modificar");
                     }
 
                     return Ok("Se modifico correctamente");
@@ -208,7 +209,7 @@ namespace AppFacturadorApi.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound("Error al eliminar");
                 }
             }
             catch (Exception)

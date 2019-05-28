@@ -88,7 +88,7 @@ namespace AppFacturadorApi.Data
             try
             {              
 
-                return _Context.TbDocumento.Include("TbDetalleDocumento").Where(x => x.Estado == true).ToList();
+                return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation").Where(x => x.Estado == true).ToList();
 
             }
             catch (Exception)
