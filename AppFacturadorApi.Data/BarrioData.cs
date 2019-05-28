@@ -7,30 +7,30 @@ using System.Text;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbCantonData:IData<TbCanton>
+    public class BarrioData:IData<TbBarrios>
     {
         dbSISSODINAContext _context;
 
-        public TbCantonData(dbSISSODINAContext context)
+        public BarrioData(dbSISSODINAContext context)
         {
             _context = context;
         }
 
-        public bool Agregar(TbCanton entity)
+        public bool Agregar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public TbCanton ConsultarById(TbCanton entity)
+        public TbBarrios ConsultarById(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbCanton> ConsultarTodos()
+        public IEnumerable<TbBarrios> ConsultarTodos()
         {
             try
             {
-                return _context.TbCanton.ToList();
+                return _context.TbBarrios.ToList();
             }
             catch (Exception)
             {
@@ -39,12 +39,12 @@ namespace AppFacturadorApi.Data
             }
         }
 
-        public bool Eliminar(TbCanton entity)
+        public bool Eliminar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(TbCanton entity)
+        public bool Modificar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }

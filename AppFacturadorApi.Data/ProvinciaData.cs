@@ -1,18 +1,19 @@
-﻿using AppFacturadorApi.Data;
+﻿using AppFacturadorApi.Data.Model;
 using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace AppFacturadorApi.Service
+namespace AppFacturadorApi.Data
 {
-    public class TbProvinciaService:IService<TbProvincia>
+    public class ProvinciaData:IData<TbProvincia>
     {
-        IData<TbProvincia> _ProvinciaIns;
+        dbSISSODINAContext _context;
 
-        public TbProvinciaService(IData<TbProvincia> ProvinciaIns)
+        public ProvinciaData(dbSISSODINAContext context)
         {
-            _ProvinciaIns = ProvinciaIns;
+            _context = context;
         }
 
         public bool Agregar(TbProvincia entity)
@@ -29,7 +30,7 @@ namespace AppFacturadorApi.Service
         {
             try
             {
-                return _ProvinciaIns.ConsultarTodos();
+                return _context.TbProvincia.ToList();
             }
             catch (Exception)
             {

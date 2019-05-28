@@ -1,35 +1,36 @@
-﻿using AppFacturadorApi.Data;
+﻿using AppFacturadorApi.Data.Model;
 using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace AppFacturadorApi.Service
+namespace AppFacturadorApi.Data
 {
-    public class TbBarrioService : IService<TbBarrios>
+    public class CantonData:IData<TbCanton>
     {
-        IData<TbBarrios> _BarrioIns;
+        dbSISSODINAContext _context;
 
-        public TbBarrioService(IData<TbBarrios> BarrioIns)
+        public CantonData(dbSISSODINAContext context)
         {
-            _BarrioIns = BarrioIns;
+            _context = context;
         }
 
-        public bool Agregar(TbBarrios entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TbBarrios ConsultarById(TbBarrios entity)
+        public bool Agregar(TbCanton entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbBarrios> ConsultarTodos()
+        public TbCanton ConsultarById(TbCanton entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TbCanton> ConsultarTodos()
         {
             try
             {
-                return _BarrioIns.ConsultarTodos();
+                return _context.TbCanton.ToList();
             }
             catch (Exception)
             {
@@ -38,12 +39,12 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Eliminar(TbBarrios entity)
+        public bool Eliminar(TbCanton entity)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(TbBarrios entity)
+        public bool Modificar(TbCanton entity)
         {
             throw new NotImplementedException();
         }

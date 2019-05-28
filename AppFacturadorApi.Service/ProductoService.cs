@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbProductoService : IService<TbProducto>
+    public class ProductoService : IService<TbProducto>
     {
         IData<TbProducto> _ProduIns;
 
-        public TbProductoService(IData<TbProducto> ProduIns)
+        public ProductoService(IData<TbProducto> ProduIns)
         {
             _ProduIns = ProduIns;
         }

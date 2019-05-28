@@ -32,41 +32,41 @@ namespace AppFacturadorApi
         {
 
             //Inyecciones Service
-            services.AddTransient<IService<TbDocumento>, TbDocumentoService>();
-            services.AddTransient<IService<TbDetalleDocumento>, TbDetalleDocumentoService>();
+            services.AddTransient<IService<TbDocumento>, DocumentoService>();
+            services.AddTransient<IService<TbDetalleDocumento>, DetalleDocumentoService>();
             services.AddTransient<IService<TbAbonos>, TbAbonosService>();
-            services.AddTransient<IService<TbPersona>, TbPersonaService>();
-            services.AddTransient<IService<TbProducto>, TbProductoService>();
+            services.AddTransient<IService<TbPersona>, PersonaService>();
+            services.AddTransient<IService<TbProducto>, ProductoService>();
             services.AddTransient<IService<TbClientes>, ClientesService>();
             services.AddTransient<IService<TbTipoVenta>, TipoVentaService>();
             services.AddTransient<IService<TbTipoPago>, TipoPagoService>();
             services.AddTransient<IService<TbTipoId>, TipoIdService>();
             services.AddTransient<IService<TbInventario>, InventarioService>();
             services.AddTransient<IService<TbEmpresa>, EmpresaService>();
-            services.AddTransient<IService<TbProvincia>, TbProvinciaService>();
-            services.AddTransient<IService<TbCanton>, TbCantonService>();
-            services.AddTransient<IService<TbDistrito>, TbDistritoService>();
-            services.AddTransient<IService<TbBarrios>, TbBarrioService>();
+            services.AddTransient<IService<TbProvincia>, ProvinciaService>();
+            services.AddTransient<IService<TbCanton>, CantonService>();
+            services.AddTransient<IService<TbDistrito>, DistritoService>();
+            services.AddTransient<IService<TbBarrios>, BarrioService>();
             services.AddTransient<IService<TbProveedores>, TbProveedorService>();
             services.AddTransient<IService<TbParametrosEmpresa>, ParametrosEmpresaService>();
 
             // Inyecciones Data
-            services.AddTransient<IData<TbDocumento>, TbDocumentoData>();
-            services.AddTransient<IData<TbDetalleDocumento>, TbDetalleDocumentoData>();
-            services.AddTransient<IData<TbAbonos>, TbAbonosData>();
-            services.AddTransient<IData<TbPersona>, TbPersonaData>();
-            services.AddTransient<IData<TbProducto>, TbProductoData>();
+            services.AddTransient<IData<TbDocumento>, DocumentoData>();
+            services.AddTransient<IData<TbDetalleDocumento>, DetalleDocumentoData>();
+            services.AddTransient<IData<TbAbonos>, AbonosData>();
+            services.AddTransient<IData<TbPersona>, PersonaData>();
+            services.AddTransient<IData<TbProducto>, ProductoData>();
             services.AddTransient<IData<TbClientes>, ClientesData>();
             services.AddTransient<IData<TbTipoVenta>, TipoVentaData>();
             services.AddTransient<IData<TbTipoPago>, TipoPagoData>();
             services.AddTransient<IData<TbTipoId>, TipoIdData>();
             services.AddTransient<IData<TbInventario>, InventarioData>();
             services.AddTransient<IData<TbEmpresa>, EmpresaData>();
-            services.AddTransient<IData<TbProvincia>, TbProvinciaData>();
-            services.AddTransient<IData<TbCanton>, TbCantonData>();
-            services.AddTransient<IData<TbDistrito>, TbDistritoData>();
-            services.AddTransient<IData<TbBarrios>, TbBarrioData>();
-            services.AddTransient<IData<TbProveedores>, TbProveedorData>();
+            services.AddTransient<IData<TbProvincia>, ProvinciaData>();
+            services.AddTransient<IData<TbCanton>, CantonData>();
+            services.AddTransient<IData<TbDistrito>, DistritoData>();
+            services.AddTransient<IData<TbBarrios>, BarrioData>();
+            services.AddTransient<IData<TbProveedores>, ProveedorData>();
             services.AddTransient<IData<TbParametrosEmpresa>, ParametrosEmpresaData>();
 
 

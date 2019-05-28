@@ -1,18 +1,16 @@
-﻿using AppFacturadorApi.Data.Model;
+﻿using AppFacturadorApi.Data;
+using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
-using AppFacturadorApi.Entities.Model;
-using Microsoft.EntityFrameworkCore;
 
-namespace AppFacturadorApi.Data
+namespace AppFacturadorApi.Service
 {
-    public class TbDetalleDocumentoData : IData<TbDetalleDocumento>
+    public class DetalleDocumentoService : IService<TbDetalleDocumento>
     {
-        dbSISSODINAContext _context;
+        IData<TbDetalleDocumento> _context;
 
-        public TbDetalleDocumentoData(dbSISSODINAContext context)
+        public DetalleDocumentoService(IData<TbDetalleDocumento> context)
         {
             _context = context;
         }
@@ -21,38 +19,36 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                _context.Add(entity);
-                _context.SaveChanges();
-                return true;
+                return _context.Agregar(entity);
+
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
 
         public TbDetalleDocumento ConsultarById(TbDetalleDocumento entity)
         {
             try
             {
-                return (from detalle in _context.TbDetalleDocumento where detalle.Id == entity.Id select detalle).SingleOrDefault();
+                return _context.ConsultarById(entity);
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
-      
+
+       
 
         public IEnumerable<TbDetalleDocumento> ConsultarTodos()
         {
             try
             {
-                return _context.TbDetalleDocumento.ToList();
+                return _context.ConsultarTodos();
             }
             catch (Exception)
             {
@@ -63,22 +59,29 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbDetalleDocumento entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Modificar(TbDetalleDocumento entity)
-        {
             try
             {
-                _context.Entry<TbDetalleDocumento>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
-                return true;
+                return _context.Eliminar(entity);
             }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+
+        public bool Modificar(TbDetalleDocumento entity)
+        {
+            try
+            {
+                return _context.Modificar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

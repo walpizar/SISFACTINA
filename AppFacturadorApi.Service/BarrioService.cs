@@ -6,30 +6,30 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbCantonService:IService<TbCanton>
+    public class BarrioService : IService<TbBarrios>
     {
-        IData<TbCanton> _CantonIns;
+        IData<TbBarrios> _BarrioIns;
 
-        public TbCantonService(IData<TbCanton> CantonIns)
+        public BarrioService(IData<TbBarrios> BarrioIns)
         {
-            _CantonIns = CantonIns;
+            _BarrioIns = BarrioIns;
         }
 
-        public bool Agregar(TbCanton entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TbCanton ConsultarById(TbCanton entity)
+        public bool Agregar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbCanton> ConsultarTodos()
+        public TbBarrios ConsultarById(TbBarrios entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TbBarrios> ConsultarTodos()
         {
             try
             {
-                return _CantonIns.ConsultarTodos();
+                return _BarrioIns.ConsultarTodos();
             }
             catch (Exception)
             {
@@ -38,12 +38,12 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Eliminar(TbCanton entity)
+        public bool Eliminar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(TbCanton entity)
+        public bool Modificar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }

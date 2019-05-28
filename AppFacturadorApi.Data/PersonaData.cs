@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbPersonaData : IData<TbPersona>
+    public class PersonaData : IData<TbPersona>
     {
         dbSISSODINAContext _context;
 
-        public TbPersonaData(dbSISSODINAContext context)
+        public PersonaData(dbSISSODINAContext context)
         {
             _context = context;
         }

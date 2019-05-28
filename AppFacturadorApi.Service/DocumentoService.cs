@@ -7,13 +7,13 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbDocumentoService : IService<TbDocumento>
+    public class DocumentoService : IService<TbDocumento>
     {
         IData<TbDocumento> _DocumentoIns;
         IService<TbEmpresa> _EmpresaIns;
         IService<TbInventario> _InventarioIns;
 
-        public TbDocumentoService(IData<TbDocumento> DocumentoIns, IService<TbEmpresa> EmpresaIns, IService<TbInventario> InventarioIns)
+        public DocumentoService(IData<TbDocumento> DocumentoIns, IService<TbEmpresa> EmpresaIns, IService<TbInventario> InventarioIns)
         {
             _DocumentoIns = DocumentoIns;
             _EmpresaIns = EmpresaIns;

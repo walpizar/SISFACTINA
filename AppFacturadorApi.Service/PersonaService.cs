@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbPersonaService : IService<TbPersona>
+    public class PersonaService : IService<TbPersona>
     {
         IData<TbPersona> _PersonaIns;
 
-        public TbPersonaService(IData<TbPersona> PersonaIns)
+        public PersonaService(IData<TbPersona> PersonaIns)
         {
             _PersonaIns = PersonaIns;
         }

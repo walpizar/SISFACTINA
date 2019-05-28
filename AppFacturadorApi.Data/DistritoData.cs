@@ -7,11 +7,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbDistritoData:IData<TbDistrito>
+    public class DistritoData:IData<TbDistrito>
     {
         dbSISSODINAContext _context;
 
-        public TbDistritoData(dbSISSODINAContext context)
+        public DistritoData(dbSISSODINAContext context)
         {
             _context = context;
         }

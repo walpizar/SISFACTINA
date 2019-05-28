@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbProveedorData : IData<TbProveedores>
+    public class ProveedorData : IData<TbProveedores>
     {
         dbSISSODINAContext _context;
         IData<TbPersona> _PersonaIns;
 
-        public TbProveedorData(dbSISSODINAContext context, IData<TbPersona> PersonaIns)
+        public ProveedorData(dbSISSODINAContext context, IData<TbPersona> PersonaIns)
         {
             _context = context;
             _PersonaIns = PersonaIns;

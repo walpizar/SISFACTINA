@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbDistritoService:IService<TbDistrito>
+    public class DistritoService:IService<TbDistrito>
     {
         IData<TbDistrito> _DistritoIns;
 
-        public TbDistritoService(IData<TbDistrito> DistritoIns)
+        public DistritoService(IData<TbDistrito> DistritoIns)
         {
             _DistritoIns = DistritoIns;
         }
