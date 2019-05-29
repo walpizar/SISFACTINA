@@ -82,13 +82,13 @@ namespace AppFacturadorApi.Controllers
 
             try
             {
+                proveedor.Id = proveedor.TbPersona.Identificacion;
+                proveedor.TipoId = proveedor.TbPersona.TipoId;
                 TbProveedores prove;
                 prove = _ProveedorIns.ConsultarById(proveedor);
                 if (prove==null)
                 {
-                    proveedor.Estado = true;
-                    proveedor.Id = proveedor.TbPersona.Identificacion;
-                    proveedor.TipoId = proveedor.TbPersona.TipoId;
+                    proveedor.Estado = true;                    
                     proveedor.FechaCrea = DateTime.Now;
                     proveedor.FechaUltMod = DateTime.Now;
                     proveedor.UsuarioCrea = Environment.UserName;
