@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AppFacturadorApi.Data\AppFacturadorApi.Data.csproj" />
     <ProjectReference Include="..\AppFacturadorApi.Entities\AppFacturadorApi.Entities.csproj" />
+    <ProjectReference Include="..\AppFacturadorApi.FacturaElectronica\AppFacturadorApi.FacturaElectronica.csproj" />
     <ProjectReference Include="..\AppFacturadorApi.Service\AppFacturadorApi.Service.csproj" />
   </ItemGroup>
 

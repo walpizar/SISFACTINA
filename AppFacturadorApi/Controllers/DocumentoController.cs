@@ -1,6 +1,8 @@
 ﻿using AppFacturadorApi.Entities.Model;
+using AppFacturadorApi.FacturaElectronica.ClasesDatos;
 using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,18 @@ namespace AppFacturadorApi.Controllers
         IService<TbDocumento> _DocumentoIns;
         IService<TbInventario> _inv;
 
-        public DocumentoController(IService<TbDocumento> DocumentoIns, IService<TbInventario> inv)
+        Datos Datos;
+
+        public DocumentoController(IService<TbDocumento> DocumentoIns, IService<TbInventario> inv, Datos datos)
         {
             _DocumentoIns = DocumentoIns;
             _inv = inv;
+            Datos = datos;
         }
+
+        string sucursal = "princi";
+        string caja = "1";
+        string codigoPais = "506";
 
 
         // GET api/values
@@ -72,8 +81,11 @@ namespace AppFacturadorApi.Controllers
         public ActionResult<IEnumerable<TbDocumento>> Gett(string idCliente)
         {
            
+            
             try
             {
+                
+
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
                 lista = (from doc in lista
                          where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente) && doc.TipoVenta == 2 &&
@@ -131,6 +143,8 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
+                document.FechaCrea = DateTime.Now;
+                document.FechaUltMod = DateTime.Now;
                 //si el tipo de documento es 1, lo guarda 
                 if (document.TipoDocumento == 1)
                 {
@@ -157,33 +171,26 @@ namespace AppFacturadorApi.Controllers
                             }
                         }
 
-                        if (_DocumentoIns.Agregar(document) == true)
-                        {
-
-                            return Ok(true);
-                        }
-
                     }
-                    return NotFound();
                 }
 
                 else if (document.TipoDocumento == 3)
                 {
-
-                    document.FechaCrea = DateTime.Now;
-                    document.FechaUltMod = DateTime.Now;
+                    
                     document.UsuarioCrea = Environment.UserName;
                     document.UsuarioUltMod = Environment.UserName;
                     document.ReporteAceptaHacienda = true;
                     document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
+                    
+                }
 
-                    bool agregado = _DocumentoIns.Agregar(document);
+                document.Consecutivo = Datos.CreaNumeroSecuencia(sucursal, caja, document.TipoDocumento.ToString(), document.Id.ToString());
+                string codigo = Datos.CreaCodigoSeguridad(document.TipoDocumento.ToString(), sucursal, caja, document.Fecha, document.Id.ToString());
+                Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString(), document.Id.ToString(), document.Consecutivo, document.Estado.ToString(), codigo);
+                if (_DocumentoIns.Agregar(document) == true)
+                {
 
-                    // agregar la Nota de credito 
-                    if (agregado)
-                    {
-                        return Ok();
-                    }
+                    return Ok(true);
                 }
 
                 return BadRequest();
@@ -244,6 +251,10 @@ namespace AppFacturadorApi.Controllers
 
                 return StatusCode(500);
             }
+
+        }
+        private void crearConsecutivo()
+        {
 
         }
     }
