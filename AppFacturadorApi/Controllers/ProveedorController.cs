@@ -147,18 +147,27 @@ namespace AppFacturadorApi.Controllers
             {
                 return false;
             }
-            else if (proveedor.UsuarioCrea == null)
+            else if (proveedor.TbPersona.Identificacion == null)
             {
                 return false;
             }
-            else if(proveedor.UsuarioUltMod==null)
+            else if(proveedor.TbPersona.TipoId==0)
             {
                 return false;
             }
-            else
+            else if (proveedor.TbPersona.CodigoPaisTel == null)
+            {
+                return false;
+            }
+            else if (proveedor.TbPersona.Telefono == 0)
+            {
+                return false;
+            }
+            else 
             {
                 return true;
             }
+
         }
 
         [HttpPut]

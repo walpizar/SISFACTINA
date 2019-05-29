@@ -93,6 +93,7 @@ namespace AppFacturadorApi.Data
             try
             {
                 _context.Entry<TbProveedores>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Entry<TbPersona>(entity.TbPersona).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
                 return true;
             }
