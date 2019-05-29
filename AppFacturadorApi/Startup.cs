@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AppFacturadorApi.Data;
 using AppFacturadorApi.Data.Model;
 using AppFacturadorApi.Entities.Model;
+using AppFacturadorApi.FacturaElectronica.ClasesDatos;
 using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbParametrosEmpresa>, ParametrosEmpresaService>();
 
             // Inyecciones Data
+            services.AddTransient<Datos>();
             services.AddTransient<IData<TbDocumento>, DocumentoData>();
             services.AddTransient<IData<TbDetalleDocumento>, DetalleDocumentoData>();
             services.AddTransient<IData<TbAbonos>, AbonosData>();
