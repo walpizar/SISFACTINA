@@ -26,8 +26,8 @@ namespace AppFacturadorApi.Controllers
             Datos = datos;
         }
 
-        string sucursal = "princi";
-        string caja = "1";
+        string sucursal = "001";
+        string caja = "01";
         string codigoPais = "506";
 
 
@@ -186,7 +186,7 @@ namespace AppFacturadorApi.Controllers
 
                 document.Consecutivo = Datos.CreaNumeroSecuencia(sucursal, caja, document.TipoDocumento.ToString(), document.Id.ToString());
                 string codigo = Datos.CreaCodigoSeguridad(document.TipoDocumento.ToString(), sucursal, caja, document.Fecha, document.Id.ToString());
-                Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString(), document.Id.ToString(), document.Consecutivo, document.Estado.ToString(), codigo);
+                document.Clave=Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString().Substring(2,2), document.IdEmpresa.ToString(), document.Consecutivo, document.EstadoFactura.ToString(), codigo);
                 if (_DocumentoIns.Agregar(document) == true)
                 {
 
@@ -195,7 +195,7 @@ namespace AppFacturadorApi.Controllers
 
                 return BadRequest();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return NotFound();

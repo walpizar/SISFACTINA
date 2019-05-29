@@ -102,7 +102,7 @@ namespace AppFacturadorApi.FacturaElectronica.ClasesDatos
                     throw new Exception("Situacion Comprobante debe tener un caracter");
                 }
 
-                if ((CodigoSeguridad.Trim().Length > 3))
+                if ((CodigoSeguridad.Trim().Length > 8))
                 {
                     throw new Exception("Código seguridad no debe de superar los 8 caracteres");
                 }
@@ -110,7 +110,7 @@ namespace AppFacturadorApi.FacturaElectronica.ClasesDatos
                 string Clave = "";
                 Clave = CodigoPais;
                 Clave = (Clave + Dia.PadLeft(2, '0'));
-                Clave = (Clave + Mes.PadLeft(2, '2'));
+                Clave = (Clave + Mes.PadLeft(2, '0'));
                 Clave = (Clave + Anno.PadLeft(2, '0'));
                 Clave = (Clave + NumeroIdentifiaccion.PadLeft(12, '0'));
                 Clave = (Clave + NumeracionConsecutiva);
