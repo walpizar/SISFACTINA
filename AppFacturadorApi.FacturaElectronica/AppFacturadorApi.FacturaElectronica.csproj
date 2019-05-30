@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ClasesDatos\" />
+    <ProjectReference Include="..\AppFacturador.Api.Utilities\AppFacturador.Api.Utilities.csproj" />
+    <ProjectReference Include="..\AppFacturadorApi.Entities\AppFacturadorApi.Entities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFacturadorApi.Data", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFacturadorApi.Service", "AppFacturadorApi.Service\AppFacturadorApi.Service.csproj", "{E768B2FA-59E3-4047-9FF4-73E7D389A997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFacturadorApi.FacturaElectronica", "AppFacturadorApi.FacturaElectronica\AppFacturadorApi.FacturaElectronica.csproj", "{D3EFFBCD-BCC4-46C6-84CF-ECEBB9EDD231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFacturadorApi.FacturaElectronica", "AppFacturadorApi.FacturaElectronica\AppFacturadorApi.FacturaElectronica.csproj", "{D3EFFBCD-BCC4-46C6-84CF-ECEBB9EDD231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFacturador.Api.Utilities", "AppFacturador.Api.Utilities\AppFacturador.Api.Utilities.csproj", "{8B58AA87-D49D-4F5E-8172-4DD08C1E0927}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D3EFFBCD-BCC4-46C6-84CF-ECEBB9EDD231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3EFFBCD-BCC4-46C6-84CF-ECEBB9EDD231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3EFFBCD-BCC4-46C6-84CF-ECEBB9EDD231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B58AA87-D49D-4F5E-8172-4DD08C1E0927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B58AA87-D49D-4F5E-8172-4DD08C1E0927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B58AA87-D49D-4F5E-8172-4DD08C1E0927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B58AA87-D49D-4F5E-8172-4DD08C1E0927}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
