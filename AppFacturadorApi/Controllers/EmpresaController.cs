@@ -167,9 +167,17 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
+                TbParametrosEmpresa parametrosEmpresa = new TbParametrosEmpresa();
+                parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
                 if (_empre.Modificar(empresa))
                 {
-                    return Ok(true);
+                    if (_parEmpre.Modificar(parametrosEmpresa))
+                    {
+                        return Ok(true);
+                    }
+                    else {
+                        return NotFound();
+                    }
                 }
                 return NotFound();
             }
