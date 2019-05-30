@@ -16,13 +16,13 @@ namespace AppFacturador.Api.Utilities
             IDDocumento = 3
 
         }
-        public enum accionGuardar
-        {
-            Nuevo = 1,
-            Modificar = 2,
-            Eliminar = 3
+        //public enum accionGuardar
+        //{
+        //    Nuevo = 1,
+        //    Modificar = 2,
+        //    Eliminar = 3
 
-        }
+        //}
         public enum EstadoBusqueda
         {
             Activo = 1,
@@ -52,7 +52,7 @@ namespace AppFacturador.Api.Utilities
 
         }
 
-        public enum tipoVenta
+        public enum TipoVenta
         {
             Contado = 1,
             Credito = 2,
@@ -109,7 +109,7 @@ namespace AppFacturador.Api.Utilities
             Eliminada = 3
         }
 
-        public enum tipoMovimiento
+        public enum TipoMovimiento
         {
             InicioCaja = 1,
             CierreCaja = 2,
@@ -122,7 +122,7 @@ namespace AppFacturador.Api.Utilities
 
         }
 
-        public enum requerimientos
+        public enum Requerimientos
         {
             Transacion = 1,
             Mantenimiento = 2,
@@ -132,16 +132,16 @@ namespace AppFacturador.Api.Utilities
             Cancelar_Detalle = 6
         }
 
-        public enum reportes
+        public enum Reportes
         {
-            inventarioGeneral = 1,
-            inventarioBajo = 2,
-            inventarioSobre = 3,
-            inventarioCategoria = 4
+            InventarioGeneral = 1,
+            InventarioBajo = 2,
+            InventarioSobre = 3,
+            InventarioCategoria = 4
 
         }
 
-        public enum roles
+        public enum Roles
         {
             Administracion = 1,
             Cajero_Adm = 2,
