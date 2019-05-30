@@ -61,9 +61,19 @@ namespace AppFacturadorApi.Data
 
         public bool Modificar(TbParametrosEmpresa entity)
         {
-            _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _Contexto.SaveChanges();
-            return true;
+
+            try
+            {
+
+                _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
     }
 }
