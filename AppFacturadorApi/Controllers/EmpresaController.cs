@@ -29,7 +29,7 @@ namespace AppFacturadorApi.Controllers
 
         // GET: api/Empresa
         [HttpGet]
-        public ActionResult <IEnumerable<TbEmpresa>> Get()
+        public ActionResult<IEnumerable<TbEmpresa>> Get()
         {
             try
             {
@@ -51,28 +51,47 @@ namespace AppFacturadorApi.Controllers
 
         // GET: api/Empresa/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<TbEmpresa> Get(string id)
         {
-            return "value";
+            try
+            {
+                TbEmpresa empresa = new TbEmpresa();
+                empresa.Id = id;
+                empresa = _empre.ConsultarById(empresa);
+                if (empresa != null)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
         }
 
         // POST: api/Empresa
         [HttpPost]
-        public ActionResult Post([FromBody] TbParametrosEmpresa ParEmpre)
+        public ActionResult Post([FromBody] TbEmpresa empresa)
         {
             try
             {
-                ParEmpre.IdTipoEmpresa = 1;
+                TbParametrosEmpresa parametrosEmpresa = new TbParametrosEmpresa();
+                parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
                 TbPersona persona = new TbPersona();
-                persona = ParEmpre.IdNavigation.TbPersona;
-                persona = _perso.ConsultarById(persona);
+                persona = _perso.ConsultarById(empresa.TbPersona);
                 if (persona != null)
                 {
-                    if (_empre.Agregar(ParEmpre.IdNavigation))
+                    empresa = _empre.ConsultarById(empresa);
+                    if (_empre.Agregar(empresa))
                     {
-                        if (_parEmpre.Agregar(ParEmpre))
+                        if (_parEmpre.Agregar(parametrosEmpresa))
                         {
-                            return Ok();
+                            return Ok(true);
                         }
                         else
                         {
@@ -86,11 +105,11 @@ namespace AppFacturadorApi.Controllers
 
                 }
                 else {
-                    if (_perso.Agregar(ParEmpre.IdNavigation.TbPersona))
+                    if (_perso.Agregar(empresa.TbPersona))
                     {
-                        if (_empre.Agregar(ParEmpre.IdNavigation))
+                        if (_empre.Agregar(empresa))
                         {
-                            if (_parEmpre.Agregar(ParEmpre))
+                            if (_parEmpre.Agregar(parametrosEmpresa))
                             {
                                 return Ok();
                             }
@@ -117,14 +136,26 @@ namespace AppFacturadorApi.Controllers
 
         // PUT: api/Empresa/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<bool> Put([FromBody] TbEmpresa empresa)
         {
+            try
+            {
+                if (_empre.Modificar(empresa))
+                {
+                    return Ok(true);
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
 
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public ActionResult<TbEmpresa> Delete(String id)
+        public ActionResult<bool> Delete(String id)
         {
             try
             {
@@ -142,7 +173,7 @@ namespace AppFacturadorApi.Controllers
                         {
                             if (_empre.Eliminar(empresa))
                             {
-                                return Ok();
+                                return Ok(true);
                             }
                             else
                             {
@@ -158,7 +189,7 @@ namespace AppFacturadorApi.Controllers
                     {
                         if (_empre.Eliminar(empresa))
                         {
-                            return Ok();
+                            return Ok(true);
                         }
                         else
                         {

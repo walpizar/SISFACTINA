@@ -17,7 +17,15 @@ namespace AppFacturadorApi.Service
 
         public bool Agregar(TbPersona entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _PersonaIns.Agregar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public TbPersona ConsultarById(TbPersona entity)

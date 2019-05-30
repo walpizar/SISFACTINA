@@ -21,7 +21,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                _Contexto.TbEmpresa.Add(entity);
+                _Contexto.Entry<TbEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                 _Contexto.SaveChanges();
                 return true;
             }
@@ -54,16 +54,34 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbEmpresa entity)
         {
-            _Contexto.Entry<TbEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _Contexto.SaveChanges();
-            return true;
+            try
+            {
+                _Contexto.Remove(entity);
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public bool Modificar(TbEmpresa entity)
         {
-            _Contexto.Entry<TbEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _Contexto.SaveChanges();
-            return true;
+            try
+            {
+                _Contexto.Entry<TbEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

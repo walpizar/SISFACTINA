@@ -21,7 +21,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                _Contexto.TbParametrosEmpresa.Add(entity);
+                _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                 _Contexto.SaveChanges();
                 return true;
             }
@@ -54,7 +54,7 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbParametrosEmpresa entity)
         {
-            _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _Contexto.Remove(entity);
             _Contexto.SaveChanges();
             return true;
         }
