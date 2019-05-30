@@ -27,8 +27,8 @@ namespace AppFacturadorApi.Controllers
             try
             {
                 IEnumerable<TbClientes> ListaTbClientess;
-                ListaTbClientess= _cli.ConsultarTodos();
-                if (ListaTbClientess.ToList().Count!=0)
+                ListaTbClientess = _cli.ConsultarTodos();
+                if (ListaTbClientess.ToList().Count != 0)
                 {
                     return Ok(ListaTbClientess);
                 }
@@ -39,12 +39,12 @@ namespace AppFacturadorApi.Controllers
 
                 return StatusCode(500);
             }
-            
+
         }
 
         // GET api/values/5
         [HttpGet("{id}/{TipoId}")]
-        public ActionResult<TbClientes> Get(string id,int TipoId)
+        public ActionResult<TbClientes> Get(string id, int TipoId)
         {
             try
             {
@@ -77,23 +77,38 @@ namespace AppFacturadorApi.Controllers
         [HttpPost]
         public ActionResult<bool> Post([FromBody] TbClientes TbClientes)
         {
-            
-                try
+
+            try
+            {
+
+                TbClientes ConsultarCliente = new TbClientes();
+                ConsultarCliente.Id = TbClientes.Id;
+                ConsultarCliente.TipoId = TbClientes.TipoId;
+                ConsultarCliente = _cli.ConsultarById(ConsultarCliente);
+                if (ConsultarCliente == null)
                 {
-                    
-                    if (_cli.Agregar(TbClientes) == true)
+                    TbClientes.FechaCrea = DateTime.Now;
+                    TbClientes.FechaUltMod = DateTime.Now;
+                    TbClientes.UsuarioCrea = Environment.UserName;
+                    TbClientes.UsuarioUltCrea = Environment.UserName;
+                    TbClientes.IdExonercion = 1;
+
+                    if (_cli.Agregar(TbClientes))
                     {
                         return Ok(true);
                     }
-                    return NotFound();
-                }
-                catch (Exception)
-                {
 
-                    return StatusCode(500);
                 }
 
-            
+                return BadRequest("El cliente ya existe");
+            }
+            catch (Exception)
+            {
+                //throw ex;
+                return StatusCode(500);
+            }
+
+
         }
 
         // PUT api/values/5
@@ -103,7 +118,7 @@ namespace AppFacturadorApi.Controllers
             try
             {
 
-                if ( _cli.Modificar(TbClientes)== true)
+                if (_cli.Modificar(TbClientes) == true)
                 {
                     return Ok(true);
                 }
