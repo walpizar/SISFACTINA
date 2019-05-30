@@ -80,27 +80,54 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
+                TbEmpresa tbEmpresa = new TbEmpresa();
+                tbEmpresa = empresa;
                 TbParametrosEmpresa parametrosEmpresa = new TbParametrosEmpresa();
                 parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
                 TbPersona persona = new TbPersona();
                 persona = _perso.ConsultarById(empresa.TbPersona);
                 if (persona != null)
                 {
-                    empresa = _empre.ConsultarById(empresa);
-                    if (_empre.Agregar(empresa))
+                    tbEmpresa = _empre.ConsultarById(empresa);
+                    if (tbEmpresa == null)
                     {
-                        if (_parEmpre.Agregar(parametrosEmpresa))
+
+                        if (_empre.Agregar(empresa))
                         {
-                            return Ok(true);
+                            if (_parEmpre.Agregar(parametrosEmpresa))
+                            {
+                                return Ok(true);
+                            }
+                            else
+                            {
+                                return NotFound();
+                            }
                         }
                         else
                         {
                             return NotFound();
                         }
+
                     }
                     else
                     {
-                        return NotFound();
+                        parametrosEmpresa = _parEmpre.ConsultarById(parametrosEmpresa);
+                        if (parametrosEmpresa == null)
+                        {
+                            if (_parEmpre.Agregar(parametrosEmpresa))
+                            {
+                                return Ok(true);
+                            }
+                            else {
+
+                                return NotFound();
+
+                            }
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
                     }
 
                 }
