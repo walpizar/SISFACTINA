@@ -132,13 +132,14 @@ namespace AppFacturadorApi.Controllers
         }
 
         // DELETE api/values/5/2
-        [HttpDelete("{id},{TipoId}")]
-        public ActionResult<TbClientes> Delete(string id)
+        [HttpDelete("{id}/{TipoId}")]
+        public ActionResult<TbClientes> Delete(string id, int TipoId)
         {
             try
             {
                 TbClientes TbClientes = new TbClientes();
-                TbClientes.Id = id;
+                TbClientes.Id = id.Trim();
+                TbClientes.TipoId = TipoId;
                 TbClientes = _cli.ConsultarById(TbClientes);
                 TbClientes.Estado = false;
                 if (_cli.Eliminar(TbClientes) == true)
