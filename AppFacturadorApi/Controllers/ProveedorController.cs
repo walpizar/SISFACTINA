@@ -76,7 +76,7 @@ namespace AppFacturadorApi.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] TbProveedores proveedor)
+        public ActionResult<bool> Post([FromBody] TbProveedores proveedor)
         {
            
 
@@ -100,19 +100,19 @@ namespace AppFacturadorApi.Controllers
                         bool agrego = _ProveedorIns.Agregar(proveedor);
                         if (agrego != true)
                         {
-                            return NotFound("Error al agregar ");
+                            return NotFound(false);
 
                         }
-                        return Ok("Se agrego Correctamente");
+                        return Ok(true);
                     }
                     else
                     {
-                        return NotFound();
+                        return NotFound(false);
                     }
                 }
                 else
                 {
-                    return NotFound("Ya existe proveedor con ese nombre");
+                    return NotFound(false);
                 }
                
 
@@ -171,7 +171,7 @@ namespace AppFacturadorApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] TbProveedores proveedor)
+        public ActionResult<bool> Put([FromBody] TbProveedores proveedor)
         {
             try
             {
@@ -184,14 +184,14 @@ namespace AppFacturadorApi.Controllers
                     bool modifico =  _ProveedorIns.Modificar(proveedor);
                     if (modifico != true)
                     {
-                        return NotFound("Error al modificar");
+                        return NotFound(false);
                     }
 
-                    return Ok("Se modifico correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
 
             }
@@ -202,7 +202,7 @@ namespace AppFacturadorApi.Controllers
             }
         }
         [HttpDelete("{id}/{TipoId}")]
-        public ActionResult Delete(string id,int tipoid)
+        public ActionResult<bool> Delete(string id,int tipoid)
         {
             try
             {
@@ -214,11 +214,11 @@ namespace AppFacturadorApi.Controllers
                 bool elimino = _ProveedorIns.Eliminar(proveedor);
                 if (elimino)
                 {
-                    return Ok("Se elimino correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound("Error al eliminar");
+                    return NotFound(false);
                 }
             }
             catch (Exception)

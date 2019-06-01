@@ -30,7 +30,7 @@ namespace AppFacturadorApi.Controllers
 
                 if (listaAbonos.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(listaAbonos);
 
@@ -53,7 +53,7 @@ namespace AppFacturadorApi.Controllers
                 listaAbonos = listaAbonos.Where(x => x.IdDoc == id).ToList();
                 if (listaAbonos.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(listaAbonos);
 
@@ -65,7 +65,7 @@ namespace AppFacturadorApi.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] TbAbonos Abono)
+        public ActionResult<bool> Post([FromBody] TbAbonos Abono)
         {
             Abono.FechaCrea = DateTime.Now;
             Abono.FechaUltMod = DateTime.Now;
@@ -77,14 +77,14 @@ namespace AppFacturadorApi.Controllers
                     bool agrego = _AbonosIns.Agregar(Abono);
                     if (agrego != true)
                     {
-                        return NotFound();
+                        return NotFound(false);
 
                     }
-                    return Ok("Se agrego Correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
 
             }
@@ -129,7 +129,7 @@ namespace AppFacturadorApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] TbAbonos Abono)
+        public ActionResult<bool> Put([FromBody] TbAbonos Abono)
         {
             try
             {
@@ -139,14 +139,14 @@ namespace AppFacturadorApi.Controllers
                     bool modifico = _AbonosIns.Modificar(Abono);
                     if (modifico != true)
                     {
-                        return NotFound();
+                        return NotFound(false);
                     }
 
-                    return Ok("Se modifico correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
 
             }
