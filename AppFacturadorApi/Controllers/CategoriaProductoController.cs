@@ -78,7 +78,7 @@ namespace AppFacturadorApi.Controllers
                CatProdut.Estado = true;
                CatProdut.FechaCrea = DateTime.Now;
                CatProdut.FechaUltMod = DateTime.Now;
-               //CatProdut.UsuarioCrea = Environment.UserName;
+               CatProdut.UsuarioCrea = Environment.UserName;
                CatProdut.UsuarioUltMod = Environment.UserName;
 
                 if (validaDatos(CatProdut))

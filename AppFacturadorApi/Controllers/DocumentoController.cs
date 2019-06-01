@@ -64,7 +64,7 @@ namespace AppFacturadorApi.Controllers
 
                 if (lista.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
 
                 }
 
@@ -97,7 +97,7 @@ namespace AppFacturadorApi.Controllers
 
                 if (lista.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
 
                 }
 
