@@ -214,11 +214,11 @@ namespace AppFacturadorApi.Controllers
                 bool elimino = _ProveedorIns.Eliminar(proveedor);
                 if (elimino)
                 {
-                    return Ok("Se elimino correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound("Error al eliminar");
+                    return NotFound(false);
                 }
             }
             catch (Exception)

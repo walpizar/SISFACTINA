@@ -48,7 +48,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return _context.TbCategoriaProducto.ToList();
+                return _context.TbCategoriaProducto.Where(x=> x.Estado==true).ToList();
             }
             catch (Exception)
             {

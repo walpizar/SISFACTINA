@@ -78,7 +78,7 @@ namespace AppFacturadorApi.Controllers
                CatProdut.Estado = true;
                CatProdut.FechaCrea = DateTime.Now;
                CatProdut.FechaUltMod = DateTime.Now;
-               CatProdut.UsuarioCrea = Environment.UserName;
+               //CatProdut.UsuarioCrea = Environment.UserName;
                CatProdut.UsuarioUltMod = Environment.UserName;
 
                 if (validaDatos(CatProdut))
@@ -139,15 +139,18 @@ namespace AppFacturadorApi.Controllers
             }
         }
 
-        [HttpDelete]
-        public ActionResult<bool> Delete([FromBody] TbCategoriaProducto CatProdut)
+        [HttpDelete("{id}")]
+        public ActionResult<bool> Delete(int id)
         {
             try
-            {              
+            {
+                TbCategoriaProducto CatProduct = new TbCategoriaProducto();
+                CatProduct.Id = id;
+                CatProduct = _CategoriaProducto.ConsultarById(CatProduct);
             
-                if (validaDatos(CatProdut))
+                if (validaDatos(CatProduct))
                 {
-                    if (_CategoriaProducto.Eliminar(CatProdut))
+                    if (_CategoriaProducto.Eliminar(CatProduct))
                     {
                         return Ok(true);
                     }
