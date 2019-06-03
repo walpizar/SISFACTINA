@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AppFacturadorApi.Data;
 using AppFacturadorApi.Data.Model;
 using AppFacturadorApi.Entities.Model;
 using AppFacturadorApi.FacturaElectronica.ClasesDatos;
 using AppFacturadorApi.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 
 namespace AppFacturadorApi
@@ -51,6 +54,8 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbProveedores>, TbProveedorService>();
             services.AddTransient<IService<TbParametrosEmpresa>, ParametrosEmpresaService>();
             services.AddTransient<IService<TbCategoriaProducto>, CategoriaProductoService>();
+            services.AddTransient<IService<TbRoles>, RolesService>();
+
 
             // Inyecciones Data
             services.AddTransient<Datos>();
@@ -72,6 +77,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbProveedores>, ProveedorData>();
             services.AddTransient<IData<TbParametrosEmpresa>, ParametrosEmpresaData>();
             services.AddTransient<IData<TbCategoriaProducto>, CategoriaProductoData>();
+            services.AddTransient<IData<TbRoles>, RolesData>();
 
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));
@@ -83,9 +89,29 @@ namespace AppFacturadorApi
 
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
-         
+            //Libreria JWT y Token, (Seguridad)
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services.AddAuthentication(x =>
+            {
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
             services.AddCors();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -94,7 +120,10 @@ namespace AppFacturadorApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            //app.UseStatusCodePages();
+            //app.UseMvc();
+            app.UseCors(builder => builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"]).AllowAnyHeader().AllowAnyMethod());
             app.UseStatusCodePages();
             app.UseMvc();
 

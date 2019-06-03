@@ -7,11 +7,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbRolesData : IData<TbRoles>
+    public class RolesData : IData<TbRoles>
     {
         dbSISSODINAContext _context;
 
-        public TbRolesData(dbSISSODINAContext context)
+        public RolesData(dbSISSODINAContext context)
         {
             _context = context;
         }
