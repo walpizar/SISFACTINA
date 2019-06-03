@@ -84,8 +84,8 @@ namespace AppFacturadorApi.Controllers
             usuario.TbPersona = persona;
 
             usuario.IdRolNavigation = rol;
-            
-            usuario.
+
+            usuario.IdNavigation = empresa;
             
              try
             {
