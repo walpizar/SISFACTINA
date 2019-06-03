@@ -17,7 +17,7 @@ namespace AppFacturadorApi.Service
 
         public bool Agregar(TbPersona entity)
         {
-            throw new NotImplementedException();
+            return _PersonaIns.Agregar(entity);
         }
 
         public TbPersona ConsultarById(TbPersona entity)
@@ -40,7 +40,7 @@ namespace AppFacturadorApi.Service
 
         public bool Eliminar(TbPersona entity)
         {
-            throw new NotImplementedException();
+            return _PersonaIns.Eliminar(entity);
         }
 
         public bool Modificar(TbPersona entity)

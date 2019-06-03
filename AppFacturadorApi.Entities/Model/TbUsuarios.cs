@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppFacturadorApi.Entities.Model
 {
-    public partial class TbUsuarios
+    public partial class TbUsuarios : IdentityUser<string>
     {
         public TbUsuarios()
         {
@@ -11,7 +14,7 @@ namespace AppFacturadorApi.Entities.Model
         }
 
         public int TipoId { get; set; }
-        public string Id { get; set; }
+        public override string Id { get; set; }
         public string NombreUsuario { get; set; }
         public string Contraseña { get; set; }
         public int IdRol { get; set; }

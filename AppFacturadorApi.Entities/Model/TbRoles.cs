@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace AppFacturadorApi.Entities.Model
 {
-    public partial class TbRoles
+    public partial class TbRoles : IdentityRole<int>
     {
         public TbRoles()
         {

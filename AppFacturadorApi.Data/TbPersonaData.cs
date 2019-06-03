@@ -18,7 +18,18 @@ namespace AppFacturadorApi.Data
 
         public bool Agregar(TbPersona entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.TbPersona.Add(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public TbPersona ConsultarById(TbPersona entity)
@@ -33,7 +44,7 @@ namespace AppFacturadorApi.Data
                 throw;
             }
         }
-       
+
 
         public IEnumerable<TbPersona> ConsultarTodos()
         {
@@ -42,7 +53,9 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbPersona entity)
         {
-            throw new NotImplementedException();
+            _context.TbPersona.Remove(entity);
+            _context.SaveChanges();
+            return true;
         }
 
         public bool Modificar(TbPersona entity)
