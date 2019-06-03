@@ -11,6 +11,7 @@ using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -88,6 +89,21 @@ namespace AppFacturadorApi
                 if (resolver != null)
 
                     (resolver as DefaultContractResolver).NamingStrategy = null;
+            });
+
+            services.AddDefaultIdentity<TbUsuarios>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<dbSISSODINAContext>();
+            //Desactivamos o editamos las restricciones de datos.
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
+
+
             });
             //Libreria JWT y Token, (Seguridad)
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());

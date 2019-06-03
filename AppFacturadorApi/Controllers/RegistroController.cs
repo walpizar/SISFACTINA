@@ -27,7 +27,7 @@ namespace AppFacturadorApi.Controllers
         private SignInManager<TbUsuarios> _singleManager;
         private readonly ApplicationSettings _appSettings;
 
-        public RegistroController(IService<TbRoles> combos, IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings, IService<TbEmpresa>empre)
+        public RegistroController(IService<TbRoles> combos, IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings, IService<TbEmpresa> empre)
         {
             _combos = combos;
             _per = per;
@@ -56,45 +56,45 @@ namespace AppFacturadorApi.Controllers
         [Route("Registro")]
         public async Task<object> Registro([FromBody]TbUsuarios usuario)
         {
-            TbEmpresa empresa = new TbEmpresa();
-            empresa.Id = usuario.IdEmpresa;
-            _empre.ConsultarById(empresa);
+            //TbEmpresa empresa = new TbEmpresa();
+            //empresa.Id = usuario.IdEmpresa;
+            //empresa = _empre.ConsultarById(empresa);
 
 
 
-            TbRoles rol = new TbRoles();
-            rol.IdRol = usuario.IdRol;
-            rol = _combos.ConsultarById(rol);
+            //TbRoles rol = new TbRoles();
+            //rol.IdRol = usuario.IdRol;
+            //rol = _combos.ConsultarById(rol);
 
-            var persona = new TbPersona();
-            persona.Identificacion = usuario.Id;
-            persona.TipoId = usuario.TipoId;
-            persona.Telefono = 89568017;
-            persona.CodigoPaisTel = "+506";
-            persona.Nombre = "Kevin";
-            persona.CorreoElectronico = usuario.Email;
+            //var persona = new TbPersona();
+            //persona.Identificacion = usuario.Id;
+            //persona.TipoId = usuario.TipoId;
+            //persona.Telefono = 89568017;
+            //persona.CodigoPaisTel = "+506";
+            //persona.Nombre = "Kevin";
+            //persona.CorreoElectronico = usuario.Email;
 
 
-            usuario.PhoneNumber = persona.Telefono.ToString();
+            //usuario.PhoneNumber = persona.Telefono.ToString();
             usuario.FechaCrea = DateTime.Now;
             usuario.FechaUltMod = DateTime.Now;
             usuario.UsuarioCrea = Environment.UserName;
             usuario.UsuarioUltMod = Environment.UserName;
             usuario.UserName = usuario.NombreUsuario;
-            usuario.TbPersona = persona;
+            //usuario.TbPersona = persona;
 
-            usuario.IdRolNavigation = rol;
+            //usuario.IdRolNavigation = rol;
 
-            usuario.IdNavigation = empresa;
-            
-             try
+            //usuario.IdNavigation = empresa;
+
+            try
             {
                 //bool agregado = _per.Agregar(persona);
                 //if (agregado)
                 //{
                 var result = await _UserManager.CreateAsync(usuario, usuario.Contraseña);
-                    //await _UserManager.AddToRoleAsync(usuario, usuario.IdRol.ToString());
-                    return Ok(result);
+                //await _UserManager.AddToRoleAsync(usuario, usuario.IdRol.ToString());
+                return Ok(result);
                 //}
                 //return BadRequest();
 
