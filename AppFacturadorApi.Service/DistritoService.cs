@@ -6,31 +6,30 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbProductoService : IService<TbProducto>
+    public class DistritoService:IService<TbDistrito>
     {
-        IData<TbProducto> _ProduIns;
+        IData<TbDistrito> _DistritoIns;
 
-        public TbProductoService(IData<TbProducto> ProduIns)
+        public DistritoService(IData<TbDistrito> DistritoIns)
         {
-            _ProduIns = ProduIns;
+            _DistritoIns = DistritoIns;
         }
 
-        public bool Agregar(TbProducto entity)
+        public bool Agregar(TbDistrito entity)
         {
             throw new NotImplementedException();
         }
 
-        public TbProducto ConsultarById(TbProducto entity)
+        public TbDistrito ConsultarById(TbDistrito entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbProducto> ConsultarTodos()
+        public IEnumerable<TbDistrito> ConsultarTodos()
         {
-
             try
             {
-                return _ProduIns.ConsultarTodos();
+                return _DistritoIns.ConsultarTodos();
             }
             catch (Exception)
             {
@@ -39,12 +38,12 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Eliminar(TbProducto entity)
+        public bool Eliminar(TbDistrito entity)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(TbProducto entity)
+        public bool Modificar(TbDistrito entity)
         {
             throw new NotImplementedException();
         }

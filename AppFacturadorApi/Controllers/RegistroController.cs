@@ -58,7 +58,7 @@ namespace AppFacturadorApi.Controllers
         {
             TbEmpresa empresa = new TbEmpresa();
             empresa.Id = usuario.IdEmpresa;
-
+            _empre.ConsultarById(empresa);
 
 
 
@@ -84,7 +84,8 @@ namespace AppFacturadorApi.Controllers
             usuario.TbPersona = persona;
 
             usuario.IdRolNavigation = rol;
-
+            
+            usuario.
             
              try
             {

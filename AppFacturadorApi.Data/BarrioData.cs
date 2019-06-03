@@ -2,36 +2,35 @@
 using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbProductoData : IData<TbProducto>
+    public class BarrioData:IData<TbBarrios>
     {
+        dbSISSODINAContext _context;
 
-        dbSISSODINAContext _Context;
-
-        public TbProductoData(dbSISSODINAContext Context)
+        public BarrioData(dbSISSODINAContext context)
         {
-            _Context = Context;
+            _context = context;
         }
 
-        public bool Agregar(TbProducto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TbProducto ConsultarById(TbProducto entity)
+        public bool Agregar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TbProducto> ConsultarTodos()
+        public TbBarrios ConsultarById(TbBarrios entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TbBarrios> ConsultarTodos()
         {
             try
             {
-                return _Context.TbProducto.ToList();
+                return _context.TbBarrios.ToList();
             }
             catch (Exception)
             {
@@ -40,12 +39,12 @@ namespace AppFacturadorApi.Data
             }
         }
 
-        public bool Eliminar(TbProducto entity)
+        public bool Eliminar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }
 
-        public bool Modificar(TbProducto entity)
+        public bool Modificar(TbBarrios entity)
         {
             throw new NotImplementedException();
         }

@@ -28,6 +28,7 @@ namespace AppFacturadorApi.Controllers
             {
                 TbPersona Persona = new TbPersona();
                 Persona.Identificacion = id.ToString();
+                
                 Persona = _PersonaIns.ConsultarById(Persona);
                 if (Persona == null)
                 {

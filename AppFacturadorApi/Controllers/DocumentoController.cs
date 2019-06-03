@@ -1,6 +1,8 @@
 ﻿using AppFacturadorApi.Entities.Model;
+using AppFacturadorApi.FacturaElectronica.ClasesDatos;
 using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +15,43 @@ namespace AppFacturadorApi.Controllers
     public class DocumentoController : ControllerBase
     {
         IService<TbDocumento> _DocumentoIns;
+        IService<TbInventario> _inv;
 
-        public DocumentoController(IService<TbDocumento> DocumentoIns)
+        Datos Datos;
+
+        public DocumentoController(IService<TbDocumento> DocumentoIns, IService<TbInventario> inv, Datos datos)
         {
             _DocumentoIns = DocumentoIns;
+            _inv = inv;
+            Datos = datos;
         }
 
+        string sucursal = "001";
+        string caja = "01";
+        string codigoPais = "506";
+
+
         // GET api/values
+
+        [HttpGet]
+        public ActionResult<IEnumerable<TbDocumento>> Get()
+        {
+
+            try
+            {
+                IEnumerable<TbDocumento> listaDocumentos = _DocumentoIns.ConsultarTodos();
+                if (listaDocumentos != null)
+                {
+                    return Ok(listaDocumentos);
+
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
         [HttpGet("consultar/{idCliente}")]
         public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
         {
@@ -32,7 +64,7 @@ namespace AppFacturadorApi.Controllers
 
                 if (lista.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
 
                 }
 
@@ -46,17 +78,17 @@ namespace AppFacturadorApi.Controllers
             }
         }
         [HttpGet("consultar/ordenfecha/{idCliente}")]
-        public ActionResult<IEnumerable<TbDocumento>> ConsultaPorFecha(string idCliente)
+        public ActionResult<IEnumerable<TbDocumento>> Gett(string idCliente)
         {
-            //string idCliente = "603480811";
+           
+            
             try
             {
+                
+
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
                 lista = (from doc in lista
-                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente)
-                         &&
-                         doc.TipoVenta == 2 
-                         &&
+                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente) && doc.TipoVenta == 2 &&
                          doc.EstadoFactura == 2
                          orderby doc.Fecha ascending
                          select doc).ToList();
@@ -65,7 +97,7 @@ namespace AppFacturadorApi.Controllers
 
                 if (lista.ToList().Count == 0)
                 {
-                    return NotFound();
+                    return NotFound(false);
 
                 }
 
@@ -107,24 +139,66 @@ namespace AppFacturadorApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] TbDocumento Documento)
+        public ActionResult<bool> Post([FromBody] TbDocumento document)
         {
             try
             {
-                bool guardo = _DocumentoIns.Agregar(Documento);
-                if (guardo)
+                document.FechaCrea = DateTime.Now;
+                document.FechaUltMod = DateTime.Now;
+                //si el tipo de documento es 1, lo guarda 
+                if (document.TipoDocumento == 1)
                 {
-                    return Ok("Se agrego Correctamente");
+                    decimal cantidad = 0;
+                    IEnumerable<TbDocumento> listaFacturas;
+                    document.FechaRef = DateTime.Now;
+                    listaFacturas = _DocumentoIns.ConsultarTodos();
+                    document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id + 1;
+
+                    if (document.TbDetalleDocumento.ToList().Count > 0)
+                    {
+
+                        TbInventario inventario = new TbInventario();
+
+                        IEnumerable<TbInventario> Listinventario;
+                        foreach (var item in document.TbDetalleDocumento)
+                        {
+                            Listinventario = _inv.ConsultarTodos();
+                            cantidad = Listinventario.Where(X => X.IdProducto == item.IdProducto).SingleOrDefault().Cantidad;
+                            if (item.Cantidad >= cantidad)
+                            {
+
+                                return false;
+                            }
+                        }
+
+                    }
                 }
-                else
+
+                else if (document.TipoDocumento == 3)
                 {
-                    return NotFound("ERROR SERVICIO");
+                    
+                    document.UsuarioCrea = Environment.UserName;
+                    document.UsuarioUltMod = Environment.UserName;
+                    document.ReporteAceptaHacienda = true;
+                    document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
+                    
                 }
+
+                document.Consecutivo = Datos.CreaNumeroSecuencia(sucursal, caja, document.TipoDocumento.ToString(), document.Id.ToString());
+                string codigo = Datos.CreaCodigoSeguridad(document.TipoDocumento.ToString(), sucursal, caja, document.Fecha, document.Id.ToString());
+                document.Clave=Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString().Substring(2,2), document.IdEmpresa.ToString(), document.Consecutivo, document.EstadoFactura.ToString(), codigo);
+                if (_DocumentoIns.Agregar(document) == true)
+                {
+
+                    return Ok(true);
+                }
+
+                return BadRequest();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return StatusCode(500);
+                return NotFound();
             }
         }
 
@@ -177,6 +251,10 @@ namespace AppFacturadorApi.Controllers
 
                 return StatusCode(500);
             }
+
+        }
+        private void crearConsecutivo()
+        {
 
         }
     }

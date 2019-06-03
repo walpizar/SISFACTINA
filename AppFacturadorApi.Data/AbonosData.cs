@@ -7,11 +7,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbAbonosData : IData<TbAbonos>
+    public class AbonosData : IData<TbAbonos>
     {
         dbSISSODINAContext _context;
 
-        public TbAbonosData(dbSISSODINAContext context)
+        public AbonosData(dbSISSODINAContext context)
         {
             _context = context;
         }

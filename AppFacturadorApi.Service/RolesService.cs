@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbRolesService : IService<TbRoles>
+    public class RolesService : IService<TbRoles>
     {
         IData<TbRoles> _comb;
 
-        public TbRolesService(IData<TbRoles> comb)
+        public RolesService(IData<TbRoles> comb)
         {
             _comb = comb;
         }

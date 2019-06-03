@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppFacturadorApi.Data
 {
-    public class TbDetalleDocumentoData : IData<TbDetalleDocumento>
+    public class DetalleDocumentoData : IData<TbDetalleDocumento>
     {
         dbSISSODINAContext _context;
 
-        public TbDetalleDocumentoData(dbSISSODINAContext context)
+        public DetalleDocumentoData(dbSISSODINAContext context)
         {
             _context = context;
         }

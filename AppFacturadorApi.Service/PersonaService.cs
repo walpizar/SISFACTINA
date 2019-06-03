@@ -1,50 +1,45 @@
-﻿using AppFacturadorApi.Data.Model;
+﻿using AppFacturadorApi.Data;
 using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
 
-namespace AppFacturadorApi.Data
+namespace AppFacturadorApi.Service
 {
-    public class TbPersonaData : IData<TbPersona>
+    public class PersonaService : IService<TbPersona>
     {
-        dbSISSODINAContext _context;
+        IData<TbPersona> _PersonaIns;
 
-        public TbPersonaData(dbSISSODINAContext context)
+        public PersonaService(IData<TbPersona> PersonaIns)
         {
-            _context = context;
+            _PersonaIns = PersonaIns;
         }
 
         public bool Agregar(TbPersona entity)
         {
             try
             {
-                _context.TbPersona.Add(entity);
-                _context.SaveChanges();
-                return true;
+                return _PersonaIns.Agregar(entity);
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
 
         public TbPersona ConsultarById(TbPersona entity)
         {
             try
             {
-                return (from per in _context.TbPersona where per.Identificacion == entity.Identificacion select per).SingleOrDefault();
+                return _PersonaIns.ConsultarById(entity);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
             }
-        }
-
+        }    
 
         public IEnumerable<TbPersona> ConsultarTodos()
         {
@@ -53,9 +48,7 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbPersona entity)
         {
-            _context.TbPersona.Remove(entity);
-            _context.SaveChanges();
-            return true;
+            throw new NotImplementedException();
         }
 
         public bool Modificar(TbPersona entity)

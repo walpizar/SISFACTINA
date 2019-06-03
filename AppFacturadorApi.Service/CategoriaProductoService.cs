@@ -6,21 +6,20 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbDetalleDocumentoService : IService<TbDetalleDocumento>
+    public class CategoriaProductoService : IService<TbCategoriaProducto>
     {
-        IData<TbDetalleDocumento> _context;
+        IData<TbCategoriaProducto> _CategoriaProductoIns;
 
-        public TbDetalleDocumentoService(IData<TbDetalleDocumento> context)
+        public CategoriaProductoService(IData<TbCategoriaProducto> CategoriaProductoIns)
         {
-            _context = context;
+            _CategoriaProductoIns = CategoriaProductoIns;
         }
 
-        public bool Agregar(TbDetalleDocumento entity)
+        public bool Agregar(TbCategoriaProducto entity)
         {
             try
             {
-                return _context.Agregar(entity);
-
+               return _CategoriaProductoIns.Agregar(entity);
             }
             catch (Exception)
             {
@@ -29,11 +28,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public TbDetalleDocumento ConsultarById(TbDetalleDocumento entity)
+        public TbCategoriaProducto ConsultarById(TbCategoriaProducto entity)
         {
             try
             {
-                return _context.ConsultarById(entity);
+                return _CategoriaProductoIns.ConsultarById(entity);
             }
             catch (Exception)
             {
@@ -42,13 +41,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-       
-
-        public IEnumerable<TbDetalleDocumento> ConsultarTodos()
+        public IEnumerable<TbCategoriaProducto> ConsultarTodos()
         {
             try
             {
-                return _context.ConsultarTodos();
+                return _CategoriaProductoIns.ConsultarTodos();
             }
             catch (Exception)
             {
@@ -57,11 +54,11 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Eliminar(TbDetalleDocumento entity)
+        public bool Eliminar(TbCategoriaProducto entity)
         {
             try
             {
-                return _context.Eliminar(entity);
+                return _CategoriaProductoIns.Eliminar(entity);
             }
             catch (Exception)
             {
@@ -70,18 +67,17 @@ namespace AppFacturadorApi.Service
             }
         }
 
-        public bool Modificar(TbDetalleDocumento entity)
+        public bool Modificar(TbCategoriaProducto entity)
         {
             try
             {
-                return _context.Modificar(entity);
+                return _CategoriaProductoIns.Modificar(entity);
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
         }
     }
 }
