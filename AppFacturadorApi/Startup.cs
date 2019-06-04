@@ -57,6 +57,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbCategoriaProducto>, CategoriaProductoService>();
             services.AddTransient<IService<TbRoles>, RolesService>();
             services.AddTransient<IService<TbPersonasTribunalS>, PersonaTribunalService>();
+            
 
             // Inyecciones Data
             services.AddTransient<Datos>();
