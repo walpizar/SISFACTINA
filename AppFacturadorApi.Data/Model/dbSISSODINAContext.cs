@@ -1,11 +1,13 @@
 ﻿using System;
 using AppFacturadorApi.Entities.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AppFacturadorApi.Data.Model
 {
-    public partial class dbSISSODINAContext : DbContext
+    public partial class dbSISSODINAContext : IdentityDbContext
     {
         public dbSISSODINAContext()
         {
@@ -2366,6 +2368,11 @@ namespace AppFacturadorApi.Data.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbUsuarios_tbPersona");
             });
+            modelBuilder.Ignore<IdentityUserLogin<string>>();
+            modelBuilder.Ignore<IdentityUserRole<string>>();
+            modelBuilder.Ignore<IdentityUserClaim<string>>();
+            modelBuilder.Ignore<IdentityUserToken<string>>();
+            modelBuilder.Ignore<IdentityUser<string>>();
         }
     }
 }
