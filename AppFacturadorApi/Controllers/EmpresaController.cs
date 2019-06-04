@@ -138,7 +138,7 @@ namespace AppFacturadorApi.Controllers
                         {
                             if (_parEmpre.Agregar(parametrosEmpresa))
                             {
-                                return Ok();
+                                return Ok(true);
                             }
                             else {
                                 return NotFound();
@@ -167,11 +167,14 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
-                TbParametrosEmpresa parametrosEmpresa = new TbParametrosEmpresa();
+                TbParametrosEmpresa parametrosEmpresa;
+                TbParametrosEmpresa parametrosEmpresa2 = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
                 parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
                 if (_empre.Modificar(empresa))
                 {
-                    parametrosEmpresa =  _parEmpre.ConsultarById(parametrosEmpresa);
+                    parametrosEmpresa =  (_parEmpre.ConsultarById(parametrosEmpresa));
+                    parametrosEmpresa.ManejaInventario = parametrosEmpresa2.ManejaInventario;
+                    parametrosEmpresa.FacturacionElectronica = parametrosEmpresa2.FacturacionElectronica;
                     if (_parEmpre.Modificar(parametrosEmpresa))
                     {
                         return Ok(true);

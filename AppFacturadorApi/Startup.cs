@@ -39,7 +39,7 @@ namespace AppFacturadorApi
             //Inyecciones Service
             services.AddTransient<IService<TbDocumento>, DocumentoService>();
             services.AddTransient<IService<TbDetalleDocumento>, DetalleDocumentoService>();
-            services.AddTransient<IService<TbAbonos>, AbonosService>();
+            services.AddTransient<IService<TbAbonos>, TbAbonosService>();
             services.AddTransient<IService<TbPersona>, PersonaService>();
             services.AddTransient<IService<TbProducto>, ProductoService>();
             services.AddTransient<IService<TbClientes>, ClientesService>();
@@ -55,8 +55,8 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbProveedores>, TbProveedorService>();
             services.AddTransient<IService<TbParametrosEmpresa>, ParametrosEmpresaService>();
             services.AddTransient<IService<TbCategoriaProducto>, CategoriaProductoService>();
+            services.AddTransient<IService<TbImpuestos>, ImpuestosService>();
             services.AddTransient<IService<TbRoles>, RolesService>();
-            services.AddTransient<IService<TbUsuarios>, UsuarioService>();
 
 
             // Inyecciones Data
@@ -80,7 +80,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbParametrosEmpresa>, ParametrosEmpresaData>();
             services.AddTransient<IData<TbCategoriaProducto>, CategoriaProductoData>();
             services.AddTransient<IData<TbRoles>, RolesData>();
-            services.AddTransient<IData<TbUsuarios>, UsuarioData>();
+            services.AddTransient<IData<TbImpuestos>, ImpuestosData>();
 
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));
@@ -93,11 +93,9 @@ namespace AppFacturadorApi
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
 
-            //Configuracion de Identity (Seguridad)
             services.AddDefaultIdentity<TbUsuarios>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<dbSISSODINAContext>();
-
             //Desactivamos o editamos las restricciones de datos.
             services.Configure<IdentityOptions>(options =>
             {

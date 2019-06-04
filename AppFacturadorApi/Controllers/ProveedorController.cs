@@ -1,4 +1,5 @@
-﻿using AppFacturadorApi.Entities.Model;
+﻿using AppFacturador.Api.Utilities;
+using AppFacturadorApi.Entities.Model;
 using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +15,12 @@ namespace AppFacturadorApi.Controllers
     public class ProveedorController:ControllerBase
     {
         IService<TbProveedores> _ProveedorIns;
+       
 
         public ProveedorController(IService<TbProveedores> ProveedorIns)
         {
             _ProveedorIns = ProveedorIns;
+            
         }
 
         [HttpGet]
@@ -162,11 +165,31 @@ namespace AppFacturadorApi.Controllers
             else if (proveedor.TbPersona.Telefono == 0)
             {
                 return false;
+            }else if (proveedor.TbPersona.CorreoElectronico!=null)
+            {
+                if (Utility.isValidEmail(proveedor.TbPersona.CorreoElectronico))
+                {
+                    if (Utility.isValidEmail(proveedor.CorreoElectConta))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
             else 
             {
+              
                 return true;
             }
+
+            
 
         }
 
