@@ -20,37 +20,35 @@ namespace AppFacturadorApi.Controllers
     [Route("api/")]
     public class RegistroController : ControllerBase
     {
-        IService<TbRoles> _combos;
         IService<TbPersona> _per;
-        IService<TbEmpresa> _empre;
+        IService<TbUsuarios> _usuario;
         private UserManager<TbUsuarios> _UserManager;
         private SignInManager<TbUsuarios> _singleManager;
         private readonly ApplicationSettings _appSettings;
 
-        public RegistroController(IService<TbRoles> combos, IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings, IService<TbEmpresa> empre)
+        public RegistroController(IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings, IService<TbUsuarios> usuario)
         {
-            _combos = combos;
+            _usuario = usuario;
             _per = per;
             _UserManager = UserManager;
             _singleManager = singleManager;
             _appSettings = appSettings.Value;
-            _empre = empre;
         }
 
-        [HttpGet]
-        [Route("Registro")]
-        public ActionResult<IEnumerable<TbRoles>> Registro()
-        {
+        //[HttpGet]
+        //[Route("Registro")]
+        //public ActionResult<IEnumerable<TbRoles>> Registro()
+        //{
 
-            var lista = _combos.ConsultarTodos();
+        //    var lista = _usuario.ConsultarTodos();
 
 
-            if (lista.Count() == 0)
-            {
-                return NotFound();
-            }
-            return Ok(lista);
-        }
+        //    if (lista.Count() == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(lista);
+        //}
         // POST api/<controller>
         [HttpPost]
         [Route("Registro")]
@@ -76,6 +74,7 @@ namespace AppFacturadorApi.Controllers
 
 
             //usuario.PhoneNumber = persona.Telefono.ToString();
+            usuario.Estado = true;
             usuario.FechaCrea = DateTime.Now;
             usuario.FechaUltMod = DateTime.Now;
             usuario.UsuarioCrea = Environment.UserName;
