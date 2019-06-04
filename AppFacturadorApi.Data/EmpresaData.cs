@@ -37,7 +37,7 @@ namespace AppFacturadorApi.Data
             try
             {
                 
-                return _Contexto.TbEmpresa.Include("TbParametrosEmpresa").Where(x => x.Id.Trim() == entity.Id.Trim()).SingleOrDefault();
+                return _Contexto.TbEmpresa.Include("TbParametrosEmpresa").Include("TbPersona").Where(x => x.Id.Trim() == entity.Id.Trim()).SingleOrDefault();
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace AppFacturadorApi.Data
 
         public IEnumerable<TbEmpresa> ConsultarTodos()
         {
-            return _Contexto.TbEmpresa.ToList();
+            return _Contexto.TbEmpresa.Include("TbParametrosEmpresa").Include("TbPersona").ToList();
         }
 
         public bool Eliminar(TbEmpresa entity)
