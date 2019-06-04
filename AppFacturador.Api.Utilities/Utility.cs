@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace AppFacturador.Api.Utilities
 {
-    class Utility
+    public static class Utility
     {
 
 
