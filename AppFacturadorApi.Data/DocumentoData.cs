@@ -86,9 +86,10 @@ namespace AppFacturadorApi.Data
         public IEnumerable<TbDocumento> ConsultarTodos()
         {
             try
-            {              
+            {
+                DateTime fechaActual = DateTime.Now;
 
-                return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation").Where(x => x.Estado == true).ToList();
+                return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation").Where(x => x.Estado == true && x.Fecha.Date == fechaActual.Date).ToList();
 
             }
             catch (Exception)

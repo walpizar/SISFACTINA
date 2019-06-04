@@ -111,9 +111,9 @@ namespace AppFacturadorApi.Controllers
 
         }
 
-        // PUT api/values/5
+        
         [HttpPut]
-        public ActionResult<TbClientes> Put([FromBody] TbClientes TbClientes)
+        public ActionResult<bool> Put([FromBody] TbClientes TbClientes)
         {
             try
             {

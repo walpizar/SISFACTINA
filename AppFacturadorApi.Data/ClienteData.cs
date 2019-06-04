@@ -60,6 +60,7 @@ namespace AppFacturadorApi.Data
 
         public bool Modificar(TbClientes entity)
         {
+            entity.Estado = true;
             _Contexto.Entry<TbClientes>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _Contexto.SaveChanges();
             return true;
