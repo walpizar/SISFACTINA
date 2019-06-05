@@ -52,6 +52,37 @@ namespace AppFacturadorApi.Controllers
                 return NotFound();
             }
         }
+
+        // metodo para obtener documentos actuales
+        [HttpGet("actuales")]
+        public ActionResult<IEnumerable<TbDocumento>> GetActual()
+        {
+
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
+                DateTime fechaActual = DateTime.Now;
+                lista = lista.Where(x => x.Fecha.Date == fechaActual.Date).ToList();
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound(false);
+
+                }
+
+
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
+
+
+
         [HttpGet("consultar/{idCliente}")]
         public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
         {

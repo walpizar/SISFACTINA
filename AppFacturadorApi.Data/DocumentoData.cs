@@ -87,9 +87,8 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                DateTime fechaActual = DateTime.Now;
-
-                return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation").Where(x => x.Estado == true && x.Fecha.Date == fechaActual.Date).ToList();
+                
+                return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TipoPagoNavigation").Where(x => x.Estado == true).ToList();
 
             }
             catch (Exception)
