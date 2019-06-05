@@ -39,7 +39,7 @@ namespace AppFacturadorApi
             //Inyecciones Service
             services.AddTransient<IService<TbDocumento>, DocumentoService>();
             services.AddTransient<IService<TbDetalleDocumento>, DetalleDocumentoService>();
-            services.AddTransient<IService<TbAbonos>, TbAbonosService>();
+            services.AddTransient<IService<TbAbonos>, AbonosService>();
             services.AddTransient<IService<TbPersona>, PersonaService>();
             services.AddTransient<IService<TbProducto>, ProductoService>();
             services.AddTransient<IService<TbClientes>, ClientesService>();
@@ -55,8 +55,9 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbProveedores>, TbProveedorService>();
             services.AddTransient<IService<TbParametrosEmpresa>, ParametrosEmpresaService>();
             services.AddTransient<IService<TbCategoriaProducto>, CategoriaProductoService>();
+            services.AddTransient<IService<TbImpuestos>, ImpuestosService>();
             services.AddTransient<IService<TbRoles>, RolesService>();
-
+            services.AddTransient<IService<TbPersonasTribunalS>,PersonaTribunalService>();
 
             // Inyecciones Data
             services.AddTransient<Datos>();
@@ -79,7 +80,8 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbParametrosEmpresa>, ParametrosEmpresaData>();
             services.AddTransient<IData<TbCategoriaProducto>, CategoriaProductoData>();
             services.AddTransient<IData<TbRoles>, RolesData>();
-
+            services.AddTransient<IData<TbImpuestos>, ImpuestosData>();
+            services.AddTransient<IData<TbPersonasTribunalS>, PersonaTribunalData>();
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

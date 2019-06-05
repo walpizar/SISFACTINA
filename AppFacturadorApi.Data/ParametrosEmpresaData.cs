@@ -69,7 +69,7 @@ namespace AppFacturadorApi.Data
                 _Contexto.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception EX)
             {
 
                 return false;

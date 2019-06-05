@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AppFacturadorApi.Service
 {
-    public class TbAbonosService : IService<TbAbonos>
+    public class AbonosService : IService<TbAbonos>
     {
         IData<TbAbonos> _context;
 
-        public TbAbonosService(IData<TbAbonos> context)
+        public AbonosService(IData<TbAbonos> context)
         {
             _context = context;
         }

@@ -33,7 +33,7 @@ namespace AppFacturadorApi.Controllers
             {
                 user.NombreUsuario,
                 user.IdRolNavigation.Nombre
-              
+
             };
         }
     }

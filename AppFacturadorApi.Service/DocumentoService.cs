@@ -153,7 +153,7 @@ namespace AppFacturadorApi.Service
             {
                 return false;
             }
-            
+
             if (fac.Fecha == null)
             {
                 return false;
@@ -189,6 +189,12 @@ namespace AppFacturadorApi.Service
             if (fac.TipoIdEmpresa == 0)
             {
                 return false;
+            }
+            if (fac.TipoVenta == 2 ) {
+                if (fac.Plazo == 0 || fac.Plazo == null)
+                {
+                    return false;
+                }
             }
 
             return true;
