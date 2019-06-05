@@ -83,14 +83,14 @@ namespace AppFacturadorApi.Controllers
 
 
 
-        [HttpGet("consultar/{idCliente}")]
-        public ActionResult<IEnumerable<TbDocumento>> Get(string idCliente)
+        [HttpGet("consultar/{idEmpresa}")]
+        public ActionResult<IEnumerable<TbDocumento>> Get(string idEmpresa)
         {
 
             try
             {
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
-                lista = lista.Where(x => x.IdCliente != null && x.TipoIdCliente != null && x.IdCliente.Trim().Equals(idCliente) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
+                lista = lista.Where(x => x.IdEmpresa != null && x.TipoIdCliente != null && x.IdEmpresa.Trim().Equals(idEmpresa) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
 
 
                 if (lista.ToList().Count == 0)
@@ -108,8 +108,8 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpGet("consultar/ordenfecha/{idCliente}")]
-        public ActionResult<IEnumerable<TbDocumento>> Gett(string idCliente)
+        [HttpGet("consultar/ordenfecha/{idEmpresa}")]
+        public ActionResult<IEnumerable<TbDocumento>> Gett(string idEmpresa)
         {
            
             
@@ -119,7 +119,7 @@ namespace AppFacturadorApi.Controllers
 
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
                 lista = (from doc in lista
-                         where doc.IdCliente != null && doc.IdCliente.Trim().Equals(idCliente) && doc.TipoVenta == 2 &&
+                         where doc.IdEmpresa != null && doc.IdEmpresa.Trim().Equals(idEmpresa) && doc.TipoVenta == 2 &&
                          doc.EstadoFactura == 2
                          orderby doc.Fecha ascending
                          select doc).ToList();
