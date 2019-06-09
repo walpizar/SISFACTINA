@@ -13,10 +13,33 @@ namespace AppFacturadorApi.Controllers
     public class TbClientesController : ControllerBase
     {
         IService<TbClientes> _cli;
+        IService<TbTipoClientes> _tipoCli;
 
-        public TbClientesController(IService<TbClientes> cli)
+        public TbClientesController(IService<TbClientes> cli, IService<TbTipoClientes> tipoCli)
         {
             _cli = cli;
+            _tipoCli = tipoCli;
+        }
+
+        // obtener tipo clientes
+        [HttpGet("tipoCli")]
+        public ActionResult<IEnumerable<TbTipoClientes>> GetTipoCli()
+        {
+
+            try
+            {
+                IEnumerable<TbTipoClientes> lista = _tipoCli.ConsultarTodos();
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound(false);
+                }
+                return Ok(lista);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
 
@@ -54,8 +77,6 @@ namespace AppFacturadorApi.Controllers
                 TbClientes = _cli.ConsultarById(TbClientes);
                 if (TbClientes != null)
                 {
-
-
                     TbClientes.TbPersona.TbBarrios.TbPersona = null;
                     TbClientes.TbPersona.TbBarrios.TbDistrito.TbBarrios = null;
                     TbClientes.TbPersona.TbBarrios.TbDistrito.TbCanton.TbDistrito = null;
@@ -102,7 +123,7 @@ namespace AppFacturadorApi.Controllers
 
                 return BadRequest("El cliente ya existe");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //throw ex;
                 return StatusCode(500);

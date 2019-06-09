@@ -48,7 +48,16 @@ namespace AppFacturadorApi.Data
 
         public IEnumerable<TbClientes> ConsultarTodos()
         {
-            return _Contexto.TbClientes.Include("TbPersona").Include("TbPersona.TbBarrios").Where(x => x.Estado == true).ToList();
+            try
+            {
+                return _Contexto.TbClientes.Include("TbPersona").Where(x => x.Estado == true).ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public bool Eliminar(TbClientes entity)
