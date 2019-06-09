@@ -81,7 +81,39 @@ namespace AppFacturadorApi.Controllers
             }
         }
 
+        //Metodo para validacion en respuesta de hacienda
+         
+        [HttpGet("hacienda")]
+        public ActionResult<IEnumerable<TbDocumento>> GetHacienda()
+        {
 
+            try
+            {
+                IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();                
+                lista = lista.Where(x => x.Estado==true && x.EstadoFacturaHacienda==null || x.EstadoFacturaHacienda.Trim() == "rechazado" 
+                || x.EstadoFacturaHacienda.Trim() == "procesando" || x.ReporteAceptaHacienda==false || 
+                x.MensajeReporteHacienda==null || x.MensajeRespHacienda==null || x.MensajeRespHacienda==false).ToList();
+
+                //lista = lista.Where(x => x.EstadoFacturaHacienda.Trim() == "rechazado" || x.EstadoFacturaHacienda.Trim() == "procesando").ToList();
+
+
+                if (lista.ToList().Count == 0)
+                {
+                    return NotFound(false);
+
+                }
+
+
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500);
+            }
+        }
+
+        //Metodo para obtener las facturas de credito
 
         [HttpGet("consultar/{idEmpresa}")]
         public ActionResult<IEnumerable<TbDocumento>> Get(string idEmpresa)
@@ -108,15 +140,15 @@ namespace AppFacturadorApi.Controllers
                 return StatusCode(500);
             }
         }
+
+        //Metodo para obtener las facturas por fecha de forma ascendiente 
+
         [HttpGet("consultar/ordenfecha/{idEmpresa}")]
         public ActionResult<IEnumerable<TbDocumento>> Gett(string idEmpresa)
-        {
-           
+        {          
             
             try
-            {
-                
-
+            {           
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
                 lista = (from doc in lista
                          where doc.IdEmpresa != null && doc.IdEmpresa.Trim().Equals(idEmpresa) && doc.TipoVenta == 2 &&
@@ -124,15 +156,11 @@ namespace AppFacturadorApi.Controllers
                          orderby doc.Fecha ascending
                          select doc).ToList();
 
-
-
                 if (lista.ToList().Count == 0)
                 {
                     return NotFound(false);
 
                 }
-
-
 
                 return Ok(lista);
             }
