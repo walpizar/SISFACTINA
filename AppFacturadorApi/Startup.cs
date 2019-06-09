@@ -58,6 +58,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbImpuestos>, ImpuestosService>();
             services.AddTransient<IService<TbRoles>, RolesService>();
             services.AddTransient<IService<TbPersonasTribunalS>,PersonaTribunalService>();
+            services.AddTransient<IService<TbTipoMedidas>, TipoMedidaService>();
             services.AddTransient<IService<TbExoneraciones>, IdExonercionService >();
             services.AddTransient<IService<TbTipoClientes>, TipoClientesService>();
 
@@ -84,6 +85,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbRoles>, RolesData>();
             services.AddTransient<IData<TbImpuestos>, ImpuestosData>();
             services.AddTransient<IData<TbPersonasTribunalS>, PersonaTribunalData>();
+            services.AddTransient<IData<TbTipoMedidas>, TipoMedidaData>();
             services.AddTransient<IData<TbExoneraciones>, IdExonercionData>();
             services.AddTransient<IData<TbTipoClientes >,TipoClientesData>();
 

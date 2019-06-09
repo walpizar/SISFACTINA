@@ -158,9 +158,10 @@ namespace AppFacturadorApi.Controllers
             {
                 return false;
             }
-            else if (proveedor.TbPersona.CodigoPaisTel == null)
+            else if (proveedor.TbPersona.CodigoPaisTel == null )
             {
                 return false;
+                
             }
             else if (proveedor.TbPersona.Telefono == 0)
             {

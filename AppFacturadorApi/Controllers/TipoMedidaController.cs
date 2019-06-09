@@ -8,36 +8,38 @@ using System.Threading.Tasks;
 
 namespace AppFacturadorApi.Controllers
 {
-    [Route("api/categoriaproducto")]
+    [Route("api/tipomedida")]
     [ApiController]
-    public class CategoriaProductoController:ControllerBase
+    public class TipoMedidaController:ControllerBase
     {
-        IService<TbCategoriaProducto> _CategoriaProducto;
 
-        public CategoriaProductoController(IService<TbCategoriaProducto> CategoriaProducto)
+        IService<TbTipoMedidas> _InsTipoMedida;
+
+        public TipoMedidaController(IService<TbTipoMedidas> InsTipoMedida)
         {
-            _CategoriaProducto = CategoriaProducto;
+            _InsTipoMedida = InsTipoMedida;
         }
 
+
         [HttpGet]
-        public ActionResult<IEnumerable<TbCategoriaProducto>> Get()
+        public ActionResult<IEnumerable<TbTipoMedidas>> Get()
         {
             try
             {
-                IEnumerable<TbCategoriaProducto> listaCatProduct = _CategoriaProducto.ConsultarTodos();
+                IEnumerable<TbTipoMedidas> listaTipoMedida = _InsTipoMedida.ConsultarTodos();
 
-                if (listaCatProduct.ToList().Count == 0)
+                if (listaTipoMedida.ToList().Count == 0)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(listaCatProduct);
+                    return Ok(listaTipoMedida);
                 }
-               
-               
+
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return StatusCode(500);
@@ -45,20 +47,20 @@ namespace AppFacturadorApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TbCategoriaProducto> Get(int id)
+        public ActionResult<TbTipoMedidas> Get(int id)
         {
             try
             {
-                TbCategoriaProducto CategoriaProdu = null;
-                CategoriaProdu.Id = id;
-                CategoriaProdu = _CategoriaProducto.ConsultarById(CategoriaProdu);
-                if (CategoriaProdu==null)
+                TbTipoMedidas tipomedida = null;
+                tipomedida.IdTipoMedida = id;
+                tipomedida = _InsTipoMedida.ConsultarById(tipomedida);
+                if (tipomedida == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(CategoriaProdu);
+                    return Ok(tipomedida);
                 }
 
 
@@ -71,19 +73,19 @@ namespace AppFacturadorApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] TbCategoriaProducto CatProdut)
+        public ActionResult<bool> Post([FromBody] TbTipoMedidas tipomedida)
         {
             try
             {
-               CatProdut.Estado = true;
-               CatProdut.FechaCrea = DateTime.Now;
-               CatProdut.FechaUltMod = DateTime.Now;
-               CatProdut.UsuarioCrea = Environment.UserName;
-               CatProdut.UsuarioUltMod = Environment.UserName;
+                tipomedida.Estado = true;
+                tipomedida.FechaCrea = DateTime.Now;
+                tipomedida.FechaUltMod = DateTime.Now;
+                tipomedida.UsuarioCrea = Environment.UserName;
+                tipomedida.UsuarioUltMod = Environment.UserName;
 
-                if (validaDatos(CatProdut))
+                if (validaDatos(tipomedida))
                 {
-                    if (_CategoriaProducto.Agregar(CatProdut))
+                    if (_InsTipoMedida.Agregar(tipomedida))
                     {
                         return Ok(true);
                     }
@@ -95,9 +97,9 @@ namespace AppFacturadorApi.Controllers
                 else
                 {
                     return NotFound(false);
-                }                 
-                            
-                
+                }
+
+
             }
             catch (Exception)
             {
@@ -107,16 +109,16 @@ namespace AppFacturadorApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult<bool> Put([FromBody] TbCategoriaProducto CatProdut)
+        public ActionResult<bool> Put([FromBody] TbTipoMedidas tipomedida)
         {
             try
-            {                
-                CatProdut.FechaUltMod = DateTime.Now;                
-                CatProdut.UsuarioUltMod = Environment.UserName;
+            {
+                tipomedida.FechaUltMod = DateTime.Now;
+                tipomedida.UsuarioUltMod = Environment.UserName;
 
-                if (validaDatos(CatProdut))
+                if (validaDatos(tipomedida))
                 {
-                    if (_CategoriaProducto.Modificar(CatProdut))
+                    if (_InsTipoMedida.Modificar(tipomedida))
                     {
                         return Ok(true);
                     }
@@ -144,13 +146,13 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
-                TbCategoriaProducto CatProduct = new TbCategoriaProducto();
-                CatProduct.Id = id;
-                CatProduct = _CategoriaProducto.ConsultarById(CatProduct);
-            
-                if (validaDatos(CatProduct))
+                TbTipoMedidas tipomedida = new TbTipoMedidas();
+                tipomedida.IdTipoMedida = id;
+                tipomedida = _InsTipoMedida.ConsultarById(tipomedida);
+
+                if (validaDatos(tipomedida))
                 {
-                    if (_CategoriaProducto.Eliminar(CatProduct))
+                    if (_InsTipoMedida.Eliminar(tipomedida))
                     {
                         return Ok(true);
                     }
@@ -175,23 +177,30 @@ namespace AppFacturadorApi.Controllers
 
 
 
-        private bool validaDatos(TbCategoriaProducto catProdut)
+        private bool validaDatos(TbTipoMedidas tipomedida)
         {
             try
             {
-                if (catProdut.Nombre==null)
+                if (tipomedida.Nombre == null)
                 {
                     return false;
-                }else if (catProdut.FechaCrea==null)
+                }
+                else if (tipomedida.Nomenclatura == null)
                 {
                     return false;
-                }else if (catProdut.FechaUltMod==null)
+                }
+                else if (tipomedida.FechaCrea == null)
                 {
                     return false;
-                }else if (catProdut.UsuarioCrea==null)
+                }
+                else if (tipomedida.FechaUltMod == null)
                 {
                     return false;
-                }else if (catProdut.UsuarioUltMod==null)
+                }
+                else if (tipomedida.UsuarioCrea == null)
+                {
+                    return false;
+                }else if (tipomedida.UsuarioUltMod==null)
                 {
                     return false;
                 }
