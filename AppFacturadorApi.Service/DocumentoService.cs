@@ -11,12 +11,14 @@ namespace AppFacturadorApi.Service
     {
         IData<TbDocumento> _DocumentoIns;
         IService<TbEmpresa> _EmpresaIns;
+        IService<TbClientes> _ClienteIns;
         IService<TbInventario> _InventarioIns;
 
-        public DocumentoService(IData<TbDocumento> DocumentoIns, IService<TbEmpresa> EmpresaIns, IService<TbInventario> InventarioIns)
+        public DocumentoService(IData<TbDocumento> DocumentoIns, IService<TbEmpresa> EmpresaIns, IService<TbClientes> ClienteIns, IService<TbInventario> InventarioIns)
         {
             _DocumentoIns = DocumentoIns;
             _EmpresaIns = EmpresaIns;
+            _ClienteIns = ClienteIns;
             _InventarioIns = InventarioIns;
         }
 
@@ -122,6 +124,29 @@ namespace AppFacturadorApi.Service
         }
         private bool validadCampos(TbDocumento fac)
         {
+
+            if (fac.TipoVenta==2)
+            {
+                decimal totalCredito= 0;
+
+                TbClientes cliente = new TbClientes();
+
+                cliente.Id = fac.IdCliente;
+                
+                
+                cliente = _ClienteIns.ConsultarById(fac.TbClientes);
+
+                foreach (var item in fac.TbDetalleDocumento)
+                {
+                    totalCredito = totalCredito + item.MontoTotal;
+                }
+
+                if (fac.Plazo>cliente.PlazoCreditoMax || totalCredito >cliente.CreditoMax)
+                {
+                    return false;
+                }
+            }
+
             if (fac.Id == 0)
             {
                 return false;

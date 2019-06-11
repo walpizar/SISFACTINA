@@ -198,21 +198,26 @@ namespace AppFacturadorApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] TbDocumento document)
+        public ActionResult<TbDocumento> Post([FromBody] TbDocumento document)
         {
             try
             {
                 document.FechaCrea = DateTime.Now;
                 document.FechaUltMod = DateTime.Now;
+                IEnumerable<TbDocumento> listaFacturas;
+                listaFacturas = _DocumentoIns.ConsultarTodos();
                 //si el tipo de documento es 1, lo guarda 
                 if (document.TipoDocumento == 1)
                 {
                     decimal cantidad = 0;
-                    IEnumerable<TbDocumento> listaFacturas;
-                    document.FechaRef = DateTime.Now;
-                    listaFacturas = _DocumentoIns.ConsultarTodos();
-                    document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id + 1;
 
+                    document.FechaRef = DateTime.Now;
+                    if (listaFacturas.ToList().Count > 0)
+                    {
+                        document.Id = (from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault().Id;
+                    }
+
+                    document.Id += 1;
                     if (document.TbDetalleDocumento.ToList().Count > 0)
                     {
 
@@ -223,10 +228,10 @@ namespace AppFacturadorApi.Controllers
                         {
                             Listinventario = _inv.ConsultarTodos();
                             cantidad = Listinventario.Where(X => X.IdProducto == item.IdProducto).SingleOrDefault().Cantidad;
-                            if (item.Cantidad >= cantidad)
+                            if (item.Cantidad > cantidad)
                             {
 
-                                return false;
+                                return null;
                             }
                         }
 
@@ -235,21 +240,21 @@ namespace AppFacturadorApi.Controllers
 
                 else if (document.TipoDocumento == 3)
                 {
-                    
+
                     document.UsuarioCrea = Environment.UserName;
                     document.UsuarioUltMod = Environment.UserName;
                     document.ReporteAceptaHacienda = true;
                     document.TbDetalleDocumento.Where(x => x.IdTipoDoc != 0).SingleOrDefault().IdTipoDoc = 3;
-                    
+
                 }
 
                 document.Consecutivo = Datos.CreaNumeroSecuencia(sucursal, caja, document.TipoDocumento.ToString(), document.Id.ToString());
                 string codigo = Datos.CreaCodigoSeguridad(document.TipoDocumento.ToString(), sucursal, caja, document.Fecha, document.Id.ToString());
-                document.Clave=Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString().Substring(2,2), document.IdEmpresa.ToString(), document.Consecutivo, document.EstadoFactura.ToString(), codigo);
+                document.Clave = Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString().Substring(2, 2), document.IdEmpresa.ToString(), document.Consecutivo, document.EstadoFactura.ToString(), codigo);
                 if (_DocumentoIns.Agregar(document) == true)
                 {
-
-                    return Ok(true);
+                    listaFacturas = _DocumentoIns.ConsultarTodos();
+                    return Ok((from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault());
                 }
 
                 return BadRequest();
