@@ -50,7 +50,7 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return _Contexto.TbClientes.Include("TbPersona").Where(x => x.Estado == true).ToList();
+                return _Contexto.TbClientes.Include("TbPersona").Include("TipoClienteNavigation").Where(x => x.Estado == true).ToList();
 
             }
             catch (Exception ex)
