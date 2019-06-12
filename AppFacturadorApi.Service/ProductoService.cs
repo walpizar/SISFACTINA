@@ -8,29 +8,18 @@ namespace AppFacturadorApi.Service
 {
     public class ProductoService : IService<TbProducto>
     {
-        IData<TbProducto> _ProduIns;
+        IData<TbProducto> _contextPro;
 
-        public ProductoService(IData<TbProducto> ProduIns)
+        public ProductoService(IData<TbProducto> contextPro)
         {
-            _ProduIns = ProduIns;
+            _contextPro = contextPro;
         }
 
         public bool Agregar(TbProducto entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public TbProducto ConsultarById(TbProducto entity)
-        {
-            return _ProduIns.ConsultarById(entity);
-        }
-
-        public IEnumerable<TbProducto> ConsultarTodos()
-        {
-
             try
             {
-                return _ProduIns.ConsultarTodos();
+                return _contextPro.Agregar(entity);
             }
             catch (Exception)
             {
@@ -39,14 +28,58 @@ namespace AppFacturadorApi.Service
             }
         }
 
+        public TbProducto ConsultarById(TbProducto entity)
+        {
+            try
+            {
+                return _contextPro.ConsultarById(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<TbProducto> ConsultarTodos()
+        {
+            try
+            {
+                return _contextPro.ConsultarTodos();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public bool Eliminar(TbProducto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _contextPro.Eliminar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbProducto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _contextPro.Modificar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
