@@ -17,27 +17,72 @@ namespace AppFacturadorApi.Service
 
         public bool Agregar(TbClientes entity)
         {
-            return _client.Agregar(entity);
+            try
+            {
+                return _client.Agregar(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public TbClientes ConsultarById(TbClientes entity)
         {
-            return _client.ConsultarById(entity);
+            try
+            {
+                return _client.ConsultarById(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<TbClientes> ConsultarTodos()
         {
-            return _client.ConsultarTodos();
+            try
+            {
+                return _client.ConsultarTodos();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Eliminar(TbClientes entity)
         {
-            return _client.Eliminar(entity);
+            throw new NotImplementedException();
+            //try
+            //{
+            //    return _client.Eliminar(entity);
+
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
         }
 
         public bool Modificar(TbClientes entity)
         {
-            return _client.Modificar(entity);
+            throw new NotImplementedException();
+            //try
+            //{
+
+            //    return _client.Modificar(entity);
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
         }
     }
 }

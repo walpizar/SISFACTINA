@@ -43,7 +43,7 @@ namespace AppFacturadorApi.Data
 
                 throw ex;
             }
-            
+
         }
 
         public IEnumerable<TbClientes> ConsultarTodos()
@@ -62,17 +62,36 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbClientes entity)
         {
-            _Contexto.Entry<TbClientes>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _Contexto.SaveChanges();
-            return true;
+            try
+            {
+                entity.Estado = false;
+                _Contexto.Entry<TbClientes>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbClientes entity)
         {
-            entity.Estado = true;
-            _Contexto.Entry<TbClientes>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _Contexto.SaveChanges();
-            return true;
+
+            try
+            {
+                entity.Estado = true;
+                _Contexto.Entry<TbClientes>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

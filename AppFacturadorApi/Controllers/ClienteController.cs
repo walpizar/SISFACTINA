@@ -123,7 +123,7 @@ namespace AppFacturadorApi.Controllers
 
                 return BadRequest("El cliente ya existe");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw ex;
                 return StatusCode(500);
@@ -143,7 +143,7 @@ namespace AppFacturadorApi.Controllers
                 {
                     return Ok(true);
                 }
-                return NotFound();
+                return BadRequest();
             }
             catch (Exception)
             {
@@ -162,12 +162,12 @@ namespace AppFacturadorApi.Controllers
                 TbClientes.Id = id.Trim();
                 TbClientes.TipoId = TipoId;
                 TbClientes = _cli.ConsultarById(TbClientes);
-                TbClientes.Estado = false;
+                
                 if (_cli.Eliminar(TbClientes) == true)
                 {
                     return Ok(true);
                 }
-                return NotFound();
+                return BadRequest();
             }
             catch (Exception)
             {
