@@ -1,4 +1,5 @@
-﻿using AppFacturadorApi.Entities.Model;
+﻿using AppFacturadorApi.Data;
+using AppFacturadorApi.Entities.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,12 +9,13 @@ namespace AppFacturadorApi.Service
     public class ComprasService : IService<TbDocumento>
     {
         // var inyeccion de datos Data
-        IService<TbDocumento> _Context;
-        // constructor con inyeccion de datos
-        public ComprasService(IService<TbDocumento> Context)
+        IData<TbDocumento> _Context;
+
+        public ComprasService(IData<TbDocumento> Context)
         {
             _Context = Context;
         }
+        // constructor con inyeccion de datos
 
         public bool Agregar(TbDocumento entity)
         {
