@@ -122,7 +122,7 @@ namespace AppFacturadorApi.Controllers
             try
             {
                 IEnumerable<TbDocumento> lista = _DocumentoIns.ConsultarTodos();
-                lista = lista.Where(x => x.IdEmpresa != null && x.TipoIdCliente != null && x.IdEmpresa.Trim().Equals(idEmpresa) && x.EstadoFactura == 2 && x.TipoVenta == 2).ToList();
+                lista = lista.Where(x => x.IdEmpresa != null && x.IdEmpresa.Trim().Equals(idEmpresa) && x.EstadoFactura == 2 && x.TipoVenta == 2 ).ToList();
 
 
                 if (lista.ToList().Count == 0)
@@ -268,7 +268,7 @@ namespace AppFacturadorApi.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] TbDocumento Doc)
+        public ActionResult<bool> Put([FromBody] TbDocumento Doc)
         {
             try
             {
@@ -276,11 +276,11 @@ namespace AppFacturadorApi.Controllers
 
                 if (modifico)
                 {
-                    return Ok("Se Modifico Correctamente");
+                    return Ok(true);
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
             }
             catch (Exception)
