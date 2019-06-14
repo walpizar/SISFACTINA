@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppFacturadorApi.Entities.Model;
 using AppFacturadorApi.Service;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace AppFacturadorApi.Controllers
 {
@@ -84,7 +86,7 @@ namespace AppFacturadorApi.Controllers
                 tbEmpresa = empresa;
                 TbParametrosEmpresa parametrosEmpresa = new TbParametrosEmpresa();
                 parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
-                TbPersona persona = new TbPersona();
+                TbPersona persona = empresa.TbPersona;
                 persona = _perso.ConsultarById(empresa.TbPersona);
                 if (persona != null)
                 {
@@ -167,28 +169,45 @@ namespace AppFacturadorApi.Controllers
         {
             try
             {
-                TbParametrosEmpresa parametrosEmpresa;
+
                 TbParametrosEmpresa parametrosEmpresa2 = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
-                parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
+                TbParametrosEmpresa parametrosEmpresa = empresa.TbParametrosEmpresa.ToList().SingleOrDefault();
+                parametrosEmpresa.IdEmpresa = empresa.Id;
+                parametrosEmpresa2.IdEmpresa = empresa.Id;
                 if (_empre.Modificar(empresa))
                 {
-                    parametrosEmpresa =  (_parEmpre.ConsultarById(parametrosEmpresa));
-                    parametrosEmpresa.ManejaInventario = parametrosEmpresa2.ManejaInventario;
-                    parametrosEmpresa.FacturacionElectronica = parametrosEmpresa2.FacturacionElectronica;
-                    if (_parEmpre.Modificar(parametrosEmpresa))
+                    parametrosEmpresa = _parEmpre.ConsultarById(parametrosEmpresa);
+                    if (parametrosEmpresa != null)
                     {
-                        return Ok(true);
+                        //parametrosEmpresa2.Id = parametrosEmpresa.Id;
+                        if (_parEmpre.Modificar(parametrosEmpresa2))
+                        {
+                            return Ok(true);
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
                     }
                     else
                     {
-                        return NotFound();
+                        if (_parEmpre.Agregar(parametrosEmpresa2))
+                        {
+                            return Ok(true);
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
                     }
+
                     //return Ok(true);
                 }
-                else {
+                else
+                {
                     return NotFound();
                 }
-                
+
             }
             catch (Exception ex)
             {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 namespace AppFacturadorApi.Entities.Model
-{ 
-
+{
     public partial class TbExoneraciones
     {
         public TbExoneraciones()

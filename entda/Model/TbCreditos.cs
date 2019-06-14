@@ -5,11 +5,6 @@ namespace AppFacturadorApi.Entities.Model
 {
     public partial class TbCreditos
     {
-        public TbCreditos()
-        {
-            TbAbonos = new HashSet<TbAbonos>();
-        }
-
         public int IdCredito { get; set; }
         public string IdCliente { get; set; }
         public int? TipoCliente { get; set; }
@@ -24,6 +19,5 @@ namespace AppFacturadorApi.Entities.Model
         public decimal SaldoCredito { get; set; }
 
         public TbMovimientos IdMovNavigation { get; set; }
-        public ICollection<TbAbonos> TbAbonos { get; set; }
     }
 }

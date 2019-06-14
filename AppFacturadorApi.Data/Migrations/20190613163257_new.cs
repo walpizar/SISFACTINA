@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppFacturadorApi.Data.Migrations
 {
-    public partial class database : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,22 +53,23 @@ namespace AppFacturadorApi.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbCajas",
+                name: "tbAbonos",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false)
+                    idAbono = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    nombre = table.Column<string>(maxLength: 30, nullable: false),
-                    descripcion = table.Column<string>(maxLength: 500, nullable: true),
-                    estado = table.Column<bool>(nullable: false),
-                    fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    idDoc = table.Column<int>(nullable: false),
+                    tipoDoc = table.Column<int>(nullable: false),
+                    monto = table.Column<decimal>(type: "decimal(18, 0)", nullable: true),
                     fecha_ult_mod = table.Column<DateTime>(type: "datetime", nullable: false),
+                    fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
                     usuario_crea = table.Column<string>(maxLength: 30, nullable: false),
-                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false)
+                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false),
+                    estado = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbCajas", x => x.id);
+                    table.PrimaryKey("PK_tbAbonos", x => x.idAbono);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,19 +187,6 @@ namespace AppFacturadorApi.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbProvincia", x => x.Cod);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tbPRUEBA2",
-                columns: table => new
-                {
-                    nose1 = table.Column<string>(maxLength: 10, nullable: false),
-                    sss = table.Column<string>(maxLength: 10, nullable: true),
-                    dc = table.Column<string>(maxLength: 10, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbPRUEBA2", x => x.nose1);
                 });
 
             migrationBuilder.CreateTable(
@@ -685,32 +673,6 @@ namespace AppFacturadorApi.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbAbonos",
-                columns: table => new
-                {
-                    idAbono = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    idDoc = table.Column<int>(nullable: false),
-                    tipoDoc = table.Column<int>(nullable: false),
-                    monto = table.Column<decimal>(type: "decimal(18, 0)", nullable: true),
-                    fecha_ult_mod = table.Column<DateTime>(type: "datetime", nullable: false),
-                    fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
-                    usuario_crea = table.Column<string>(maxLength: 30, nullable: false),
-                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false),
-                    estado = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbAbonos", x => x.idAbono);
-                    table.ForeignKey(
-                        name: "FK_tbAbonos_tbCreditos",
-                        column: x => x.idDoc,
-                        principalTable: "tbCreditos",
-                        principalColumn: "idCredito",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbPersona",
                 columns: table => new
                 {
@@ -942,12 +904,12 @@ namespace AppFacturadorApi.Data.Migrations
                     fecha = table.Column<DateTime>(type: "datetime", nullable: false),
                     idCliente = table.Column<string>(maxLength: 30, nullable: true),
                     tipoIdCliente = table.Column<int>(nullable: true),
-                    tipoVenta = table.Column<int>(nullable: true),
+                    tipoVenta = table.Column<int>(nullable: false),
                     plazo = table.Column<int>(nullable: true),
-                    tipoPago = table.Column<int>(nullable: true),
+                    tipoPago = table.Column<int>(nullable: false),
                     refPago = table.Column<string>(maxLength: 30, nullable: true),
-                    tipoMoneda = table.Column<int>(nullable: true),
-                    tipoCambio = table.Column<decimal>(type: "decimal(18, 0)", nullable: true),
+                    tipoMoneda = table.Column<int>(nullable: false),
+                    tipoCambio = table.Column<decimal>(type: "decimal(18, 0)", nullable: false),
                     estadoFactura = table.Column<int>(nullable: false),
                     EstadoFacturaHacienda = table.Column<string>(maxLength: 50, nullable: true),
                     reporteAceptaHacienda = table.Column<bool>(nullable: false),
@@ -1084,6 +1046,35 @@ namespace AppFacturadorApi.Data.Migrations
                     table.ForeignKey(
                         name: "FK_tbReporteHacienda_tbEmpresa",
                         columns: x => new { x.idEmpresa, x.tipoIdEmpresa },
+                        principalTable: "tbEmpresa",
+                        principalColumns: new[] { "id", "tipoId" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbSucursales",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    idEmpresa = table.Column<string>(maxLength: 30, nullable: false),
+                    idTipoEmpresa = table.Column<int>(nullable: false),
+                    provincia = table.Column<string>(maxLength: 1, nullable: false),
+                    canton = table.Column<string>(maxLength: 2, nullable: false),
+                    distrito = table.Column<string>(maxLength: 2, nullable: false),
+                    direccion = table.Column<string>(maxLength: 500, nullable: true),
+                    telefono = table.Column<int>(nullable: true),
+                    fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    fecha_ult_mod = table.Column<DateTime>(type: "datetime", nullable: false),
+                    usuario_crea = table.Column<string>(maxLength: 30, nullable: false),
+                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbSucursales", x => new { x.id, x.idEmpresa, x.idTipoEmpresa });
+                    table.ForeignKey(
+                        name: "FK_tbSucursales_tbEmpresa",
+                        columns: x => new { x.idEmpresa, x.idTipoEmpresa },
                         principalTable: "tbEmpresa",
                         principalColumns: new[] { "id", "tipoId" },
                         onDelete: ReferentialAction.Restrict);
@@ -1238,6 +1229,33 @@ namespace AppFacturadorApi.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbCajas",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    nombre = table.Column<string>(maxLength: 30, nullable: false),
+                    descripcion = table.Column<string>(maxLength: 500, nullable: true),
+                    estado = table.Column<bool>(nullable: false),
+                    fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    fecha_ult_mod = table.Column<DateTime>(type: "datetime", nullable: false),
+                    usuario_crea = table.Column<string>(maxLength: 30, nullable: false),
+                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false),
+                    idEmpresa = table.Column<string>(maxLength: 30, nullable: false),
+                    idTipoEmpresa = table.Column<int>(nullable: false),
+                    idSucursal = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbCajas", x => new { x.id, x.idEmpresa, x.idTipoEmpresa, x.idSucursal });
+                    table.ForeignKey(
+                        name: "FK_tbCajas_tbSucursales",
+                        columns: x => new { x.idSucursal, x.idEmpresa, x.idTipoEmpresa },
+                        principalTable: "tbSucursales",
+                        principalColumns: new[] { "id", "idEmpresa", "idTipoEmpresa" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbCajaUsuario",
                 columns: table => new
                 {
@@ -1258,12 +1276,6 @@ namespace AppFacturadorApi.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbCajaUsuario", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_tbCajaUsuario_tbCajas",
-                        column: x => x.idCaja,
-                        principalTable: "tbCajas",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_tbCajaUsuario_tbUsuarios",
                         columns: x => new { x.tipoId, x.idUser },
@@ -1360,6 +1372,11 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "IX_FK_tbAbonos_tbCreditos",
                 table: "tbAbonos",
                 column: "idDoc");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbCajas_idSucursal_idEmpresa_idTipoEmpresa",
+                table: "tbCajas",
+                columns: new[] { "idSucursal", "idEmpresa", "idTipoEmpresa" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_FK_tbCajaUsuario_tbCajas",
@@ -1584,6 +1601,11 @@ namespace AppFacturadorApi.Data.Migrations
                 columns: new[] { "idEmpresa", "tipoIdEmpresa" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbSucursales_idEmpresa_idTipoEmpresa",
+                table: "tbSucursales",
+                columns: new[] { "idEmpresa", "idTipoEmpresa" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FK_tbUsuarios_tbRoles",
                 table: "tbUsuarios",
                 column: "idRol");
@@ -1609,7 +1631,13 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "tbAbonos");
 
             migrationBuilder.DropTable(
+                name: "tbCajas");
+
+            migrationBuilder.DropTable(
                 name: "tbCajaUsuMonedas");
+
+            migrationBuilder.DropTable(
+                name: "tbCreditos");
 
             migrationBuilder.DropTable(
                 name: "tbDetalleDocumento");
@@ -1645,16 +1673,13 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "tbPersonasTribunalS");
 
             migrationBuilder.DropTable(
-                name: "tbPRUEBA2");
-
-            migrationBuilder.DropTable(
                 name: "tbReporteHacienda");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "tbCreditos");
+                name: "tbSucursales");
 
             migrationBuilder.DropTable(
                 name: "tbMonedas");
@@ -1672,13 +1697,13 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "tbCajaUsuario");
 
             migrationBuilder.DropTable(
+                name: "tbMovimientos");
+
+            migrationBuilder.DropTable(
                 name: "tbEmpleado");
 
             migrationBuilder.DropTable(
                 name: "tbRequerimientos");
-
-            migrationBuilder.DropTable(
-                name: "tbMovimientos");
 
             migrationBuilder.DropTable(
                 name: "tbCategoriaProducto");
@@ -1714,16 +1739,13 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "tbTipoIngrediente");
 
             migrationBuilder.DropTable(
-                name: "tbCajas");
-
-            migrationBuilder.DropTable(
                 name: "tbUsuarios");
 
             migrationBuilder.DropTable(
-                name: "tbTipoPuesto");
+                name: "tbTipoMovimiento");
 
             migrationBuilder.DropTable(
-                name: "tbTipoMovimiento");
+                name: "tbTipoPuesto");
 
             migrationBuilder.DropTable(
                 name: "tbExoneraciones");

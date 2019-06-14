@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AppFacturadorApi.Data.Model
+
 {
     public partial class dbSISSODINAContext : IdentityDbContext
     {
@@ -53,10 +54,10 @@ namespace AppFacturadorApi.Data.Model
         public virtual DbSet<TbProducto> TbProducto { get; set; }
         public virtual DbSet<TbProveedores> TbProveedores { get; set; }
         public virtual DbSet<TbProvincia> TbProvincia { get; set; }
-        public virtual DbSet<TbPrueba2> TbPrueba2 { get; set; }
         public virtual DbSet<TbReporteHacienda> TbReporteHacienda { get; set; }
         public virtual DbSet<TbRequerimientos> TbRequerimientos { get; set; }
         public virtual DbSet<TbRoles> TbRoles { get; set; }
+        public virtual DbSet<TbSucursales> TbSucursales { get; set; }
         public virtual DbSet<TbTipoClientes> TbTipoClientes { get; set; }
         public virtual DbSet<TbTipoDocumento> TbTipoDocumento { get; set; }
         public virtual DbSet<TbTipoId> TbTipoId { get; set; }
@@ -154,12 +155,6 @@ namespace AppFacturadorApi.Data.Model
                     .IsRequired()
                     .HasColumnName("usuario_ult_mod")
                     .HasMaxLength(30);
-
-                entity.HasOne(d => d.IdDocNavigation)
-                    .WithMany(p => p.TbAbonos)
-                    .HasForeignKey(d => d.IdDoc)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tbAbonos_tbCreditos");
             });
 
             modelBuilder.Entity<TbBarrios>(entity =>
@@ -195,9 +190,19 @@ namespace AppFacturadorApi.Data.Model
 
             modelBuilder.Entity<TbCajas>(entity =>
             {
+                entity.HasKey(e => new { e.Id, e.IdEmpresa, e.IdTipoEmpresa, e.IdSucursal });
+
                 entity.ToTable("tbCajas");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdEmpresa)
+                    .HasColumnName("idEmpresa")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.IdTipoEmpresa).HasColumnName("idTipoEmpresa");
+
+                entity.Property(e => e.IdSucursal).HasColumnName("idSucursal");
 
                 entity.Property(e => e.Descripcion)
                     .HasColumnName("descripcion")
@@ -227,6 +232,12 @@ namespace AppFacturadorApi.Data.Model
                     .IsRequired()
                     .HasColumnName("usuario_ult_mod")
                     .HasMaxLength(30);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.TbCajas)
+                    .HasForeignKey(d => new { d.IdSucursal, d.IdEmpresa, d.IdTipoEmpresa })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbCajas_tbSucursales");
             });
 
             modelBuilder.Entity<TbCajaUsuario>(entity =>
@@ -277,12 +288,6 @@ namespace AppFacturadorApi.Data.Model
                     .IsRequired()
                     .HasColumnName("usuario_ult_mod")
                     .HasMaxLength(30);
-
-                entity.HasOne(d => d.IdCajaNavigation)
-                    .WithMany(p => p.TbCajaUsuario)
-                    .HasForeignKey(d => d.IdCaja)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tbCajaUsuario_tbCajas");
 
                 entity.HasOne(d => d.TbUsuarios)
                     .WithMany(p => p.TbCajaUsuario)
@@ -847,16 +852,19 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasOne(d => d.TipoMonedaNavigation)
                     .WithMany(p => p.TbDocumento)
                     .HasForeignKey(d => d.TipoMoneda)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbDocumento_tbTipoMoneda");
 
                 entity.HasOne(d => d.TipoPagoNavigation)
                     .WithMany(p => p.TbDocumento)
                     .HasForeignKey(d => d.TipoPago)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbDocumento_tbTipoPago");
 
                 entity.HasOne(d => d.TipoVentaNavigation)
                     .WithMany(p => p.TbDocumento)
                     .HasForeignKey(d => d.TipoVenta)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbDocumento_tbTipoVenta");
 
                 entity.HasOne(d => d.TbClientes)
@@ -1798,26 +1806,6 @@ namespace AppFacturadorApi.Data.Model
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<TbPrueba2>(entity =>
-            {
-                entity.HasKey(e => e.Nose1);
-
-                entity.ToTable("tbPRUEBA2");
-
-                entity.Property(e => e.Nose1)
-                    .HasColumnName("nose1")
-                    .HasMaxLength(10)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Dc)
-                    .HasColumnName("dc")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Sss)
-                    .HasColumnName("sss")
-                    .HasMaxLength(10);
-            });
-
             modelBuilder.Entity<TbReporteHacienda>(entity =>
             {
                 entity.ToTable("tbReporteHacienda");
@@ -2013,6 +2001,68 @@ namespace AppFacturadorApi.Data.Model
                     .IsRequired()
                     .HasColumnName("usuario_ult_mod")
                     .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<TbSucursales>(entity =>
+            {
+                entity.HasKey(e => new { e.Id, e.IdEmpresa, e.IdTipoEmpresa });
+
+                entity.ToTable("tbSucursales");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.IdEmpresa)
+                    .HasColumnName("idEmpresa")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.IdTipoEmpresa).HasColumnName("idTipoEmpresa");
+
+                entity.Property(e => e.Canton)
+                    .IsRequired()
+                    .HasColumnName("canton")
+                    .HasMaxLength(2);
+
+                entity.Property(e => e.Direccion)
+                    .HasColumnName("direccion")
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Distrito)
+                    .IsRequired()
+                    .HasColumnName("distrito")
+                    .HasMaxLength(2);
+
+                entity.Property(e => e.FechaCrea)
+                    .HasColumnName("fecha_crea")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaUltMod)
+                    .HasColumnName("fecha_ult_mod")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Provincia)
+                    .IsRequired()
+                    .HasColumnName("provincia")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Telefono).HasColumnName("telefono");
+
+                entity.Property(e => e.UsuarioCrea)
+                    .IsRequired()
+                    .HasColumnName("usuario_crea")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.UsuarioUltMod)
+                    .IsRequired()
+                    .HasColumnName("usuario_ult_mod")
+                    .HasMaxLength(30);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.TbSucursales)
+                    .HasForeignKey(d => new { d.IdEmpresa, d.IdTipoEmpresa })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbSucursales_tbEmpresa");
             });
 
             modelBuilder.Entity<TbTipoClientes>(entity =>
@@ -2373,6 +2423,7 @@ namespace AppFacturadorApi.Data.Model
             modelBuilder.Ignore<IdentityUserClaim<string>>();
             modelBuilder.Ignore<IdentityUserToken<string>>();
             modelBuilder.Ignore<IdentityUser<string>>();
+
         }
     }
 }
