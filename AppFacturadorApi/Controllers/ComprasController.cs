@@ -16,6 +16,12 @@ namespace AppFacturadorApi.Controllers
     {
         // inyeccion de datos
         IService<TbDocumento> _Contexto;
+
+        public ComprasController(IService<TbDocumento> Contexto)
+        {
+            _Contexto = Contexto;
+        }
+
         // constructor con inyeccion de datos
 
 
