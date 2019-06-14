@@ -7,7 +7,7 @@ namespace AppFacturadorApi.Entities.Model
     {
         public TbTipoMoneda()
         {
-           // TbDocumento = new HashSet<TbDocumento>();
+            TbDocumento = new HashSet<TbDocumento>();
             TbMonedas = new HashSet<TbMonedas>();
         }
 

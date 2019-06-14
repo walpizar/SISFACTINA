@@ -10,6 +10,7 @@ namespace AppFacturadorApi.Entities.Model
             TbDocumento = new HashSet<TbDocumento>();
             TbParametrosEmpresa = new HashSet<TbParametrosEmpresa>();
             TbReporteHacienda = new HashSet<TbReporteHacienda>();
+            TbSucursales = new HashSet<TbSucursales>();
             TbUsuarios = new HashSet<TbUsuarios>();
         }
 
@@ -37,6 +38,7 @@ namespace AppFacturadorApi.Entities.Model
         public ICollection<TbDocumento> TbDocumento { get; set; }
         public ICollection<TbParametrosEmpresa> TbParametrosEmpresa { get; set; }
         public ICollection<TbReporteHacienda> TbReporteHacienda { get; set; }
+        public ICollection<TbSucursales> TbSucursales { get; set; }
         public ICollection<TbUsuarios> TbUsuarios { get; set; }
     }
 }

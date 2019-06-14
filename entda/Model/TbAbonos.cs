@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace  AppFacturadorApi.Entities.Model
+namespace AppFacturadorApi.Entities.Model
 {
     public partial class TbAbonos
     {
@@ -14,7 +14,5 @@ namespace  AppFacturadorApi.Entities.Model
         public string UsuarioCrea { get; set; }
         public string UsuarioUltMod { get; set; }
         public bool Estado { get; set; }
-
-        public TbCreditos IdDocNavigation { get; set; }
     }
 }

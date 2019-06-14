@@ -5,6 +5,59 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\entda\Model\Publishers.cs" Link="Model\Publishers.cs" />
+    <Compile Include="..\entda\Model\TbAbonos.cs" Link="Model\TbAbonos.cs" />
+    <Compile Include="..\entda\Model\TbBarrios.cs" Link="Model\TbBarrios.cs" />
+    <Compile Include="..\entda\Model\TbCajas.cs" Link="Model\TbCajas.cs" />
+    <Compile Include="..\entda\Model\TbCajaUsuario.cs" Link="Model\TbCajaUsuario.cs" />
+    <Compile Include="..\entda\Model\TbCajaUsuMonedas.cs" Link="Model\TbCajaUsuMonedas.cs" />
+    <Compile Include="..\entda\Model\TbCanton.cs" Link="Model\TbCanton.cs" />
+    <Compile Include="..\entda\Model\TbCategoriaProducto.cs" Link="Model\TbCategoriaProducto.cs" />
+    <Compile Include="..\entda\Model\TbClientes.cs" Link="Model\TbClientes.cs" />
+    <Compile Include="..\entda\Model\TbCreditos.cs" Link="Model\TbCreditos.cs" />
+    <Compile Include="..\entda\Model\TbDetalleDocumento.cs" Link="Model\TbDetalleDocumento.cs" />
+    <Compile Include="..\entda\Model\TbDetalleImpresion.cs" Link="Model\TbDetalleImpresion.cs" />
+    <Compile Include="..\entda\Model\TbDetalleMovimiento.cs" Link="Model\TbDetalleMovimiento.cs" />
+    <Compile Include="..\entda\Model\TbDetalleProducto.cs" Link="Model\TbDetalleProducto.cs" />
+    <Compile Include="..\entda\Model\TbDistrito.cs" Link="Model\TbDistrito.cs" />
+    <Compile Include="..\entda\Model\TbDocumento.cs" Link="Model\TbDocumento.cs" />
+    <Compile Include="..\entda\Model\TbEmpleado.cs" Link="Model\TbEmpleado.cs" />
+    <Compile Include="..\entda\Model\TbEmpresa.cs" Link="Model\TbEmpresa.cs" />
+    <Compile Include="..\entda\Model\TbExoneraciones.cs" Link="Model\TbExoneraciones.cs" />
+    <Compile Include="..\entda\Model\TbHorarioProveedor.cs" Link="Model\TbHorarioProveedor.cs" />
+    <Compile Include="..\entda\Model\TbImpuestos.cs" Link="Model\TbImpuestos.cs" />
+    <Compile Include="..\entda\Model\TbIngredienteProveedor.cs" Link="Model\TbIngredienteProveedor.cs" />
+    <Compile Include="..\entda\Model\TbIngredientes.cs" Link="Model\TbIngredientes.cs" />
+    <Compile Include="..\entda\Model\TbInventario.cs" Link="Model\TbInventario.cs" />
+    <Compile Include="..\entda\Model\TbMonedas.cs" Link="Model\TbMonedas.cs" />
+    <Compile Include="..\entda\Model\TbMovimientoCajaUsuario.cs" Link="Model\TbMovimientoCajaUsuario.cs" />
+    <Compile Include="..\entda\Model\TbMovimientos.cs" Link="Model\TbMovimientos.cs" />
+    <Compile Include="..\entda\Model\TbPagos.cs" Link="Model\TbPagos.cs" />
+    <Compile Include="..\entda\Model\TbParametrosEmpresa.cs" Link="Model\TbParametrosEmpresa.cs" />
+    <Compile Include="..\entda\Model\TbPermisos.cs" Link="Model\TbPermisos.cs" />
+    <Compile Include="..\entda\Model\TbPersona.cs" Link="Model\TbPersona.cs" />
+    <Compile Include="..\entda\Model\TbPersonasTribunalS.cs" Link="Model\TbPersonasTribunalS.cs" />
+    <Compile Include="..\entda\Model\TbProducto.cs" Link="Model\TbProducto.cs" />
+    <Compile Include="..\entda\Model\TbProveedores.cs" Link="Model\TbProveedores.cs" />
+    <Compile Include="..\entda\Model\TbProvincia.cs" Link="Model\TbProvincia.cs" />
+    <Compile Include="..\entda\Model\TbReporteHacienda.cs" Link="Model\TbReporteHacienda.cs" />
+    <Compile Include="..\entda\Model\TbRequerimientos.cs" Link="Model\TbRequerimientos.cs" />
+    <Compile Include="..\entda\Model\TbRoles.cs" Link="Model\TbRoles.cs" />
+    <Compile Include="..\entda\Model\TbSucursales.cs" Link="Model\TbSucursales.cs" />
+    <Compile Include="..\entda\Model\TbTipoClientes.cs" Link="Model\TbTipoClientes.cs" />
+    <Compile Include="..\entda\Model\TbTipoDocumento.cs" Link="Model\TbTipoDocumento.cs" />
+    <Compile Include="..\entda\Model\TbTipoId.cs" Link="Model\TbTipoId.cs" />
+    <Compile Include="..\entda\Model\TbTipoIngrediente.cs" Link="Model\TbTipoIngrediente.cs" />
+    <Compile Include="..\entda\Model\TbTipoMedidas.cs" Link="Model\TbTipoMedidas.cs" />
+    <Compile Include="..\entda\Model\TbTipoMoneda.cs" Link="Model\TbTipoMoneda.cs" />
+    <Compile Include="..\entda\Model\TbTipoMovimiento.cs" Link="Model\TbTipoMovimiento.cs" />
+    <Compile Include="..\entda\Model\TbTipoPago.cs" Link="Model\TbTipoPago.cs" />
+    <Compile Include="..\entda\Model\TbTipoPuesto.cs" Link="Model\TbTipoPuesto.cs" />
+    <Compile Include="..\entda\Model\TbTipoVenta.cs" Link="Model\TbTipoVenta.cs" />
+    <Compile Include="..\entda\Model\TbUsuarios.cs" Link="Model\TbUsuarios.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.1.1" />
   </ItemGroup>
 
@@ -12,6 +65,10 @@
     <Reference Include="Microsoft.Extensions.Identity.Stores">
       <HintPath>..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>

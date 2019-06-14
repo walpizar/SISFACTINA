@@ -24,7 +24,6 @@ namespace AppFacturadorApi.Entities.Model
         public string UsuarioUltMod { get; set; }
         public bool Estado { get; set; }
 
-        public TbCajas IdCajaNavigation { get; set; }
         public TbUsuarios TbUsuarios { get; set; }
         public ICollection<TbCajaUsuMonedas> TbCajaUsuMonedas { get; set; }
         public ICollection<TbMovimientoCajaUsuario> TbMovimientoCajaUsuario { get; set; }

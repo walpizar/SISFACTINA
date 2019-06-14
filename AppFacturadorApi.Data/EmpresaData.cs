@@ -72,7 +72,12 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                _Contexto.Entry<TbEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+
+                //_Contexto.Entry<TbPersona>(entity.TbPersona).State = EntityState.Modified;
+                _Contexto.Entry<TbEmpresa>(entity).State = EntityState.Modified;
+               //_Contexto.Entry<TbParametrosEmpresa>(entity.TbParametrosEmpresa.First()).State = EntityState.Modified;
+               
                 _Contexto.SaveChanges();
                 return true;
             }
