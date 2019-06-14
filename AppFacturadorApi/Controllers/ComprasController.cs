@@ -33,6 +33,7 @@ namespace AppFacturadorApi.Controllers
             {
                 IEnumerable<TbDocumento> ListaDoc;
                 ListaDoc = _Contexto.ConsultarTodos();
+                ListaDoc = ListaDoc.Where(x => x.TipoDocumento == 6).ToList();
                 if (ListaDoc.ToList().Count != 0)
                 {
                     return Ok(ListaDoc);
