@@ -1,14 +1,11 @@
 ﻿using System;
 using AppFacturadorApi.Entities.Model;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AppFacturadorApi.Data.Model
-
 {
-    public partial class dbSISSODINAContext : IdentityDbContext
+    public partial class dbSISSODINAContext : DbContext
     {
         public dbSISSODINAContext()
         {
@@ -20,6 +17,8 @@ namespace AppFacturadorApi.Data.Model
         }
 
         public virtual DbSet<Publishers> Publishers { get; set; }
+        public virtual DbSet<RoleClaims> RoleClaims { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<TbAbonos> TbAbonos { get; set; }
         public virtual DbSet<TbBarrios> TbBarrios { get; set; }
         public virtual DbSet<TbCajas> TbCajas { get; set; }
@@ -69,8 +68,7 @@ namespace AppFacturadorApi.Data.Model
         public virtual DbSet<TbTipoPuesto> TbTipoPuesto { get; set; }
         public virtual DbSet<TbTipoVenta> TbTipoVenta { get; set; }
         public virtual DbSet<TbUsuarios> TbUsuarios { get; set; }
-
-        // Unable to generate entity type for table 'dbo.tbPrueba'. Please see the warning messages.
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -115,6 +113,11 @@ namespace AppFacturadorApi.Data.Model
                     .HasColumnName("state")
                     .HasMaxLength(2)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Roles>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<TbAbonos>(entity =>
@@ -193,6 +196,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasKey(e => new { e.Id, e.IdEmpresa, e.IdTipoEmpresa, e.IdSucursal });
 
                 entity.ToTable("tbCajas");
+
+                entity.HasIndex(e => new { e.IdSucursal, e.IdEmpresa, e.IdTipoEmpresa });
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -395,8 +400,12 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.ToTable("tbClientes");
 
+                entity.HasIndex(e => e.IdExonercion);
+
                 entity.HasIndex(e => e.TipoCliente)
                     .HasName("IX_FK_tbClientes_tbTipoClientes");
+
+                entity.HasIndex(e => new { e.TipoId, e.Id });
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -549,6 +558,8 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.HasIndex(e => e.IdProducto)
                     .HasName("IX_FK_tbDetalleFactura_tbProducto");
+
+                entity.HasIndex(e => new { e.IdDoc, e.IdTipoDoc });
 
                 entity.Property(e => e.IdTipoDoc).HasColumnName("idTipoDoc");
 
@@ -725,8 +736,18 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.ToTable("tbDocumento");
 
+                entity.HasIndex(e => e.TipoDocumento);
+
+                entity.HasIndex(e => e.TipoMoneda);
+
+                entity.HasIndex(e => e.TipoPago);
+
+                entity.HasIndex(e => e.TipoVenta);
+
                 entity.HasIndex(e => new { e.IdCliente, e.TipoIdCliente })
                     .HasName("IX_FK_tbFactura_tbClientes");
+
+                entity.HasIndex(e => new { e.IdEmpresa, e.TipoIdEmpresa });
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -888,6 +909,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasIndex(e => e.IdPuesto)
                     .HasName("IX_FK_tbEmpleado_tbTipoPuesto");
 
+                entity.HasIndex(e => new { e.TipoId, e.Id });
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasMaxLength(30);
@@ -948,6 +971,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasKey(e => new { e.Id, e.TipoId });
 
                 entity.ToTable("tbEmpresa");
+
+                entity.HasIndex(e => new { e.TipoId, e.Id });
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -1046,6 +1071,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasKey(e => new { e.IdTipo, e.IdProveedor, e.IdTipoHorario });
 
                 entity.ToTable("tbHorarioProveedor");
+
+                entity.HasIndex(e => new { e.IdProveedor, e.IdTipo });
 
                 entity.Property(e => e.IdTipo).HasColumnName("idTipo");
 
@@ -1415,6 +1442,8 @@ namespace AppFacturadorApi.Data.Model
             {
                 entity.ToTable("tbParametrosEmpresa");
 
+                entity.HasIndex(e => new { e.IdEmpresa, e.IdTipoEmpresa });
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AprobacionDescuento).HasColumnName("aprobacionDescuento");
@@ -1482,6 +1511,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasKey(e => new { e.TipoId, e.Identificacion });
 
                 entity.ToTable("tbPersona");
+
+                entity.HasIndex(e => new { e.Provincia, e.Canton, e.Distrito, e.Barrio });
 
                 entity.Property(e => e.TipoId).HasColumnName("tipoId");
 
@@ -1602,6 +1633,12 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.HasIndex(e => e.IdCategoria)
                     .HasName("IX_FK_tbProducto_tbCategoriaProducto");
+
+                entity.HasIndex(e => e.IdMedida);
+
+                entity.HasIndex(e => e.IdTipoImpuesto);
+
+                entity.HasIndex(e => new { e.IdProveedor, e.IdTipoIdProveedor });
 
                 entity.Property(e => e.IdProducto)
                     .HasColumnName("idProducto")
@@ -1725,6 +1762,8 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.ToTable("tbProveedores");
 
+                entity.HasIndex(e => new { e.TipoId, e.Id });
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasMaxLength(30);
@@ -1795,7 +1834,8 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.HasIndex(e => e.Nombre)
                     .HasName("UQ__tbProvin__75E3EFCF25DA01E3")
-                    .IsUnique();
+                    .IsUnique()
+                    .HasFilter("([Nombre] IS NOT NULL)");
 
                 entity.Property(e => e.Cod)
                     .HasMaxLength(1)
@@ -1809,6 +1849,8 @@ namespace AppFacturadorApi.Data.Model
             modelBuilder.Entity<TbReporteHacienda>(entity =>
             {
                 entity.ToTable("tbReporteHacienda");
+
+                entity.HasIndex(e => new { e.IdEmpresa, e.TipoIdEmpresa });
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -2009,6 +2051,8 @@ namespace AppFacturadorApi.Data.Model
 
                 entity.ToTable("tbSucursales");
 
+                entity.HasIndex(e => new { e.IdEmpresa, e.IdTipoEmpresa });
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedOnAdd();
@@ -2041,6 +2085,10 @@ namespace AppFacturadorApi.Data.Model
                     .HasColumnName("fecha_ult_mod")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Nombre)
+                    .HasColumnName("nombre")
+                    .HasMaxLength(30);
+
                 entity.Property(e => e.Provincia)
                     .IsRequired()
                     .HasColumnName("provincia")
@@ -2063,6 +2111,12 @@ namespace AppFacturadorApi.Data.Model
                     .HasForeignKey(d => new { d.IdEmpresa, d.IdTipoEmpresa })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbSucursales_tbEmpresa");
+
+                entity.HasOne(d => d.TbDistrito)
+                    .WithMany(p => p.TbSucursales)
+                    .HasForeignKey(d => new { d.Provincia, d.Canton, d.Distrito })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbSucursales_tbDistrito");
             });
 
             modelBuilder.Entity<TbTipoClientes>(entity =>
@@ -2352,6 +2406,8 @@ namespace AppFacturadorApi.Data.Model
                 entity.HasIndex(e => e.IdRol)
                     .HasName("IX_FK_tbUsuarios_tbRoles");
 
+                entity.HasIndex(e => new { e.IdEmpresa, e.IdTipoIdEmpresa });
+
                 entity.Property(e => e.TipoId).HasColumnName("tipoId");
 
                 entity.Property(e => e.Id)
@@ -2418,12 +2474,11 @@ namespace AppFacturadorApi.Data.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbUsuarios_tbPersona");
             });
-            modelBuilder.Ignore<IdentityUserLogin<string>>();
-            modelBuilder.Ignore<IdentityUserRole<string>>();
-            modelBuilder.Ignore<IdentityUserClaim<string>>();
-            modelBuilder.Ignore<IdentityUserToken<string>>();
-            modelBuilder.Ignore<IdentityUser<string>>();
 
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
         }
     }
 }
