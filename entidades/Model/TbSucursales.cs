@@ -9,6 +9,7 @@ namespace AppFacturadorApi.Entities.Model
         {
             TbCajas = new HashSet<TbCajas>();
         }
+
         public int Id { get; set; }
         public string IdEmpresa { get; set; }
         public int IdTipoEmpresa { get; set; }
@@ -21,8 +22,10 @@ namespace AppFacturadorApi.Entities.Model
         public DateTime FechaUltMod { get; set; }
         public string UsuarioCrea { get; set; }
         public string UsuarioUltMod { get; set; }
+        public string Nombre { get; set; }
 
         public TbEmpresa IdNavigation { get; set; }
+        public TbDistrito TbDistrito { get; set; }
         public ICollection<TbCajas> TbCajas { get; set; }
     }
 }

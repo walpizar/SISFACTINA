@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\entda\Model\dbSISSODINAContext.cs" Link="Model\dbSISSODINAContext.cs" />
+    <Compile Include="..\entidades\Model\dbSISSODINAContext.cs" Link="Model\dbSISSODINAContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
