@@ -18,8 +18,8 @@ namespace AppFacturadorApi.Service
         public bool Agregar(TbProveedores entity)
         {
             try
-            {
-                return _ProveedoresIns.Agregar(entity);
+            {              
+               return _ProveedoresIns.Agregar(entity);               
             }
             catch (Exception)
             {
