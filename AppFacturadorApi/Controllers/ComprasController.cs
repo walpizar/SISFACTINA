@@ -38,11 +38,10 @@ namespace AppFacturadorApi.Controllers
                 {
                     return Ok(ListaDoc);
                 }
-                return NotFound();
+                return NotFound("No hay registros de compras");
             }
             catch (Exception)
             {
-
                 return StatusCode(500);
             }
 
