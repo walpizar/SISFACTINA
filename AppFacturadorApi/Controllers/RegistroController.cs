@@ -79,7 +79,7 @@ namespace AppFacturadorApi.Controllers
             usuario.FechaUltMod = DateTime.Now;
             usuario.UsuarioCrea = Environment.UserName;
             usuario.UsuarioUltMod = Environment.UserName;
-            usuario.UserName = usuario.NombreUsuario;
+         //   usuario.UserName = usuario.NombreUsuario;
             //usuario.TbPersona = persona;
 
             //usuario.IdRolNavigation = rol;

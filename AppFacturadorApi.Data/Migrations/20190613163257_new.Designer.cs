@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppFacturadorApi.Data.Migrations
 {
     [DbContext(typeof(dbSISSODINAContext))]
-    [Migration("20190528160854_database")]
-    partial class database
+    [Migration("20190613163257_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -130,9 +130,17 @@ namespace AppFacturadorApi.Data.Migrations
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbCajas", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("id");
+
+                    b.Property<string>("IdEmpresa")
+                        .HasColumnName("idEmpresa")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("IdTipoEmpresa")
+                        .HasColumnName("idTipoEmpresa");
+
+                    b.Property<int>("IdSucursal")
+                        .HasColumnName("idSucursal");
 
                     b.Property<string>("Descripcion")
                         .HasColumnName("descripcion")
@@ -164,7 +172,9 @@ namespace AppFacturadorApi.Data.Migrations
                         .HasColumnName("usuario_ult_mod")
                         .HasMaxLength(30);
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "IdEmpresa", "IdTipoEmpresa", "IdSucursal");
+
+                    b.HasIndex("IdSucursal", "IdEmpresa", "IdTipoEmpresa");
 
                     b.ToTable("tbCajas");
                 });
@@ -729,7 +739,7 @@ namespace AppFacturadorApi.Data.Migrations
                     b.Property<bool>("ReporteElectronic")
                         .HasColumnName("reporteElectronic");
 
-                    b.Property<decimal?>("TipoCambio")
+                    b.Property<decimal>("TipoCambio")
                         .HasColumnName("tipoCambio")
                         .HasColumnType("decimal(18, 0)");
 
@@ -742,13 +752,13 @@ namespace AppFacturadorApi.Data.Migrations
                     b.Property<int>("TipoIdEmpresa")
                         .HasColumnName("tipoIdEmpresa");
 
-                    b.Property<int?>("TipoMoneda")
+                    b.Property<int>("TipoMoneda")
                         .HasColumnName("tipoMoneda");
 
-                    b.Property<int?>("TipoPago")
+                    b.Property<int>("TipoPago")
                         .HasColumnName("tipoPago");
 
-                    b.Property<int?>("TipoVenta")
+                    b.Property<int>("TipoVenta")
                         .HasColumnName("tipoVenta");
 
                     b.Property<string>("UsuarioCrea")
@@ -1688,25 +1698,6 @@ namespace AppFacturadorApi.Data.Migrations
                     b.ToTable("tbProvincia");
                 });
 
-            modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbPrueba2", b =>
-                {
-                    b.Property<string>("Nose1")
-                        .HasColumnName("nose1")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Dc")
-                        .HasColumnName("dc")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Sss")
-                        .HasColumnName("sss")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Nose1");
-
-                    b.ToTable("tbPRUEBA2");
-                });
-
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbReporteHacienda", b =>
                 {
                     b.Property<int>("Id")
@@ -1922,6 +1913,67 @@ namespace AppFacturadorApi.Data.Migrations
                     b.HasKey("IdRol");
 
                     b.ToTable("tbRoles");
+                });
+
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbSucursales", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("IdEmpresa")
+                        .HasColumnName("idEmpresa")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("IdTipoEmpresa")
+                        .HasColumnName("idTipoEmpresa");
+
+                    b.Property<string>("Canton")
+                        .IsRequired()
+                        .HasColumnName("canton")
+                        .HasMaxLength(2);
+
+                    b.Property<string>("Direccion")
+                        .HasColumnName("direccion")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Distrito")
+                        .IsRequired()
+                        .HasColumnName("distrito")
+                        .HasMaxLength(2);
+
+                    b.Property<DateTime>("FechaCrea")
+                        .HasColumnName("fecha_crea")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("FechaUltMod")
+                        .HasColumnName("fecha_ult_mod")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Provincia")
+                        .IsRequired()
+                        .HasColumnName("provincia")
+                        .HasMaxLength(1);
+
+                    b.Property<int?>("Telefono")
+                        .HasColumnName("telefono");
+
+                    b.Property<string>("UsuarioCrea")
+                        .IsRequired()
+                        .HasColumnName("usuario_crea")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("UsuarioUltMod")
+                        .IsRequired()
+                        .HasColumnName("usuario_ult_mod")
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id", "IdEmpresa", "IdTipoEmpresa");
+
+                    b.HasIndex("IdEmpresa", "IdTipoEmpresa");
+
+                    b.ToTable("tbSucursales");
                 });
 
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbTipoClientes", b =>
@@ -2395,14 +2447,6 @@ namespace AppFacturadorApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbAbonos", b =>
-                {
-                    b.HasOne("AppFacturadorApi.Entities.Model.TbCreditos", "IdDocNavigation")
-                        .WithMany("TbAbonos")
-                        .HasForeignKey("IdDoc")
-                        .HasConstraintName("FK_tbAbonos_tbCreditos");
-                });
-
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbBarrios", b =>
                 {
                     b.HasOne("AppFacturadorApi.Entities.Model.TbDistrito", "TbDistrito")
@@ -2411,13 +2455,16 @@ namespace AppFacturadorApi.Data.Migrations
                         .HasConstraintName("FK_tbBarrios_tbDistrito");
                 });
 
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbCajas", b =>
+                {
+                    b.HasOne("AppFacturadorApi.Entities.Model.TbSucursales", "IdNavigation")
+                        .WithMany("TbCajas")
+                        .HasForeignKey("IdSucursal", "IdEmpresa", "IdTipoEmpresa")
+                        .HasConstraintName("FK_tbCajas_tbSucursales");
+                });
+
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbCajaUsuario", b =>
                 {
-                    b.HasOne("AppFacturadorApi.Entities.Model.TbCajas", "IdCajaNavigation")
-                        .WithMany("TbCajaUsuario")
-                        .HasForeignKey("IdCaja")
-                        .HasConstraintName("FK_tbCajaUsuario_tbCajas");
-
                     b.HasOne("AppFacturadorApi.Entities.Model.TbUsuarios", "TbUsuarios")
                         .WithMany("TbCajaUsuario")
                         .HasForeignKey("TipoId", "IdUser")
@@ -2709,6 +2756,14 @@ namespace AppFacturadorApi.Data.Migrations
                         .WithMany("TbReporteHacienda")
                         .HasForeignKey("IdEmpresa", "TipoIdEmpresa")
                         .HasConstraintName("FK_tbReporteHacienda_tbEmpresa");
+                });
+
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbSucursales", b =>
+                {
+                    b.HasOne("AppFacturadorApi.Entities.Model.TbEmpresa", "IdNavigation")
+                        .WithMany("TbSucursales")
+                        .HasForeignKey("IdEmpresa", "IdTipoEmpresa")
+                        .HasConstraintName("FK_tbSucursales_tbEmpresa");
                 });
 
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbUsuarios", b =>

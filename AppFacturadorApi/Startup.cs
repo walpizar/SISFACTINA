@@ -61,6 +61,7 @@ namespace AppFacturadorApi
             services.AddTransient<IService<TbTipoMedidas>, TipoMedidaService>();
             services.AddTransient<IService<TbExoneraciones>, IdExonercionService >();
             services.AddTransient<IService<TbTipoClientes>, TipoClientesService>();
+            
 
             // Inyecciones Data
             services.AddTransient<Datos>();
@@ -88,6 +89,7 @@ namespace AppFacturadorApi
             services.AddTransient<IData<TbTipoMedidas>, TipoMedidaData>();
             services.AddTransient<IData<TbExoneraciones>, IdExonercionData>();
             services.AddTransient<IData<TbTipoClientes >,TipoClientesData>();
+            
 
             services.AddDbContext<dbSISSODINAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppFacturadorApiConnection")));
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -98,10 +100,10 @@ namespace AppFacturadorApi
 
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
-
-            services.AddDefaultIdentity<TbUsuarios>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<dbSISSODINAContext>();
+            
+            //services.AddDefaultIdentity<TbUsuarios>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<dbSISSODINAContext>();
             //Desactivamos o editamos las restricciones de datos.
             services.Configure<IdentityOptions>(options =>
             {

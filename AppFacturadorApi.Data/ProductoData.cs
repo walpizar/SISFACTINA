@@ -10,29 +10,48 @@ namespace AppFacturadorApi.Data
 {
     public class ProductoData : IData<TbProducto>
     {
+        dbSISSODINAContext _context;
 
-        dbSISSODINAContext _Context;
-
-        public ProductoData(dbSISSODINAContext Context)
+        public ProductoData(dbSISSODINAContext context)
         {
-            _Context = Context;
+            _context = context;
         }
 
         public bool Agregar(TbProducto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Add(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public TbProducto ConsultarById(TbProducto entity)
         {
-            return _Context.TbProducto.Include("IdProductoNavigation").Where(x => x.IdProducto == entity.IdProducto).SingleOrDefault();
+            try
+            {
+                return _context.TbProducto.Where(x => x.IdProducto == entity.IdProducto).Include("IdProductoNavigation").SingleOrDefault();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public IEnumerable<TbProducto> ConsultarTodos()
         {
             try
             {
-                return _Context.TbProducto.ToList();
+                return _context.TbProducto.Include("IdProductoNavigation").Include("IdTipoImpuestoNavigation").Include("IdCategoriaNavigation").Include("IdMedidaNavigation").Include("Id").ToList();
+
             }
             catch (Exception)
             {
@@ -43,12 +62,44 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbProducto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (entity.IdProductoNavigation != null)
+                {
+                    entity.IdProductoNavigation.Estado = false;
+                    _context.Entry<TbInventario>(entity.IdProductoNavigation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                }
+
+                entity.Estado = false;
+                _context.Entry<TbProducto>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbProducto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (entity.IdProductoNavigation != null)
+                {
+                    _context.Entry<TbInventario>(entity.IdProductoNavigation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                }
+
+                _context.Entry<TbProducto>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception EX)
+            {
+
+                throw;
+            }
         }
     }
 }

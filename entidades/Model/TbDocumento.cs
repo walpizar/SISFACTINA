@@ -18,12 +18,12 @@ namespace AppFacturadorApi.Entities.Model
         public DateTime Fecha { get; set; }
         public string IdCliente { get; set; }
         public int? TipoIdCliente { get; set; }
-        public int? TipoVenta { get; set; }
+        public int TipoVenta { get; set; }
         public int? Plazo { get; set; }
-        public int? TipoPago { get; set; }
+        public int TipoPago { get; set; }
         public string RefPago { get; set; }
-        public int? TipoMoneda { get; set; }
-        public decimal? TipoCambio { get; set; }
+        public int TipoMoneda { get; set; }
+        public decimal TipoCambio { get; set; }
         public int EstadoFactura { get; set; }
         public string EstadoFacturaHacienda { get; set; }
         public bool ReporteAceptaHacienda { get; set; }
@@ -55,6 +55,6 @@ namespace AppFacturadorApi.Entities.Model
         public TbTipoMoneda TipoMonedaNavigation { get; set; }
         public TbTipoPago TipoPagoNavigation { get; set; }
         public TbTipoVenta TipoVentaNavigation { get; set; }
-        public IEnumerable<TbDetalleDocumento> TbDetalleDocumento { get; set; }
+        public ICollection<TbDetalleDocumento> TbDetalleDocumento { get; set; }
     }
 }

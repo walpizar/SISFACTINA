@@ -36,8 +36,9 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                
+
                 return _Contexto.TbParametrosEmpresa.Where(x => x.IdEmpresa.Trim() == entity.IdEmpresa.Trim()).SingleOrDefault();
+
             }
             catch (Exception ex)
             {
@@ -64,8 +65,9 @@ namespace AppFacturadorApi.Data
 
             try
             {
-
-                _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.Entry<TbParametrosEmpresa>(entity).State = EntityState.Detached;
+                _Contexto.Entry<TbParametrosEmpresa>(entity).State = EntityState.Deleted;
+                _Contexto.Entry<TbParametrosEmpresa>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                 _Contexto.SaveChanges();
                 return true;
             }

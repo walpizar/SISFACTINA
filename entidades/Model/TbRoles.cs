@@ -3,14 +3,19 @@ using System.Collections.Generic;
 
 namespace AppFacturadorApi.Entities.Model
 {
-    public partial class TbCajas
+    public partial class TbRoles
     {
-        public TbCajas()
+        public TbRoles()
         {
-            TbCajaUsuario = new HashSet<TbCajaUsuario>();
+            TbPermisos = new HashSet<TbPermisos>();
+            TbUsuarios = new HashSet<TbUsuarios>();
         }
 
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
+        public string ConcurrencyStamp { get; set; }
+        public int IdRol { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
@@ -19,6 +24,7 @@ namespace AppFacturadorApi.Entities.Model
         public string UsuarioCrea { get; set; }
         public string UsuarioUltMod { get; set; }
 
-        public ICollection<TbCajaUsuario> TbCajaUsuario { get; set; }
+        public ICollection<TbPermisos> TbPermisos { get; set; }
+        public ICollection<TbUsuarios> TbUsuarios { get; set; }
     }
 }
