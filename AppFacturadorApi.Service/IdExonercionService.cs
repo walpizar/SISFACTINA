@@ -17,12 +17,12 @@ namespace AppFacturadorApi.Service
 
         public bool Agregar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+           return _Context.Agregar(entity);
         }
 
         public TbExoneraciones ConsultarById(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            return _Context.ConsultarById(entity);
         }
 
         public IEnumerable<TbExoneraciones> ConsultarTodos()
@@ -32,12 +32,12 @@ namespace AppFacturadorApi.Service
 
         public bool Eliminar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            return _Context.Eliminar(entity);
         }
 
         public bool Modificar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            return _Context.Modificar(entity);
         }
     }
 }

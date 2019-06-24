@@ -18,12 +18,30 @@ namespace AppFacturadorApi.Data
 
         public bool Agregar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Contexto.TbExoneraciones.Add(entity);
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public TbExoneraciones ConsultarById(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+               return _Contexto.TbExoneraciones.Where(x => x.Id == entity.Id).SingleOrDefault();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<TbExoneraciones> ConsultarTodos()
@@ -33,12 +51,31 @@ namespace AppFacturadorApi.Data
 
         public bool Eliminar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Contexto.Entry<TbExoneraciones>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Modificar(TbExoneraciones entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Contexto.Entry<TbExoneraciones>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _Contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

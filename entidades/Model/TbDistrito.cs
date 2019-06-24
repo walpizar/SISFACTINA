@@ -8,6 +8,7 @@ namespace AppFacturadorApi.Entities.Model
         public TbDistrito()
         {
             TbBarrios = new HashSet<TbBarrios>();
+            TbSucursales = new HashSet<TbSucursales>();
         }
 
         public string Provincia { get; set; }
@@ -17,5 +18,6 @@ namespace AppFacturadorApi.Entities.Model
 
         public TbCanton TbCanton { get; set; }
         public ICollection<TbBarrios> TbBarrios { get; set; }
+        public ICollection<TbSucursales> TbSucursales { get; set; }
     }
 }
