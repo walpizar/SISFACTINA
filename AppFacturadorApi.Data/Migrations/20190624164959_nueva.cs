@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppFacturadorApi.Data.Migrations
 {
-    public partial class @new : Migration
+    public partial class nueva : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1067,7 +1067,8 @@ namespace AppFacturadorApi.Data.Migrations
                     fecha_crea = table.Column<DateTime>(type: "datetime", nullable: false),
                     fecha_ult_mod = table.Column<DateTime>(type: "datetime", nullable: false),
                     usuario_crea = table.Column<string>(maxLength: 30, nullable: false),
-                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false)
+                    usuario_ult_mod = table.Column<string>(maxLength: 30, nullable: false),
+                    nombre = table.Column<string>(maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1077,6 +1078,12 @@ namespace AppFacturadorApi.Data.Migrations
                         columns: x => new { x.idEmpresa, x.idTipoEmpresa },
                         principalTable: "tbEmpresa",
                         principalColumns: new[] { "id", "tipoId" },
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tbSucursales_tbDistrito",
+                        columns: x => new { x.provincia, x.canton, x.distrito },
+                        principalTable: "tbDistrito",
+                        principalColumns: new[] { "Provincia", "Canton", "Distrito" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1593,7 +1600,7 @@ namespace AppFacturadorApi.Data.Migrations
                 table: "tbProvincia",
                 column: "Nombre",
                 unique: true,
-                filter: "[Nombre] IS NOT NULL");
+                filter: "([Nombre] IS NOT NULL)");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbReporteHacienda_idEmpresa_tipoIdEmpresa",
@@ -1604,6 +1611,11 @@ namespace AppFacturadorApi.Data.Migrations
                 name: "IX_tbSucursales_idEmpresa_idTipoEmpresa",
                 table: "tbSucursales",
                 columns: new[] { "idEmpresa", "idTipoEmpresa" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbSucursales_provincia_canton_distrito",
+                table: "tbSucursales",
+                columns: new[] { "provincia", "canton", "distrito" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_FK_tbUsuarios_tbRoles",

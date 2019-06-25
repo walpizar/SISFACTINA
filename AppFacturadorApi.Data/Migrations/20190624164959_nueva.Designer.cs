@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppFacturadorApi.Data.Migrations
 {
     [DbContext(typeof(dbSISSODINAContext))]
-    [Migration("20190613163257_new")]
-    partial class @new
+    [Migration("20190624164959_nueva")]
+    partial class nueva
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,38 @@ namespace AppFacturadorApi.Data.Migrations
                     b.HasKey("PubId");
 
                     b.ToTable("publishers");
+                });
+
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.RoleClaims", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleClaims");
+                });
+
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.Roles", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NormalizedName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbAbonos", b =>
@@ -1693,7 +1725,7 @@ namespace AppFacturadorApi.Data.Migrations
                     b.HasIndex("Nombre")
                         .IsUnique()
                         .HasName("UQ__tbProvin__75E3EFCF25DA01E3")
-                        .HasFilter("[Nombre] IS NOT NULL");
+                        .HasFilter("([Nombre] IS NOT NULL)");
 
                     b.ToTable("tbProvincia");
                 });
@@ -1951,6 +1983,10 @@ namespace AppFacturadorApi.Data.Migrations
                         .HasColumnName("fecha_ult_mod")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Nombre")
+                        .HasColumnName("nombre")
+                        .HasMaxLength(30);
+
                     b.Property<string>("Provincia")
                         .IsRequired()
                         .HasColumnName("provincia")
@@ -1972,6 +2008,8 @@ namespace AppFacturadorApi.Data.Migrations
                     b.HasKey("Id", "IdEmpresa", "IdTipoEmpresa");
 
                     b.HasIndex("IdEmpresa", "IdTipoEmpresa");
+
+                    b.HasIndex("Provincia", "Canton", "Distrito");
 
                     b.ToTable("tbSucursales");
                 });
@@ -2376,43 +2414,9 @@ namespace AppFacturadorApi.Data.Migrations
                     b.ToTable("tbUsuarios");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("AppFacturadorApi.Entities.Model.Users", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("NormalizedName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("RoleId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
 
@@ -2764,6 +2768,11 @@ namespace AppFacturadorApi.Data.Migrations
                         .WithMany("TbSucursales")
                         .HasForeignKey("IdEmpresa", "IdTipoEmpresa")
                         .HasConstraintName("FK_tbSucursales_tbEmpresa");
+
+                    b.HasOne("AppFacturadorApi.Entities.Model.TbDistrito", "TbDistrito")
+                        .WithMany("TbSucursales")
+                        .HasForeignKey("Provincia", "Canton", "Distrito")
+                        .HasConstraintName("FK_tbSucursales_tbDistrito");
                 });
 
             modelBuilder.Entity("AppFacturadorApi.Entities.Model.TbUsuarios", b =>

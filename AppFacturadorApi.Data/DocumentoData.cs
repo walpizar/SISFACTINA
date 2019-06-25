@@ -91,7 +91,7 @@ namespace AppFacturadorApi.Data
                 return _Context.TbDocumento.Include("TbDetalleDocumento").Include("TbClientes.TbPersona").Where(x => x.Estado == true).ToList();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
