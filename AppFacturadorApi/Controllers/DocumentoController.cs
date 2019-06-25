@@ -1,4 +1,5 @@
-﻿using AppFacturadorApi.Entities.Model;
+﻿using AppFacturador.Api.Utilities;
+using AppFacturadorApi.Entities.Model;
 using AppFacturadorApi.FacturaElectronica.ClasesDatos;
 using AppFacturadorApi.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -195,6 +196,20 @@ namespace AppFacturadorApi.Controllers
             }
 
         }
+        [HttpGet("correoelectronico")]
+        public ActionResult<bool> EnviaCorreoElectronico()
+        {
+           bool envio= Correo_Electronico.EnviarCorreo("monteroantony1819@gmail.com");
+            if (envio)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return NotFound(false);
+            }
+           
+        }
 
         // POST api/values
         [HttpPost]
@@ -253,7 +268,7 @@ namespace AppFacturadorApi.Controllers
                 document.Clave = Datos.CreaClave(codigoPais, document.Fecha.Day.ToString(), document.Fecha.Month.ToString(), document.Fecha.Year.ToString().Substring(2, 2), document.IdEmpresa.ToString(), document.Consecutivo, document.EstadoFactura.ToString(), codigo);
                 if (_DocumentoIns.Agregar(document) == true)
                 {
-                    listaFacturas = _DocumentoIns.ConsultarTodos();
+                    listaFacturas = _DocumentoIns.ConsultarTodos();                    
                     return Ok((from fac in listaFacturas orderby fac.Id descending select fac).Take(1).SingleOrDefault());
                 }
 

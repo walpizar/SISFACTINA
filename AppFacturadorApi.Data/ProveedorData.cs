@@ -33,7 +33,7 @@ namespace AppFacturadorApi.Data
                 else
                 {
                     _context.Entry<TbPersona>(entity.TbPersona).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    entity.TbPersona = null;
+                     entity.TbPersona = null;
                     _context.TbProveedores.Add(entity);
                     _context.SaveChanges();
                     return true;
