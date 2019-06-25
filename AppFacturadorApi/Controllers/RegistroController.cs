@@ -26,14 +26,15 @@ namespace AppFacturadorApi.Controllers
         private SignInManager<TbUsuarios> _singleManager;
         private readonly ApplicationSettings _appSettings;
 
-        public RegistroController(IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings/*, IService<TbUsuarios> usuario*/)
+        public RegistroController(IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings)
         {
-          //  _usuario = usuario;
             _per = per;
             _UserManager = UserManager;
             _singleManager = singleManager;
             _appSettings = appSettings.Value;
         }
+
+
 
         //[HttpGet]
         //[Route("Registro")]
@@ -115,7 +116,7 @@ namespace AppFacturadorApi.Controllers
             {
                 //Obtener el Rol del Usuario
                // var role = await _UserManager.GetRolesAsync(user);
-                IdentityOptions _options = new IdentityOptions();
+               IdentityOptions _options = new IdentityOptions();
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {

@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /AppFacturadorApi.FacturaElectronica/ClasesDatos/FirmaElectronica.cs
+/AppFacturadorApi.Data/Migrations/20190624154646_BD.cs
+/AppFacturadorApi.Data/Migrations/20190624154646_BD.Designer.cs

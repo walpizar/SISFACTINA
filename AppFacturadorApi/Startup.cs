@@ -101,9 +101,8 @@ namespace AppFacturadorApi
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
             
-            //services.AddDefaultIdentity<TbUsuarios>()
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<dbSISSODINAContext>();
+            services.AddDefaultIdentity<TbUsuarios>()
+             .AddEntityFrameworkStores<dbSISSODINAContext>();
             //Desactivamos o editamos las restricciones de datos.
             services.Configure<IdentityOptions>(options =>
             {
