@@ -21,14 +21,14 @@ namespace AppFacturadorApi.Controllers
     public class RegistroController : ControllerBase
     {
         IService<TbPersona> _per;
-        IService<TbUsuarios> _usuario;
+       // IService<TbUsuarios> _usuario;
         private UserManager<TbUsuarios> _UserManager;
         private SignInManager<TbUsuarios> _singleManager;
         private readonly ApplicationSettings _appSettings;
 
-        public RegistroController(IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings, IService<TbUsuarios> usuario)
+        public RegistroController(IService<TbPersona> per, UserManager<TbUsuarios> UserManager, SignInManager<TbUsuarios> singleManager, IOptions<ApplicationSettings> appSettings/*, IService<TbUsuarios> usuario*/)
         {
-            _usuario = usuario;
+          //  _usuario = usuario;
             _per = per;
             _UserManager = UserManager;
             _singleManager = singleManager;
@@ -108,13 +108,13 @@ namespace AppFacturadorApi.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _UserManager.FindByNameAsync(model.NombreUsuario);
             if (user != null && await _UserManager.CheckPasswordAsync(user, model.Contraseña))
             {
                 //Obtener el Rol del Usuario
-                var role = await _UserManager.GetRolesAsync(user);
+               // var role = await _UserManager.GetRolesAsync(user);
                 IdentityOptions _options = new IdentityOptions();
 
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -122,7 +122,7 @@ namespace AppFacturadorApi.Controllers
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim("UserID",user.Id.ToString()),
-                        new Claim(_options.ClaimsIdentity.RoleClaimType,role.FirstOrDefault())
+                        //new Claim(_options.ClaimsIdentity.RoleClaimType,role.FirstOrDefault())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)

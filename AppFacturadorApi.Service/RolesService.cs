@@ -8,11 +8,11 @@ namespace AppFacturadorApi.Service
 {
     public class RolesService : IService<TbRoles>
     {
-        IData<TbRoles> _comb;
+        IData<TbRoles> _rol;
 
-        public RolesService(IData<TbRoles> comb)
+        public RolesService(IData<TbRoles> rol)
         {
-            _comb = comb;
+            _rol = rol;
         }
 
         public bool Agregar(TbRoles entity)
@@ -22,12 +22,12 @@ namespace AppFacturadorApi.Service
 
         public TbRoles ConsultarById(TbRoles entity)
         {
-            return _comb.ConsultarById(entity);
+            return _rol.ConsultarById(entity);
         }
 
         public IEnumerable<TbRoles> ConsultarTodos()
         {
-            return _comb.ConsultarTodos();
+            return _rol.ConsultarTodos();
         }
 
         public bool Eliminar(TbRoles entity)

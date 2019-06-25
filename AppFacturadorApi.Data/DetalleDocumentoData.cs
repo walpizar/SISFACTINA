@@ -52,12 +52,12 @@ namespace AppFacturadorApi.Data
         {
             try
             {
-                return _context.TbDetalleDocumento.ToList();
+                return _context.TbDetalleDocumento.Include("IdProductoNavigation").ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 

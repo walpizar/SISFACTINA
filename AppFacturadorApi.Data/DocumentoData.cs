@@ -94,7 +94,7 @@ namespace AppFacturadorApi.Data
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
