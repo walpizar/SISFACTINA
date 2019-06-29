@@ -11,6 +11,7 @@ namespace AppFacturadorApi.Data
     public class ClientesData : IData<TbClientes>
     {
         dbSISSODINAContext _Contexto;
+        IData<TbPersona> _persona;
 
         public ClientesData(dbSISSODINAContext Contexto)
         {
@@ -21,6 +22,13 @@ namespace AppFacturadorApi.Data
         {
             try
             {
+                TbPersona personaExiste;
+                personaExiste = _persona.ConsultarById(entity.TbPersona);
+                if(personaExiste != null)
+                {
+                    _persona.Modificar(entity.TbPersona);
+                }
+
                 _Contexto.TbClientes.Add(entity);
                 _Contexto.SaveChanges();
                 return true;

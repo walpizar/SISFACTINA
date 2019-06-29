@@ -70,7 +70,6 @@ namespace AppFacturadorApi.Data
             try
             {
                 _context.Entry<TbPersona>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
                 return true;
             }
             catch (Exception)

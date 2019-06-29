@@ -10,6 +10,8 @@ namespace AppFacturadorApi.Service
     {
         IData<TbClientes> _client;
 
+        TbClientes existe;
+
         public ClientesService(IData<TbClientes> client)
         {
             _client = client;
