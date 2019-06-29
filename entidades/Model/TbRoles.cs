@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace AppFacturadorApi.Entities.Model
 {
-    public partial class TbRoles
+    public partial class TbRoles : IdentityRole<int>
     {
         public TbRoles()
         {
@@ -11,10 +12,6 @@ namespace AppFacturadorApi.Entities.Model
             TbUsuarios = new HashSet<TbUsuarios>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string NormalizedName { get; set; }
-        public string ConcurrencyStamp { get; set; }
         public int IdRol { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
