@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AppFacturador.Api.Utilities
 {
     public static class Correo_Electronico
@@ -15,7 +16,7 @@ namespace AppFacturador.Api.Utilities
         {
 
             MailMessage email = new MailMessage();
-            SmtpClient smtp = new SmtpClient();
+            SmtpClient smtp = new SmtpClient("smtp.live.com",25);
             
             try
             {
@@ -25,12 +26,11 @@ namespace AppFacturador.Api.Utilities
                 email.SubjectEncoding = Encoding.UTF8;
             email.Body = "Contenido de cuerpo";
                 email.BodyEncoding = Encoding.UTF8;
-            email.IsBodyHtml = true;
+            email.IsBodyHtml = false;
             email.Priority = MailPriority.Normal;
 
             
-            smtp.Host = "smtp.live.com";
-            smtp.Port = 2525;
+           
             smtp.EnableSsl = true;
             
             smtp.Credentials = new NetworkCredential("correopruebafac@hotmail.com", "12345fac");
