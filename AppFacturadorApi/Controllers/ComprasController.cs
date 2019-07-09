@@ -46,5 +46,32 @@ namespace AppFacturadorApi.Controllers
             }
 
         }
+
+        [HttpPost]
+        public ActionResult<TbDocumento> Post([FromBody] TbDocumento document)
+        {
+            try
+            {
+                // campos de auditoria
+                document.Fecha = DateTime.Now;
+                document.FechaCrea = DateTime.Now;
+                document.FechaUltMod = DateTime.Now;
+                document.UsuarioCrea = Environment.UserName;
+                document.UsuarioUltMod = Environment.UserName;
+                bool agregado = _Contexto.Agregar(document);
+                if (agregado)
+                {
+                    return Ok();
+                }
+                return BadRequest();
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
     }
-}
+
+    }

@@ -26,6 +26,13 @@ namespace AppFacturadorApi.Service
         {
             try
             {
+                // si el documento es tipo 6 comprobante compras
+                if (entity.TipoDocumento == 6)
+                {
+                    return _DocumentoIns.Agregar(entity);
+                }
+
+
                 IEnumerable<TbInventario> ListaInventario = _InventarioIns.ConsultarTodos();         
                 TbEmpresa empresa = new TbEmpresa();
 

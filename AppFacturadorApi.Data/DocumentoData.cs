@@ -25,9 +25,8 @@ namespace AppFacturadorApi.Data
             {
 
                 //guarda un nuevo documento
-                if (entity.TipoDocumento == 1)
+                if (entity.TipoDocumento == 1 || entity.TipoDocumento == 6)
                 {
-
                     _Context.TbDocumento.Add(entity);
                     _Context.SaveChanges();
                     return true;
@@ -57,7 +56,7 @@ namespace AppFacturadorApi.Data
 
                         return true;
                     }
-                }
+                } 
 
                 return false;
 
