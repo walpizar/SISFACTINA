@@ -199,7 +199,7 @@ namespace AppFacturadorApi.Controllers
         [HttpGet("correoelectronico")]
         public ActionResult<bool> EnviaCorreoElectronico()
         {
-           bool envio= Correo_Electronico.EnviarCorreo("monteroantony1819@gmail.com");
+           bool envio= Correo_Electronico.EnviarCorreo("antoloy19@hotmail.com");
             if (envio)
             {
                 return Ok(true);
