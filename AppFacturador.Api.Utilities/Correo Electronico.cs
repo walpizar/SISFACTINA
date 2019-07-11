@@ -22,9 +22,10 @@ namespace AppFacturador.Api.Utilities
             {
             email.To.Add(new MailAddress( correo));
             email.From = new MailAddress("correopruebafac@hotmail.com");
-            email.Subject = "Asunto: Correo de prueba:  Enviado el dia (" + DateTime.Now.ToString("dd/MM/yyyy hh:mm") + ")";
+                email.Subject = "Correo de prueba";
                 email.SubjectEncoding = Encoding.UTF8;
-            email.Body = "Contenido de cuerpo";
+            email.Body = "Correo enviado por el Sistema de Facturacion Electronica. INA 2019 " +
+                    " Enviado el dia (" + DateTime.Now.ToString("dd/MM/yyyy hh:mm") + ")";
                 email.BodyEncoding = Encoding.UTF8;
             email.IsBodyHtml = false;
             email.Priority = MailPriority.Normal;
