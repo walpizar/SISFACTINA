@@ -196,10 +196,10 @@ namespace AppFacturadorApi.Controllers
             }
 
         }
-        [HttpGet("correoelectronico")]
-        public ActionResult<bool> EnviaCorreoElectronico()
+        [HttpGet("correoelectronico/{correo}")]
+        public ActionResult<bool> EnviaCorreoElectronico(string correo)
         {
-           bool envio= Correo_Electronico.EnviarCorreo("antoloy19@hotmail.com");
+           bool envio= Correo_Electronico.EnviarCorreo(correo);
             if (envio)
             {
                 return Ok(true);
