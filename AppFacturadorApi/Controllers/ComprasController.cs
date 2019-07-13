@@ -63,7 +63,7 @@ namespace AppFacturadorApi.Controllers
                 {
                     return Ok();
                 }
-                return BadRequest();
+                return BadRequest(false);
 
             }
             catch (Exception)

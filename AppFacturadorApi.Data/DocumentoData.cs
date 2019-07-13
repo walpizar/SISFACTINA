@@ -25,8 +25,16 @@ namespace AppFacturadorApi.Data
             {
 
                 //guarda un nuevo documento
-                if (entity.TipoDocumento == 1 || entity.TipoDocumento == 6)
+                if (entity.TipoDocumento == 1 )
                 {
+                    _Context.TbDocumento.Add(entity);
+                    _Context.SaveChanges();
+                    return true;
+                }
+                else if(entity.TipoDocumento == 6)
+                {
+                    var idMax = (from c in _Context.TbDocumento select c.Id).Max();
+                    entity.Id = idMax + 1;
                     _Context.TbDocumento.Add(entity);
                     _Context.SaveChanges();
                     return true;
