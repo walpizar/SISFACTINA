@@ -97,9 +97,10 @@ namespace AppFacturadorApi.Controllers
 
                 for (int i = 0; i < sucursales.ToList().Count; i++)
                 {
+                    sucursales.ToList()[i].Id = 0;
                     sucursales.ToList()[i].FechaCrea = DateTime.Now;
                     sucursales.ToList()[i].FechaUltMod = DateTime.Now;
-                    if (i==sucursales.ToList().Count-1)
+                    if (i == sucursales.ToList().Count - 1)
                     {
                         sucursales.ToList()[i].FechaUltMod = DateTime.MinValue;
                     }
