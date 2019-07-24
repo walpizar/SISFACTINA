@@ -95,6 +95,8 @@ namespace AppFacturadorApi.Controllers
                 }
             }
 
+            pro.Nombre = pro.Nombre.ToUpper();
+
             pro.Estado = true;
 
             pro.PrecioUtilidad1 = pro.PrecioReal + ((pro.Utilidad1Porc / 100) * pro.PrecioReal);
